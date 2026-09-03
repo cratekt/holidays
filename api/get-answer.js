@@ -10,7 +10,7 @@ module.exports = (req, res) => {
     "1": {
       // 2026년 9월 3일 오후 1시 (13:00:00) 설정
       targetTime: new Date("2026-09-03T13:00:00+09:00").getTime(),
-      answer: "세종보행교 (이응다리)"
+      answer: "세종 금강보행교 (이응다리)"
     }
   };
 
