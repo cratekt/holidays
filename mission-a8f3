@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SPECIAL MISSION #1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .invitation-card {
+      background-color: #1e1e1e;
+      border: 1px solid #333333;
+      border-radius: 16px;
+      padding: 32px 24px;
+      max-width: 480px;
+      width: 90%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 24px;
+      color: #ffffff;
+      border-bottom: 1px solid #333333;
+      padding-bottom: 16px;
+    }
+
+    .mission-box {
+      text-align: left;
+      line-height: 1.7;
+      font-size: 0.98rem;
+      color: #e0e0e0;
+      margin-bottom: 24px;
+      word-break: keep-all;
+    }
+
+    .mission-label {
+      display: inline-block;
+      background-color: #ffffff;
+      color: #121212;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .answer-container {
+      background-color: #2a2a2a;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 20px;
+    }
+
+    .blind {
+      filter: blur(10px);
+      user-select: none;
+      opacity: 0.3;
+      transition: filter 0.8s ease, opacity 0.8s ease;
+    }
+
+    .revealed {
+      filter: none;
+      user-select: auto;
+      opacity: 1;
+      color: #4da6ff;
+      font-weight: 700;
+    }
+
+    .status-text {
+      margin-top: 12px;
+      font-size: 0.85rem;
+      color: #888888;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="invitation-card">
+    <div class="card-title">SPECIAL MISSION</div>
+
+    <div class="mission-box">
+      <span class="mission-label">미션 #1</span>
+      <p style="margin-top: 6px;">
+        2022년 우리 모임은 세종에서 만났고, 몇 명의 친구들이 세종의 랜드마크인 <strong>'이 다리'</strong>에 올라 사진을 촬영했다.
+      </p>
+      <p style="color: #a0a0a0; font-size: 0.9rem;">
+        해당 다리를 다시 찾아 같은 위치에서 같은 포즈로 사진을 촬영하여 인증하라. (유사한 포즈 등 인정)
+      </p>
+    </div>
+
+    <div class="answer-container">
+      <div>정답: <span id="answer-1" class="blind">???</span></div>
+      <div id="status-1" class="status-text">서버 시계 확인 중...</div>
+    </div>
+  </div>
+
+  <script>
+    // 본인의 실제 Vercel 주소로 변경해주세요 (예: https://holidays-xxx.vercel.app)
+    const VERCEL_DOMAIN = "https://holidays-woad.vercel.app/";
+
+    async function checkMission1() {
+      const answerElement = document.getElementById("answer-1");
+      const statusElement = document.getElementById("status-1");
+
+      try {
+        // 1번 미션 ID(?id=1)를 파라미터로 서버에 요청
+        const response = await fetch(`${VERCEL_DOMAIN}/api/get-answer?id=1`);
+        const data = await response.json();
+
+        if (data.unlocked) {
+          answerElement.innerText = data.answer;
+          answerElement.classList.remove("blind");
+          answerElement.classList.add("revealed");
+          statusElement.innerText = "미션 정답이 공개되었습니다!";
+          statusElement.style.color = "#4da6ff";
+        } else {
+          statusElement.innerText = `공개까지 약 ${data.remainingSeconds}초 남았습니다.`;
+        }
+      } catch (error) {
+        statusElement.innerText = "데이터를 불러오는 데 실패했습니다.";
+      }
+    }
+
+    // 2초 간격으로 서버 시간 체크
+    setInterval(checkMission1, 2000);
+    checkMission1();
+  </script>
+
+</body>
+</html>
