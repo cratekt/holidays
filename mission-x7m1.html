@@ -35,7 +35,7 @@
       overflow-x: hidden;
     }
 
-    /* 핏자국 애니메이션 레이어 */
+    /* 핏자국 애니메이션 */
     .blood-drips-container {
       position: absolute;
       top: 0;
@@ -75,7 +75,6 @@
       100% { height: 140px; opacity: 0; }
     }
 
-    /* 기밀 문서 카드 */
     .dossier-card {
       background-color: var(--card-bg);
       border: 2px solid var(--border-color);
@@ -106,7 +105,6 @@
       text-shadow: 0 0 5px rgba(209, 26, 42, 0.5);
     }
 
-    /* 상단 미션 완수 배너 */
     .congratulations-banner {
       background: rgba(201, 160, 80, 0.1);
       border: 1px solid var(--accent-gold);
@@ -156,27 +154,62 @@
       margin-bottom: 16px;
     }
 
-    /* 첨부 포즈 이미지 컨테이너 */
-    .pose-image-container {
+    /* 포즈 사진 컨테이너 & 흐림/기밀 문자 오버레이 연출 */
+    .pose-image-wrapper {
+      position: relative;
       margin-top: 12px;
-      text-align: center;
-      background: #08080a;
-      padding: 10px;
-      border: 1px solid var(--border-color);
+      background: #000;
+      border: 1px solid #333;
       border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    .pose-image-container img {
-      max-width: 100%;
+    .pose-image-wrapper img {
+      width: 100%;
       height: auto;
-      border-radius: 4px;
-      filter: contrast(1.05) brightness(0.95);
+      display: block;
+      /* 흐릿하고 빈티지한 세피아/흑백 필터 연출 */
+      filter: grayscale(0.8) blur(2.5px) contrast(1.2) opacity(0.65);
+      transition: filter 0.3s ease;
     }
 
-    .pose-caption {
-      font-size: 0.8rem;
+    /* 오버레이 문자 및 도장 연출 */
+    .overlay-text {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.85);
+      font-family: 'Special Elite', cursive;
+      font-size: 1.2rem;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .overlay-subtext {
+      font-size: 0.75rem;
       color: var(--accent-gold);
-      margin-top: 6px;
+      margin-top: 4px;
+      letter-spacing: 2px;
+    }
+
+    .reference-stamp {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      border: 2px solid var(--blood-bright);
+      color: var(--blood-bright);
+      font-family: 'Special Elite', cursive;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      transform: rotate(-8deg);
+      opacity: 0.8;
+      pointer-events: none;
+      z-index: 2;
     }
 
     .vault-box {
@@ -256,12 +289,16 @@
     <!-- 미션 3-2 -->
     <div class="section-title">MISSION 3-2. 현장 인증 포즈</div>
     <div class="mission-story">
-      해당 위치를 찾아 **멤버 전원이 아래 제시된 인물의 포즈와 동일하게 촬영**하여 미션을 인증하라.
+      해당 위치를 찾아 <strong>멤버 전원이 아래 제시된 지정 포즈와 동일하게 촬영</strong>하여 미션을 인증하라.
 
-      <div class="pose-image-container">
-        <!-- 3인 지정 포즈 이미지 인코딩 -->
-        <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80" alt="인증 지정 포즈 예시" id="pose-img">
-        <div class="pose-caption">📷 [지정 포즈 참고 문서]</div>
+      <!-- 첨부 이미지 포즈 연출 영역 -->
+      <div class="pose-image-wrapper">
+        <img src="https://i.ibb.co/6P0J9X4/8941.jpg" alt="ATTACHED POSE IMAGE">
+        <div class="overlay-text">
+          ATTACHED POSE IMAGE
+          <div class="overlay-subtext">[CONFIDENTIAL REFERENCE]</div>
+        </div>
+        <div class="reference-stamp">REFERENCE</div>
       </div>
     </div>
 
@@ -283,7 +320,6 @@
       const statusElement = document.getElementById("status-3");
 
       try {
-        // 3번 미션 ID(?id=3)로 백엔드 서버에 정답 요청
         const response = await fetch(`${VERCEL_DOMAIN}/api/get-answer?id=3`);
         const data = await response.json();
 
