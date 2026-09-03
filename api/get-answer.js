@@ -1,32 +1,42 @@
 module.exports = (req, res) => {
-  // CORS 허용 (웹페이지에서 API 호출 가능하도록 설정)
+  // CORS 허용
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Content-Type', 'application/json');
 
-  // 1. 공개될 목표 시간 설정 (원하는 시간으로 수정하세요)
-  const TARGET_TIME = new Date('2026-09-01T14:00:00+09:00').getTime();
+  const { id } = req.query;
 
-  // 2. 외부로 숨길 정답 데이터
-  const SECRET_ANSWER = '세종보행교 (이응다리)';
+  // 문제별 정답 및 공개 시간 데이터 설정
+  const MISSIONS = {
+    "1": {
+      // 2026년 9월 3일 오후 1시 (13:00:00) 설정
+      targetTime: new Date("2026-09-03T13:00:00+09:00").getTime(),
+      answer: "세종보행교 (이응다리)"
+    }
+  };
 
-  // 3. 사용자의 시계가 아닌 '서버의 현재 시간'으로 검증
+  const selectedMission = MISSIONS[id];
+
+  if (!selectedMission) {
+    return res.status(404).json({ error: "존재하지 않는 미션입니다." });
+  }
+
   const now = Date.now();
 
-  if (now >= TARGET_TIME) {
-    // 공개 시간이 지난 경우 -> 정답 전달
+  if (now >= selectedMission.targetTime) {
+    // 공개 시간이 지난 경우 -> 정답 리턴
     res.status(200).json({
       unlocked: true,
-      answer: SECRET_ANSWER,
-      message: '정답이 공개되었습니다!'
+      answer: selectedMission.answer,
+      message: "미션 정답이 공개되었습니다!"
     });
   } else {
-    // 공개 시간이 아직 안 된 경우 -> 정답 숨김 (null)
-    const remainingSeconds = Math.ceil((TARGET_TIME - now) / 1000);
+    // 공개 시간이 안 된 경우 -> 남은 초 리턴 (정답 보안 유지)
+    const remainingSeconds = Math.ceil((selectedMission.targetTime - now) / 1000);
     res.status(200).json({
       unlocked: false,
       answer: null,
       remainingSeconds: remainingSeconds,
-      message: '아직 공개 시간이 되지 않았습니다.'
+      message: "아직 공개 시간이 되지 않았습니다."
     });
   }
 };
