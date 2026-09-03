@@ -3,144 +3,210 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SPECIAL MISSION #1</title>
+  <title>TOP SECRET: MISSION #1</title>
+  <!-- 추리/기밀 문서 느낌의 폰트 로드 (Special Elite & Noto Serif KR) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --bg-color: #0b0c10;
+      --card-bg: #141619;
+      --accent-gold: #c9a050;
+      --accent-red: #8b0000;
+      --text-color: #d1d5db;
+      --border-color: #2a2e35;
+    }
+
     body {
-      background-color: #121212;
-      color: #ffffff;
-      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Noto Serif KR', serif;
       margin: 0;
-      padding: 0;
+      padding: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       box-sizing: border-box;
+      /* 암분위기를 자아내는 미세한 격자 배경 */
+      background-image: radial-gradient(#1f242d 1px, transparent 1px);
+      background-size: 24px 24px;
     }
 
-    .invitation-card {
-      background-color: #1e1e1e;
-      border: 1px solid #333333;
-      border-radius: 16px;
-      padding: 32px 24px;
-      max-width: 480px;
-      width: 90%;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      text-align: center;
+    /* 비밀 요원 파일 문서 스타일 */
+    .dossier-card {
+      background-color: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 4px;
+      padding: 36px 28px;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 15px rgba(201, 160, 80, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 기밀(TOP SECRET) 직인 효과 */
+    .stamp {
+      position: absolute;
+      top: 15px;
+      right: -10px;
+      color: var(--accent-red);
+      border: 3px double var(--accent-red);
+      font-family: 'Special Elite', cursive;
+      font-size: 0.85rem;
+      font-weight: bold;
+      padding: 4px 12px;
+      text-transform: uppercase;
+      transform: rotate(12deg);
+      opacity: 0.75;
+      letter-spacing: 2px;
+      pointer-events: none;
+    }
+
+    .case-number {
+      font-family: 'Special Elite', cursive;
+      color: var(--accent-gold);
+      font-size: 0.9rem;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
     }
 
     .card-title {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 24px;
       color: #ffffff;
-      border-bottom: 1px solid #333333;
-      padding-bottom: 16px;
+      margin: 0 0 20px 0;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed var(--border-color);
+      letter-spacing: -0.5px;
     }
 
-    .mission-box {
-      text-align: left;
-      line-height: 1.7;
-      font-size: 0.98rem;
-      color: #e0e0e0;
+    .mission-story {
+      line-height: 1.8;
+      font-size: 0.95rem;
+      color: #c0c4cc;
       margin-bottom: 24px;
       word-break: keep-all;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 16px;
+      border-left: 3px solid var(--accent-gold);
     }
 
-    .mission-label {
+    .clue-tag {
       display: inline-block;
-      background-color: #ffffff;
-      color: #121212;
+      color: var(--accent-gold);
       font-size: 0.8rem;
       font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 4px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
     }
 
-    .answer-container {
-      background-color: #2a2a2a;
-      border-radius: 8px;
-      padding: 16px;
-      margin-top: 20px;
+    /* 비밀 해제 박스 (금고 느낌) */
+    .vault-box {
+      background-color: #0d0e11;
+      border: 1px solid #262930;
+      border-radius: 6px;
+      padding: 20px;
+      margin-top: 24px;
+      text-align: center;
+      position: relative;
     }
 
-    .blind {
-      filter: blur(10px);
+    .vault-label {
+      font-size: 0.8rem;
+      color: #717680;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+    }
+
+    .answer-text {
+      font-size: 1.15rem;
+      font-family: 'Noto Serif KR', serif;
+    }
+
+    /* 기밀 암호 블라인드 효과 */
+    .classified {
+      filter: blur(12px);
       user-select: none;
-      opacity: 0.3;
-      transition: filter 0.8s ease, opacity 0.8s ease;
+      opacity: 0.25;
+      transition: all 1s ease-in-out;
+      color: #ffffff;
     }
 
-    .revealed {
+    /* 블라인드 해제 시 금빛 강조 */
+    .unlocked {
       filter: none;
       user-select: auto;
       opacity: 1;
-      color: #4da6ff;
+      color: var(--accent-gold);
       font-weight: 700;
+      text-shadow: 0 0 10px rgba(201, 160, 80, 0.4);
     }
 
-    .status-text {
-      margin-top: 12px;
-      font-size: 0.85rem;
-      color: #888888;
+    .status-indicator {
+      margin-top: 14px;
+      font-size: 0.82rem;
+      color: #8a909a;
+      font-family: 'Special Elite', cursive;
     }
   </style>
 </head>
 <body>
 
-  <div class="invitation-card">
-    <div class="card-title">MISSION#1</div>
+  <div class="dossier-card">
+    <div class="stamp">CLASSIFIED</div>
+    <div class="case-number">FILE NO. 2022-SJ-01</div>
+    <h2 class="card-title">잃어버린 다리의 기록</h2>
 
-    <div class="mission-box">
-      <span class="mission-label">미션 #1</span>
-      <p style="margin-top: 6px;">
-        2022년 우리 모임은 세종에서 진행됐었고, 몇 명의 친구들이 세종의 랜드마크인 <strong>'이 다리'</strong>에 올라 사진을 촬영했다.
+    <div class="mission-story">
+      <span class="clue-tag">[단서 #01]</span>
+      <p style="margin: 4px 0 0 0;">
+        2022년의 어느 날, 우리 모임은 세종에서 접선했다. 사진 속 친구들이 서 있던 세종의 랜드마크 <strong>'이 다리'</strong>...
       </p>
-      <p style="color: #a0a0a0; font-size: 0.9rem;">
-        해당 다리를 다시 찾아 같은 위치에서 같은 포즈로 사진을 촬영하여 인증하라. (유사한 포즈 등 인정)
+      <p style="margin-top: 10px; color: #8a909a; font-size: 0.88rem;">
+        🔍 <strong>임무:</strong> 현장을 추적하여 과거와 동일한 위치, 동일한 포즈로 장면을 재현하고 기록을 남겨라.
       </p>
     </div>
 
-    <div class="answer-container">
-      <div>정답: <span id="answer-1" class="blind">???</span></div>
-      <div id="status-1" class="status-text">서버 시계 확인 중...</div>
+    <div class="vault-box">
+      <div class="vault-label">SECRET LOCATION CODE</div>
+      <div class="answer-text">
+        <span id="answer-1" class="classified">██████████</span>
+      </div>
+      <div id="status-1" class="status-indicator">암호 해독 중...</div>
     </div>
   </div>
 
   <script>
-    // 본인의 실제 Vercel 주소로 변경해주세요 (예: https://holidays-xxx.vercel.app)
-    const VERCEL_DOMAIN = "https://holidays-woad.vercel.app/";
+    // 본인의 실제 Vercel 주소로 변경하여 저장하세요.
+    const VERCEL_DOMAIN = "https://holidays-woad.vercel.app";
 
     async function checkMission1() {
       const answerElement = document.getElementById("answer-1");
       const statusElement = document.getElementById("status-1");
 
       try {
-        // 1번 미션 ID(?id=1)를 파라미터로 서버에 요청
         const response = await fetch(`${VERCEL_DOMAIN}/api/get-answer?id=1`);
         const data = await response.json();
 
         if (data.unlocked) {
           answerElement.innerText = data.answer;
-          answerElement.classList.remove("blind");
-          answerElement.classList.add("revealed");
-          statusElement.innerText = "미션 정답이 공개되었습니다!";
-          statusElement.style.color = "#4da6ff";
+          answerElement.classList.remove("classified");
+          answerElement.classList.add("unlocked");
+          statusElement.innerText = "[ACCESS GRANTED] 암호가 해독되었습니다.";
+          statusElement.style.color = "#c9a050";
         } else {
-          statusElement.innerText = `공개까지 약 ${data.remainingSeconds}초 남았습니다.`;
+          statusElement.innerText = `[LOCKED] 남은 해독 시간: ${data.remainingSeconds}초`;
         }
       } catch (error) {
-        statusElement.innerText = "데이터를 불러오는 데 실패했습니다.";
+        statusElement.innerText = "[ERROR] 보안 서버 연결 실패";
       }
     }
 
-    // 2초 간격으로 서버 시간 체크
     setInterval(checkMission1, 2000);
     checkMission1();
   </script>
