@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOP SECRET: MISSION #3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #08080a;
+      --card-bg: #121316;
+      --accent-gold: #c9a050;
+      --blood-red: #8b0000;
+      --blood-bright: #d11a2a;
+      --text-color: #d1d5db;
+      --border-color: #262930;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Noto Serif KR', serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+      background-image: radial-gradient(#1a1c23 1px, transparent 1px);
+      background-size: 24px 24px;
+      overflow-x: hidden;
+    }
+
+    /* 핏자국 애니메이션 레이어 */
+    .blood-drips-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .drip {
+      position: absolute;
+      top: -20px;
+      background: linear-gradient(to bottom, var(--blood-red), var(--blood-bright));
+      width: 3px;
+      border-radius: 0 0 5px 5px;
+      opacity: 0.8;
+      animation: dripAnim 4s infinite ease-in;
+    }
+
+    .drip::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: -2px;
+      width: 7px;
+      height: 7px;
+      background-color: var(--blood-bright);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--blood-bright);
+    }
+
+    @keyframes dripAnim {
+      0% { height: 0px; opacity: 1; }
+      70% { height: 120px; opacity: 0.9; }
+      100% { height: 140px; opacity: 0; }
+    }
+
+    /* 기밀 문서 카드 */
+    .dossier-card {
+      background-color: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 4px;
+      padding: 36px 28px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 20px rgba(139, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stamp {
+      position: absolute;
+      top: 15px;
+      right: -10px;
+      color: var(--blood-bright);
+      border: 3px double var(--blood-bright);
+      font-family: 'Special Elite', cursive;
+      font-size: 0.85rem;
+      font-weight: bold;
+      padding: 4px 12px;
+      text-transform: uppercase;
+      transform: rotate(12deg);
+      opacity: 0.85;
+      letter-spacing: 2px;
+      pointer-events: none;
+      text-shadow: 0 0 5px rgba(209, 26, 42, 0.5);
+    }
+
+    /* 상단 미션 완수 배너 */
+    .congratulations-banner {
+      background: rgba(201, 160, 80, 0.1);
+      border: 1px solid var(--accent-gold);
+      border-radius: 4px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      color: var(--accent-gold);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .case-number {
+      font-family: 'Special Elite', cursive;
+      color: var(--accent-gold);
+      font-size: 0.9rem;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 20px 0;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed var(--border-color);
+      letter-spacing: -0.5px;
+    }
+
+    .section-title {
+      color: var(--blood-bright);
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-top: 20px;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .mission-story {
+      line-height: 1.75;
+      font-size: 0.92rem;
+      color: #c0c4cc;
+      word-break: keep-all;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 16px;
+      border-left: 3px solid var(--blood-red);
+      margin-bottom: 16px;
+    }
+
+    /* 첨부 포즈 이미지 컨테이너 */
+    .pose-image-container {
+      margin-top: 12px;
+      text-align: center;
+      background: #08080a;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+    }
+
+    .pose-image-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      filter: contrast(1.05) brightness(0.95);
+    }
+
+    .pose-caption {
+      font-size: 0.8rem;
+      color: var(--accent-gold);
+      margin-top: 6px;
+    }
+
+    .vault-box {
+      background-color: #090a0c;
+      border: 1px solid #1f2228;
+      border-radius: 6px;
+      padding: 20px;
+      margin-top: 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .vault-label {
+      font-size: 0.8rem;
+      color: #717680;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+    }
+
+    .answer-text {
+      font-size: 1.1rem;
+      font-family: 'Noto Serif KR', serif;
+    }
+
+    .classified {
+      filter: blur(12px);
+      user-select: none;
+      opacity: 0.25;
+      transition: all 1s ease-in-out;
+      color: #ffffff;
+    }
+
+    .unlocked {
+      filter: none;
+      user-select: auto;
+      opacity: 1;
+      color: var(--accent-gold);
+      font-weight: 700;
+      text-shadow: 0 0 10px rgba(201, 160, 80, 0.4);
+    }
+
+    .status-indicator {
+      margin-top: 14px;
+      font-size: 0.82rem;
+      color: #8a909a;
+      font-family: 'Special Elite', cursive;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dossier-card">
+    <div class="blood-drips-container">
+      <div class="drip" style="left: 30%; animation-delay: 0.8s; animation-duration: 4.0s;"></div>
+      <div class="drip" style="left: 85%; animation-delay: 2.2s; animation-duration: 3.5s;"></div>
+    </div>
+
+    <!-- 미션 #2 완료 축하 메시지 -->
+    <div class="congratulations-banner">
+      🏆 <strong>[MISSION #2 CLEARED]</strong><br>
+      금강의 정교한 좌표를 추적해내셨습니다. 이제 세 번째 역사 속 암호에 접근합니다.
+    </div>
+
+    <div class="stamp">TOP SECRET</div>
+    <div class="case-number">FILE NO. 2026-SJ-03</div>
+    <h2 class="card-title">삼재(三才)의 으뜸 명찰</h2>
+
+    <!-- 미션 3-1 -->
+    <div class="section-title">MISSION 3-1. 역사 추론</div>
+    <div class="mission-story">
+      <p style="margin: 0; font-style: italic; color: #e0e0e0; font-size: 0.95rem;">
+        "하늘과 땅, 인간의 삼재(三才) 중 으뜸이라 불린 고찰... 한때 미륵의 은혜가 머물던 그 거룩한 전각을 추적하라."
+      </p>
+    </div>
+
+    <!-- 미션 3-2 -->
+    <div class="section-title">MISSION 3-2. 현장 인증 포즈</div>
+    <div class="mission-story">
+      해당 위치를 찾아 **멤버 전원이 아래 제시된 인물의 포즈와 동일하게 촬영**하여 미션을 인증하라.
+
+      <div class="pose-image-container">
+        <!-- 3인 지정 포즈 이미지 인코딩 -->
+        <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80" alt="인증 지정 포즈 예시" id="pose-img">
+        <div class="pose-caption">📷 [지정 포즈 참고 문서]</div>
+      </div>
+    </div>
+
+    <!-- 서버 정답 공개 영역 -->
+    <div class="vault-box">
+      <div class="vault-label">ANCIENT TEMPLE CODE</div>
+      <div class="answer-text">
+        <span id="answer-3" class="classified">████████████████</span>
+      </div>
+      <div id="status-3" class="status-indicator">보안 서버 확인 중...</div>
+    </div>
+  </div>
+
+  <script>
+    const VERCEL_DOMAIN = "https://holidays-woad.vercel.app";
+
+    async function checkMission3() {
+      const answerElement = document.getElementById("answer-3");
+      const statusElement = document.getElementById("status-3");
+
+      try {
+        // 3번 미션 ID(?id=3)로 백엔드 서버에 정답 요청
+        const response = await fetch(`${VERCEL_DOMAIN}/api/get-answer?id=3`);
+        const data = await response.json();
+
+        if (data.unlocked) {
+          answerElement.innerText = data.answer;
+          answerElement.classList.remove("classified");
+          answerElement.classList.add("unlocked");
+          statusElement.innerText = "[ACCESS GRANTED] 암호가 최종 해독되었습니다.";
+          statusElement.style.color = "#c9a050";
+        } else {
+          statusElement.innerText = `[LOCKED] 남은 해독 시간: ${data.remainingSeconds}초`;
+        }
+      } catch (error) {
+        statusElement.innerText = "[ERROR] 보안 서버 연결 실패";
+      }
+    }
+
+    setInterval(checkMission3, 2000);
+    checkMission3();
+  </script>
+
+</body>
+</html>
