@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOP SECRET: MISSION #2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #08080a;
+      --card-bg: #121316;
+      --accent-gold: #c9a050;
+      --blood-red: #8b0000;
+      --blood-bright: #d11a2a;
+      --text-color: #d1d5db;
+      --border-color: #262930;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Noto Serif KR', serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+      background-image: radial-gradient(#1a1c23 1px, transparent 1px);
+      background-size: 24px 24px;
+      overflow-x: hidden;
+    }
+
+    /* 핏자국 애니메이션 레이어 */
+    .blood-drips-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .drip {
+      position: absolute;
+      top: -20px;
+      background: linear-gradient(to bottom, var(--blood-red), var(--blood-bright));
+      width: 3px;
+      border-radius: 0 0 5px 5px;
+      opacity: 0.8;
+      animation: dripAnim 4s infinite ease-in;
+    }
+
+    .drip::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: -2px;
+      width: 7px;
+      height: 7px;
+      background-color: var(--blood-bright);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--blood-bright);
+    }
+
+    @keyframes dripAnim {
+      0% { height: 0px; opacity: 1; }
+      70% { height: 120px; opacity: 0.9; }
+      100% { height: 140px; opacity: 0; }
+    }
+
+    /* 기밀 문서 카드 */
+    .dossier-card {
+      background-color: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 4px;
+      padding: 36px 28px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 20px rgba(139, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stamp {
+      position: absolute;
+      top: 15px;
+      right: -10px;
+      color: var(--blood-bright);
+      border: 3px double var(--blood-bright);
+      font-family: 'Special Elite', cursive;
+      font-size: 0.85rem;
+      font-weight: bold;
+      padding: 4px 12px;
+      text-transform: uppercase;
+      transform: rotate(12deg);
+      opacity: 0.85;
+      letter-spacing: 2px;
+      pointer-events: none;
+      text-shadow: 0 0 5px rgba(209, 26, 42, 0.5);
+    }
+
+    /* 상단 미션 #1 완수 축하 멘트 */
+    .congratulations-banner {
+      background: rgba(201, 160, 80, 0.1);
+      border: 1px solid var(--accent-gold);
+      border-radius: 4px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      color: var(--accent-gold);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .case-number {
+      font-family: 'Special Elite', cursive;
+      color: var(--accent-gold);
+      font-size: 0.9rem;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 20px 0;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed var(--border-color);
+      letter-spacing: -0.5px;
+    }
+
+    .section-title {
+      color: var(--blood-bright);
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-top: 20px;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .mission-story {
+      line-height: 1.75;
+      font-size: 0.92rem;
+      color: #c0c4cc;
+      word-break: keep-all;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 16px;
+      border-left: 3px solid var(--blood-red);
+      margin-bottom: 16px;
+    }
+
+    .formula-box {
+      background: #0a0b0d;
+      border: 1px solid #20232a;
+      padding: 12px;
+      font-size: 0.88rem;
+      color: #e0e0e0;
+      border-radius: 4px;
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+
+    .hint-list {
+      margin: 6px 0 0 0;
+      padding-left: 18px;
+      color: #8a909a;
+      font-size: 0.85rem;
+    }
+
+    .vault-box {
+      background-color: #090a0c;
+      border: 1px solid #1f2228;
+      border-radius: 6px;
+      padding: 20px;
+      margin-top: 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .vault-label {
+      font-size: 0.8rem;
+      color: #717680;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+    }
+
+    .answer-text {
+      font-size: 1.1rem;
+      font-family: 'Noto Serif KR', serif;
+    }
+
+    .classified {
+      filter: blur(12px);
+      user-select: none;
+      opacity: 0.25;
+      transition: all 1s ease-in-out;
+      color: #ffffff;
+    }
+
+    .unlocked {
+      filter: none;
+      user-select: auto;
+      opacity: 1;
+      color: var(--accent-gold);
+      font-weight: 700;
+      text-shadow: 0 0 10px rgba(201, 160, 80, 0.4);
+    }
+
+    .status-indicator {
+      margin-top: 14px;
+      font-size: 0.82rem;
+      color: #8a909a;
+      font-family: 'Special Elite', cursive;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dossier-card">
+    <div class="blood-drips-container">
+      <div class="drip" style="left: 20%; animation-delay: 0.5s; animation-duration: 3.8s;"></div>
+      <div class="drip" style="left: 75%; animation-delay: 1.8s; animation-duration: 4.2s;"></div>
+    </div>
+
+    <!-- 미션 #1 완료 축하 메시지 -->
+    <div class="congratulations-banner">
+      🏆 <strong>[MISSION #1 CLEARED]</strong><br>
+      뛰어난 추리력으로 첫 번째 암호를 해독하셨습니다. 하지만 진짜 추적은 이제 시작입니다.
+    </div>
+
+    <div class="stamp">TOP SECRET</div>
+    <div class="case-number">FILE NO. 2026-SJ-02</div>
+    <h2 class="card-title">금강의 좌표 추적</h2>
+
+    <!-- 미션 2-1 -->
+    <div class="section-title">MISSION 2-1. 좌표 암호 해독</div>
+    <div class="mission-story">
+      <p style="margin: 0 0 10px 0;">
+        금강 북측의 중앙녹지공간과 남측의 <strong>'A'</strong>생활권 수변공원을 연결하여 만든 이응다리는 세종대왕이 한글을 반포한 1446년을 기념하여 둘레를 1446m로 정하였다.
+      </p>
+      <p style="margin: 0 0 10px 0;">
+        하지만 금강보행교의 information 에 따르면 실제 주교량의 연장은 <strong>'B'</strong>m 임을 알 수 있다. (개통연도: <strong>D</strong>)
+      </p>
+
+      <div class="formula-box">
+        • <strong>위도 xx</strong> = (B의 각 자릿수의 합) × (D의 각 자릿수의 합) - (탁구왕 전화번호 중간 4자리 합)<br>
+        • <strong>경도 xxx</strong> = (B의 각 자릿수의 합)² + A(노래왕 전화번호 중간 4자리 합)
+      </div>
+
+      <div style="font-size: 0.85rem; color: var(--accent-gold); margin-top: 8px;">
+        💡 <strong>HINT:</strong>
+        <ul class="hint-list">
+          <li>소수점 .yyyyyy = 밴드 참조</li>
+          <li>B = 14?2</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 미션 2-2 -->
+    <div class="section-title">MISSION 2-2. 현장 인증 사진</div>
+    <div class="mission-story">
+      해당 좌표에 도착하여 <strong>'금강이 보이는 구도로, 멤버가 모두 참여한 상태의 얼굴몰아주기 사진'</strong>을 촬영하여 미션 완료를 인증하라.
+    </div>
+
+    <!-- 서버 정답 공개 영역 -->
+    <div class="vault-box">
+      <div class="vault-label">TARGET LOCATION ANSWER</div>
+      <div class="answer-text">
+        <span id="answer-2" class="classified">████████████████</span>
+      </div>
+      <div id="status-2" class="status-indicator">보안 서버 확인 중...</div>
+    </div>
+  </div>
+
+  <script>
+    const VERCEL_DOMAIN = "https://holidays-woad.vercel.app";
+
+    async function checkMission2() {
+      const answerElement = document.getElementById("answer-2");
+      const statusElement = document.getElementById("status-2");
+
+      try {
+        // 2번 미션 ID(?id=2)로 백엔드 서버에 정답 요청
+        const response = await fetch(`${VERCEL_DOMAIN}/api/get-answer?id=2`);
+        const data = await response.json();
+
+        if (data.unlocked) {
+          answerElement.innerText = data.answer;
+          answerElement.classList.remove("classified");
+          answerElement.classList.add("unlocked");
+          statusElement.innerText = "[ACCESS GRANTED] 좌표가 최종 승인되었습니다.";
+          statusElement.style.color = "#c9a050";
+        } else {
+          statusElement.innerText = `[LOCKED] 남은 해독 시간: ${data.remainingSeconds}초`;
+        }
+      } catch (error) {
+        statusElement.innerText = "[ERROR] 보안 서버 연결 실패";
+      }
+    }
+
+    setInterval(checkMission2, 2000);
+    checkMission2();
+  </script>
+
+</body>
+</html>
