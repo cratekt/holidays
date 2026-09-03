@@ -4,19 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TOP SECRET: MISSION #1</title>
-  <!-- 추리/기밀 문서 느낌의 폰트 로드 (Special Elite & Noto Serif KR) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-color: #0b0c10;
-      --card-bg: #141619;
+      --bg-color: #08080a;
+      --card-bg: #121316;
       --accent-gold: #c9a050;
-      --accent-red: #8b0000;
+      --blood-red: #8b0000;
+      --blood-bright: #d11a2a;
       --text-color: #d1d5db;
-      --border-color: #2a2e35;
+      --border-color: #262930;
     }
 
     body {
@@ -30,12 +30,62 @@
       align-items: center;
       min-height: 100vh;
       box-sizing: border-box;
-      /* 암분위기를 자아내는 미세한 격자 배경 */
-      background-image: radial-gradient(#1f242d 1px, transparent 1px);
+      background-image: radial-gradient(#1a1c23 1px, transparent 1px);
       background-size: 24px 24px;
+      overflow-x: hidden;
     }
 
-    /* 비밀 요원 파일 문서 스타일 */
+    /* 핏자국(Blood Drips) 애니메이션 레이어 */
+    .blood-drips-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .drip {
+      position: absolute;
+      top: -20px;
+      background: linear-gradient(to bottom, var(--blood-red), var(--blood-bright));
+      width: 3px;
+      border-radius: 0 0 5px 5px;
+      opacity: 0.8;
+      animation: dripAnim 4s infinite ease-in;
+    }
+
+    /* 핏울방울 연출 */
+    .drip::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: -2px;
+      width: 7px;
+      height: 7px;
+      background-color: var(--blood-bright);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--blood-bright);
+    }
+
+    @keyframes dripAnim {
+      0% {
+        height: 0px;
+        opacity: 1;
+      }
+      70% {
+        height: 120px;
+        opacity: 0.9;
+      }
+      100% {
+        height: 140px;
+        opacity: 0;
+      }
+    }
+
+    /* 기밀 문서 카드 */
     .dossier-card {
       background-color: var(--card-bg);
       border: 2px solid var(--border-color);
@@ -43,27 +93,28 @@
       padding: 36px 28px;
       max-width: 460px;
       width: 100%;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 15px rgba(201, 160, 80, 0.05);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 20px rgba(139, 0, 0, 0.15);
       position: relative;
       overflow: hidden;
     }
 
-    /* 기밀(TOP SECRET) 직인 효과 */
+    /* 핏빛 CLASSIFIED 직인 */
     .stamp {
       position: absolute;
       top: 15px;
       right: -10px;
-      color: var(--accent-red);
-      border: 3px double var(--accent-red);
+      color: var(--blood-bright);
+      border: 3px double var(--blood-bright);
       font-family: 'Special Elite', cursive;
       font-size: 0.85rem;
       font-weight: bold;
       padding: 4px 12px;
       text-transform: uppercase;
       transform: rotate(12deg);
-      opacity: 0.75;
+      opacity: 0.85;
       letter-spacing: 2px;
       pointer-events: none;
+      text-shadow: 0 0 5px rgba(209, 26, 42, 0.5);
     }
 
     .case-number {
@@ -90,24 +141,24 @@
       color: #c0c4cc;
       margin-bottom: 24px;
       word-break: keep-all;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.4);
       padding: 16px;
-      border-left: 3px solid var(--accent-gold);
+      border-left: 3px solid var(--blood-red);
     }
 
     .clue-tag {
       display: inline-block;
-      color: var(--accent-gold);
+      color: var(--blood-bright);
       font-size: 0.8rem;
       font-weight: 700;
       margin-bottom: 6px;
       letter-spacing: 1px;
     }
 
-    /* 비밀 해제 박스 (금고 느낌) */
+    /* 비밀 해제 금고 박스 */
     .vault-box {
-      background-color: #0d0e11;
-      border: 1px solid #262930;
+      background-color: #090a0c;
+      border: 1px solid #1f2228;
       border-radius: 6px;
       padding: 20px;
       margin-top: 24px;
@@ -128,7 +179,7 @@
       font-family: 'Noto Serif KR', serif;
     }
 
-    /* 기밀 암호 블라인드 효과 */
+    /* 암호 블라인드 효과 */
     .classified {
       filter: blur(12px);
       user-select: none;
@@ -137,7 +188,7 @@
       color: #ffffff;
     }
 
-    /* 블라인드 해제 시 금빛 강조 */
+    /* 암호 해독 후 강조 연출 */
     .unlocked {
       filter: none;
       user-select: auto;
@@ -158,6 +209,13 @@
 <body>
 
   <div class="dossier-card">
+    <!-- 핏자국 애니메이션 레이어 -->
+    <div class="blood-drips-container">
+      <div class="drip" style="left: 15%; animation-delay: 0s; animation-duration: 3.5s;"></div>
+      <div class="drip" style="left: 45%; animation-delay: 1.2s; animation-duration: 4.2s;"></div>
+      <div class="drip" style="left: 80%; animation-delay: 2.1s; animation-duration: 3.8s;"></div>
+    </div>
+
     <div class="stamp">CLASSIFIED</div>
     <div class="case-number">FILE NO. 2022-SJ-01</div>
     <h2 class="card-title">잃어버린 다리의 기록</h2>
@@ -182,7 +240,6 @@
   </div>
 
   <script>
-    // 본인의 실제 Vercel 주소로 변경하여 저장하세요.
     const VERCEL_DOMAIN = "https://holidays-woad.vercel.app";
 
     async function checkMission1() {
