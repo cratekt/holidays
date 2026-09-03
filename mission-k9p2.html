@@ -244,6 +244,9 @@
     <div class="section-title">MISSION 2-1. 좌표 암호 해독</div>
     <div class="mission-story">
       <p style="margin: 0 0 10px 0;">
+        아래의 정보, 수식, 힌트를 이용하여 목적지 <strong>위도 █ █ . █ █ █ █ █ █</strong> , <strong>경도 █ █ █ . █ █ █ █ █ █</strong> 를 찾아오세요.
+      </p>
+      <p style="margin: 0 0 10px 0;">
         금강 북측의 중앙녹지공간과 남측의 <strong>'A'</strong>생활권 수변공원을 연결하여 만든 이응다리는 세종대왕이 한글을 반포한 1446년을 기념하여 둘레를 1446m로 정하였다.
       </p>
       <p style="margin: 0 0 10px 0;">
@@ -251,15 +254,15 @@
       </p>
 
       <div class="formula-box">
-        • <strong>위도 xx</strong> = (B의 각 자릿수의 합) × (D의 각 자릿수의 합) - (탁구왕 전화번호 중간 4자리 합)<br>
-        • <strong>경도 xxx</strong> = (B의 각 자릿수의 합)² + A(노래왕 전화번호 중간 4자리 합)
+        • <strong>위도 █ █</strong> = (B의 각 자릿수의 합) × (D의 각 자릿수의 합) - (탁구왕 전화번호 중간 4자리 합)<br>
+        • <strong>경도 █ █ █</strong> = (B의 각 자릿수의 합)² + A(노래왕 전화번호 중간 4자리 합)
       </div>
 
       <div style="font-size: 0.85rem; color: var(--accent-gold); margin-top: 8px;">
         💡 <strong>HINT:</strong>
         <ul class="hint-list">
-          <li>소수점 .yyyyyy = 밴드 참조</li>
-          <li>B = 14?2</li>
+          <li>소수점 . █ █ █ █ █ █ = 밴드 참조</li>
+          <li>B = 14█2</li>
         </ul>
       </div>
     </div>
@@ -267,7 +270,7 @@
     <!-- 미션 2-2 -->
     <div class="section-title">MISSION 2-2. 현장 인증 사진</div>
     <div class="mission-story">
-      해당 좌표에 도착하여 <strong>'금강이 보이는 구도로, 멤버가 모두 참여한 상태의 얼굴몰아주기 사진'</strong>을 촬영하여 미션 완료를 인증하라.
+      해당 위치에서 <strong>'금강이 보이는 구도로, 멤버가 모두 참여한 상태의 얼굴몰아주기 사진'</strong>을 찍어 미션 완료를 인증하세요.
     </div>
 
     <!-- 서버 정답 공개 영역 -->
@@ -288,7 +291,6 @@
       const statusElement = document.getElementById("status-2");
 
       try {
-        // 2번 미션 ID(?id=2)로 백엔드 서버에 정답 요청
         const response = await fetch(`${VERCEL_DOMAIN}/api/get-answer?id=2`);
         const data = await response.json();
 
