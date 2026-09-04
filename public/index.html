@@ -9,7 +9,6 @@
             --bg-color: #0b090a;
             --card-bg: #161213;
             --accent-blood: #a30808;
-            --accent-orange: #ff5500;
             --accent-gold: #d4af37;
             --text-main: #e0e0e0;
             --text-sub: #a0a0a0;
@@ -32,43 +31,105 @@
             margin: 0 auto;
             background-image: radial-gradient(#220e0e 1px, transparent 1px);
             background-size: 18px 18px;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* 헤더 */
+        /* ===== 리얼한 피 흘림 & 번짐 애니메이션 효과 ===== */
+        .blood-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* 핏방울 떨어지는 효과 */
+        .blood-drop {
+            position: absolute;
+            top: -20px;
+            width: 8px;
+            height: 14px;
+            background: radial-gradient(circle at 30% 30%, #ff1a1a, #800000 70%, #400000);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            filter: drop-shadow(0 2px 4px rgba(163, 8, 8, 0.8));
+            animation: dropAnimation 4s infinite cubic-bezier(0.55, 0.085, 0.68, 0.53);
+        }
+
+        .blood-drop:nth-child(1) { left: 15%; animation-delay: 0s; animation-duration: 3.8s; }
+        .blood-drop:nth-child(2) { left: 45%; animation-delay: 1.5s; animation-duration: 4.2s; width: 10px; height: 18px; }
+        .blood-drop:nth-child(3) { left: 80%; animation-delay: 0.7s; animation-duration: 3.5s; }
+
+        @keyframes dropAnimation {
+            0% {
+                top: -20px;
+                opacity: 0.9;
+                transform: scaleY(1);
+            }
+            70% {
+                opacity: 1;
+                transform: scaleY(1.3);
+            }
+            90% {
+                top: 95vh;
+                opacity: 0.8;
+                transform: scaleY(1);
+            }
+            100% {
+                top: 98vh;
+                opacity: 0;
+                transform: scale(2, 0.3);
+            }
+        }
+
+        /* 화면상단 피 번짐(Drip) 애니메이션 */
+        .blood-drip-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 35px;
+            background: linear-gradient(180deg, rgba(163,8,8,0.8) 0%, rgba(130,0,0,0.5) 60%, transparent 100%);
+            filter: blur(1px);
+            animation: pulseBlood 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseBlood {
+            0% { opacity: 0.6; filter: blur(1px); }
+            100% { opacity: 0.95; filter: blur(2px) drop-shadow(0 4px 10px #a30808); }
+        }
+
+        /* ===== 헤더 및 첨부 이미지 엠블럼 ===== */
         .header {
             text-align: center;
             padding: 20px 10px;
             border-bottom: 2px dashed var(--accent-blood);
             margin-bottom: 25px;
+            position: relative;
         }
 
-        /* 첨부 엠블럼 재현 스타일 */
-        .custom-emblem-container {
-            width: 220px;
-            height: 220px;
+        .emblem-img-wrapper {
+            width: 180px;
+            height: 180px;
             margin: 0 auto 15px auto;
-            position: relative;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(163, 8, 8, 0.8), 0 0 8px rgba(0,0,0,0.9);
+            border: 2px solid var(--accent-blood);
+            background-color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.3s ease;
         }
 
-        /* 외곽 원형 및 번짐 효과 */
-        .splatter-circle {
-            position: absolute;
+        .emblem-img-wrapper img {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
-            border: 6px solid #6b1111;
-            box-shadow: 0 0 15px rgba(163, 8, 8, 0.6), inset 0 0 15px rgba(163, 8, 8, 0.6);
-            background-color: #f7f5f0; /* 로고 내부 연한 백그라운드 */
-        }
-
-        /* 할리데이비슨 패러디 로고 SVG 위치 */
-        .harley-shield-svg {
-            width: 85%;
-            height: 85%;
-            z-index: 2;
+            object-fit: cover;
+            display: block;
         }
 
         .header-badge {
@@ -129,7 +190,7 @@
             padding-left: 10px;
         }
 
-        /* 팀 구성 및 유산 박스 */
+        /* 정보 그리드 */
         .grid-box {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -182,14 +243,14 @@
             margin-left: 8px;
         }
 
-        /* 규칙 및 안내 리스트 */
+        /* 리스트 스타일 */
         ul {
             padding-left: 18px;
         }
 
         li {
             font-size: 0.88rem;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             color: #ccc;
         }
 
@@ -213,7 +274,7 @@
             margin-top: 10px;
         }
 
-        /* 버튼 영역 */
+        /* 미션 액션 카드 */
         .action-card {
             border: 1px solid var(--accent-blood);
             background-color: #1a0a0a;
@@ -254,25 +315,18 @@
 </head>
 <body>
 
-    <!-- 헤더 & 정밀 재현 엠블럼 -->
+    <!-- 리얼 피 흘림/번짐 애니메이션 오버레이 -->
+    <div class="blood-overlay">
+        <div class="blood-drip-top"></div>
+        <div class="blood-drop"></div>
+        <div class="blood-drop"></div>
+        <div class="blood-drop"></div>
+    </div>
+
+    <!-- 헤더 & 이미지 엠블럼 -->
     <header class="header">
-        <div class="custom-emblem-container">
-            <div class="splatter-circle"></div>
-            <svg class="harley-shield-svg" viewBox="0 0 300 200">
-                <!-- 방패 아웃라인 -->
-                <polygon points="150,15 250,50 250,150 150,185 50,150 50,50" fill="#000" stroke="#ff5500" stroke-width="8"/>
-                <polygon points="150,25 240,56 240,144 150,175 60,144 60,56" fill="#000"/>
-                
-                <!-- 상단 텍스트 "개똥" -->
-                <text x="150" y="52" fill="#ff5500" font-size="28" font-weight="900" text-anchor="middle">개 똥</text>
-                
-                <!-- 중앙 검정 띠 -->
-                <rect x="20" y="70" width="260" height="55" fill="#000" stroke="#ff5500" stroke-width="6"/>
-                <text x="150" y="108" fill="#ffffff" font-size="25" font-weight="900" text-anchor="middle" letter-spacing="1">HARLEY DAYS</text>
-                
-                <!-- 하단 텍스트 "같은" -->
-                <text x="150" y="152" fill="#ff5500" font-size="26" font-weight="900" text-anchor="middle">같 은</text>
-            </svg>
+        <div class="emblem-img-wrapper">
+            <img src="BandPhoto_2026_09_01_12_44_30.jpg" alt="개똥같은 HARLEY DAYS 엠블럼">
         </div>
         <div class="header-badge">NO MERCY RACE</div>
         <h1 class="title-main">2026 개똥같은할리데이</h1>
@@ -297,13 +351,16 @@
         </div>
     </section>
 
-    <!-- 팀 구성 방식 -->
+    <!-- 팀 구성 방식 & 추가 규칙 -->
     <section class="card">
         <div class="card-title">작전 팀 구성 & 규칙</div>
         <ul>
             <li><strong>팀장 (1명):</strong> 차량 운전 및 이동 담당</li>
             <li><strong>팀원 (2명):</strong> 추첨으로 배정된 두뇌/수색 요원</li>
             <li>수령한 미션의 정답 장소를 유추하고, 현장에 도착해 <span class="highlight">팀원 전원 인증샷</span>을 완성해야 다음 단계로 이동 가능합니다.</li>
+            <li style="border-top: 1px dashed #3a1c1c; padding-top: 8px; margin-top: 8px; color: #b8a0a0;">
+                💡 <strong>자유 행동 옵션:</strong> 김회장의 유서를 따르고 싶지 않은 팀은 활동비 10만원으로 잘 놀다가 (당구장/PC방 등) 식당 공개 후 해당 장소로 와도 된다. <em style="color: var(--text-sub); display: block; margin-top: 2px;">- 어차피 기대하지 않았다.</em>
+            </li>
         </ul>
     </section>
 
