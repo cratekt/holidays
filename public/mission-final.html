@@ -33,6 +33,49 @@
       box-sizing: border-box;
       background-image: radial-gradient(#1a1c23 1px, transparent 1px);
       background-size: 24px 24px;
+      overflow-x: hidden;
+    }
+
+    /* 🩸 핏자국(Blood Drips) 애니메이션 */
+    .blood-drips-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .drip {
+      position: absolute;
+      top: -10px;
+      background: linear-gradient(to bottom, var(--blood-dark), var(--blood-red) 70%, var(--blood-bright));
+      border-radius: 0 0 4px 4px;
+      box-shadow: inset 1px 0 2px rgba(0,0,0,0.8), 0 0 4px var(--blood-red);
+      animation: realisticDrip 5s infinite cubic-bezier(0.4, 0, 0.6, 1);
+    }
+
+    .drip::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 10px;
+      background: var(--blood-bright);
+      border-radius: 50% 50% 60% 60%;
+      box-shadow: 0 0 8px var(--blood-bright), inset -1px -1px 2px rgba(0,0,0,0.6);
+    }
+
+    @keyframes realisticDrip {
+      0% { height: 0px; opacity: 0; }
+      15% { opacity: 0.95; }
+      70% { height: 160px; opacity: 0.9; }
+      85% { height: 190px; opacity: 0.3; }
+      100% { height: 200px; opacity: 0; }
     }
 
     .dossier-card {
@@ -42,7 +85,7 @@
       padding: 36px 28px;
       max-width: 500px;
       width: 100%;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 20px rgba(139, 0, 0, 0.2);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 20px rgba(139, 0, 0, 0.25);
       position: relative;
     }
 
@@ -60,6 +103,7 @@
       transform: rotate(12deg);
       opacity: 0.85;
       letter-spacing: 2px;
+      text-shadow: 0 0 5px rgba(209, 26, 42, 0.5);
     }
 
     .team-badge {
@@ -124,10 +168,12 @@
       font-weight: bold;
       width: 100%;
       font-size: 0.95rem;
+      transition: all 0.2s ease;
     }
 
     .custom-btn:hover {
       background: var(--blood-bright);
+      box-shadow: 0 0 10px rgba(209, 26, 42, 0.5);
     }
 
     .progress-bar-container {
@@ -146,6 +192,25 @@
       transition: width 0.5s ease;
     }
 
+    /* ⏱️ 카운트다운 타이머 전용 스타일 */
+    .timer-container {
+      background: rgba(209, 26, 42, 0.1);
+      border: 1px solid var(--blood-bright);
+      border-radius: 4px;
+      padding: 8px 12px;
+      margin: 12px 0;
+      font-family: 'Special Elite', cursive;
+      color: var(--blood-bright);
+      font-size: 0.88rem;
+    }
+
+    .timer-digits {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #ffffff;
+      letter-spacing: 1.5px;
+    }
+
     .location-display {
       margin-top: 18px;
       padding: 16px;
@@ -158,6 +223,23 @@
       min-height: 28px;
       word-break: keep-all;
       line-height: 1.5;
+    }
+
+    .unlocked-effect {
+      animation: pulseGold 1.5s infinite alternate;
+      color: var(--accent-gold);
+      text-shadow: 0 0 12px rgba(201, 160, 80, 0.6);
+    }
+
+    @keyframes pulseGold {
+      0% { text-shadow: 0 0 5px rgba(201, 160, 80, 0.4); }
+      100% { text-shadow: 0 0 18px rgba(201, 160, 80, 0.9); }
+    }
+
+    .reset-notice {
+      font-size: 0.72rem;
+      color: #717680;
+      margin-top: 10px;
     }
 
     .logout-btn {
@@ -174,13 +256,20 @@
 <body>
 
   <div class="dossier-card">
+    <!-- 🩸 핏자국 연출 -->
+    <div class="blood-drips-container">
+      <div class="drip" style="left: 15%; width: 3px; animation-delay: 0s; animation-duration: 4.5s;"></div>
+      <div class="drip" style="left: 45%; width: 5px; animation-delay: 1.8s; animation-duration: 5.5s;"></div>
+      <div class="drip" style="left: 82%; width: 3px; animation-delay: 0.8s; animation-duration: 4.2s;"></div>
+    </div>
+
     <div class="stamp">FINAL MISSION</div>
 
-    <!-- 1. 로그인 전 화면 -->
+    <!-- 1. 로그인 화면 -->
     <div id="login-section">
-      <h2 class="card-title">팀 접속 인증</h2>
+      <h2 class="card-title">팀 세션 인증</h2>
       <div class="mission-story">
-        부여받은 팀을 선택하고, **팀 전용 비밀번호**를 입력하여 기밀 세션에 접속하십시오.
+        부여받은 팀을 선택하고, <strong>팀 전용 비밀번호</strong>를 입력하여 보안 서버에 접속하십시오.
       </div>
       <div class="login-box">
         <select id="team-select" class="custom-select">
@@ -193,14 +282,14 @@
       </div>
     </div>
 
-    <!-- 2. 로그인 후 미션 메인 화면 -->
+    <!-- 2. 미션 메인 화면 -->
     <div id="mission-section" style="display: none;">
       <div id="team-display" class="team-badge">TEAM LOADING...</div>
       <h2 class="card-title">최종 목적지 해독</h2>
 
       <div class="mission-story">
         가족 또는 친구에게 <strong>"나도 사랑해"</strong> 답장 문자를 받아 진행자에게 인증하라.<br><br>
-        팀원 3명의 인증이 완료되면 최종 목적지가 완전히 드러난다.
+        팀원 3명의 인증이 완료되면 최종 목적지가 즉시 공개된다.
       </div>
 
       <div class="auth-box">
@@ -209,6 +298,11 @@
         </div>
         <div class="progress-bar-container">
           <div id="progress-bar" class="progress-bar"></div>
+        </div>
+
+        <!-- ⏱️ 카운트다운 타이머 -->
+        <div class="timer-container">
+          🚨 타임아웃 해독 카운트다운: <span id="timer-display" class="timer-digits">30:00</span>
         </div>
 
         <div style="margin-top: 18px; display: flex; gap: 8px;">
@@ -220,36 +314,53 @@
           ████████████████████
         </div>
 
+        <div class="reset-notice">※ 본 시스템은 매일 자정(00:00)에 데이터가 자동 초기화됩니다.</div>
         <button onclick="logoutTeam()" class="logout-btn">다른 팀으로 변경 (로그아웃)</button>
       </div>
     </div>
   </div>
 
   <script>
-    // 1. 팀별 접속 비밀번호 설정
-    const TEAM_PASSWORDS = {
-      'A': '1004',
-      'B': '2008',
-      'C': '3012'
+    // SHA-256 해시 함수
+    async function hashText(text) {
+      const msgUint8 = new TextEncoder().encode(text);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // SHA-256 해시화된 팀 비밀번호 (1004, 2008, 3012)
+    const HASHED_TEAM_PASS = {
+      'A': 'f9e66e179b675f64d8f250d46d3f32f3c306d091e3e7f2231e33054e8574d6c2', // 1004
+      'B': '7bbd743a537f5d0701c68f1f5ef0d279930f36f6d8920409c73024840e69888d', // 2008
+      'C': '5d85ec5c8bf3d8c8ff1853f6393b5d2639bb61cf4f1e582e3612d1b7a6616091'  // 3012
     };
 
-    // 2. 진행자 공통 승인 암호
-    const ADMIN_CODE = '7777';
+    // SHA-256 해시화된 진행자 암호 (0701)
+    const HASHED_ADMIN_CODE = 'dff7d1ad24e683a77f6713e1bb10770ff223ed4f5b17edc0df3ddd7207c8475d'; // 0701
 
-    // 3. 단계별 공개 목적지 주소
+    // 단계별 목적지 주소
     const ADDRESS_STAGES = [
-      "████████████████████",                     // 0회 완료
-      "충청남도 공주시 계룡면 ████████",             // 1회 완료
-      "충청남도 공주시 계룡면 갑사로 ████",          // 2회 완료
-      "충청남도 공주시 계룡면 갑사로 567 (최종 목적지)" // 3회 완료
+      "████████████████████",                     
+      "세종특별자치시 ████████",             
+      "세종특별자치시 한누리대로 283 ████",          
+      "한누리대로 283 1층 115호 - 청양" 
     ];
 
-    let currentTeam = null;
+    // 자동 공개 제한 시간 (초 단위: 30분 = 1800초)
+    const TIMEOUT_SECONDS = 1800; 
 
-    // 초기화 및 저장된 팀 체크
-    function init() {
+    let currentTeam = null;
+    let timerInterval = null;
+
+    function getTodayString() {
+      const today = new Date();
+      return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    }
+
+    async function init() {
       const savedTeam = localStorage.getItem('active_team');
-      if (savedTeam && TEAM_PASSWORDS[savedTeam]) {
+      if (savedTeam && HASHED_TEAM_PASS[savedTeam]) {
         currentTeam = savedTeam;
         showMissionPage();
       } else {
@@ -258,14 +369,20 @@
       }
     }
 
-    // 팀 로그인
-    function loginTeam() {
+    async function loginTeam() {
       const team = document.getElementById('team-select').value;
       const pass = document.getElementById('team-pass').value;
+      const hashedInput = await hashText(pass);
 
-      if (TEAM_PASSWORDS[team] === pass) {
+      if (HASHED_TEAM_PASS[team] === hashedInput) {
         currentTeam = team;
         localStorage.setItem('active_team', team);
+        
+        // 접속 시점의 세션 시작 시간 기록
+        if (!localStorage.getItem(getStartTimeKey())) {
+          localStorage.setItem(getStartTimeKey(), Date.now());
+        }
+
         document.getElementById('team-pass').value = '';
         showMissionPage();
       } else {
@@ -273,38 +390,80 @@
       }
     }
 
-    // 팀 로그아웃
     function logoutTeam() {
       localStorage.removeItem('active_team');
       currentTeam = null;
+      if (timerInterval) clearInterval(timerInterval);
       init();
     }
 
-    // 미션 화면 표시 및 정보 업데이트
     function showMissionPage() {
       document.getElementById('login-section').style.display = 'none';
       document.getElementById('mission-section').style.display = 'block';
       document.getElementById('team-display').innerText = `SESSION: TEAM ${currentTeam}`;
 
+      startTimer();
       updateUI();
     }
 
-    // 팀의 현재 해금 단계 가져오기
-    function getUnlockCount() {
-      return parseInt(localStorage.getItem(`unlock_count_team_${currentTeam}`) || "0");
+    function getTodayStorageKey() {
+      return `unlock_count_team_${currentTeam}_${getTodayString()}`;
     }
 
-    // UI 업데이트
+    function getStartTimeKey() {
+      return `start_time_team_${currentTeam}_${getTodayString()}`;
+    }
+
+    function getUnlockCount() {
+      return parseInt(localStorage.getItem(getTodayStorageKey()) || "0");
+    }
+
+    // ⏱️ 실시간 카운트다운 및 타이머 자동 해금 로직
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+
+      let startTime = parseInt(localStorage.getItem(getStartTimeKey()) || Date.now());
+
+      timerInterval = setInterval(() => {
+        const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+        const remainingSeconds = TIMEOUT_SECONDS - elapsedSeconds;
+
+        if (remainingSeconds <= 0) {
+          clearInterval(timerInterval);
+          document.getElementById('timer-display').innerText = "00:00 (시간 초과)";
+          
+          // 제한 시간 경과 시 자동으로 3단계(최종 해금) 처리
+          if (getUnlockCount() < 3) {
+            localStorage.setItem(getTodayStorageKey(), 3);
+            updateUI();
+            alert("⏰ [보안 경고] 정해진 시간이 초과되어 서버 보안이 해제되었습니다! 최종 목적지가 자동으로 공개됩니다.");
+          }
+        } else {
+          const minutes = String(Math.floor(remainingSeconds / 60)).padStart(2, '0');
+          const seconds = String(remainingSeconds % 60).padStart(2, '0');
+          document.getElementById('timer-display').innerText = `${minutes}:${seconds}`;
+        }
+      }, 1000);
+    }
+
     function updateUI() {
       const count = getUnlockCount();
       document.getElementById('count-text').innerText = count;
       document.getElementById('progress-bar').style.width = `${(count / 3) * 100}%`;
-      document.getElementById('location-result').innerText = ADDRESS_STAGES[count];
+      
+      const locationElem = document.getElementById('location-result');
+      locationElem.innerText = ADDRESS_STAGES[count];
+
+      if (count === 3) {
+        locationElem.classList.add('unlocked-effect');
+      } else {
+        locationElem.classList.remove('unlocked-effect');
+      }
     }
 
-    // 진행자 승인 암호 제출
-    function submitAdminAuth() {
+    async function submitAdminAuth() {
       const inputCode = document.getElementById('admin-code').value;
+      const hashedInput = await hashText(inputCode);
       let currentCount = getUnlockCount();
 
       if (currentCount >= 3) {
@@ -312,12 +471,12 @@
         return;
       }
 
-      if (inputCode === ADMIN_CODE) {
+      if (hashedInput === HASHED_ADMIN_CODE) {
         currentCount++;
-        localStorage.setItem(`unlock_count_team_${currentTeam}`, currentCount);
+        localStorage.setItem(getTodayStorageKey(), currentCount);
         document.getElementById('admin-code').value = "";
         updateUI();
-        alert(`승인 완료! (${currentCount}/3) 목적지 단서가 추가 해독되었습니다.`);
+        alert(`🏆 승인 완료! (${currentCount}/3) 목적지 단서가 추가 해독되었습니다.`);
       } else {
         alert("진행자 승인 암호가 올바르지 않습니다.");
       }
