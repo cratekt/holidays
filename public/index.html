@@ -33,12 +33,33 @@
             background-size: 18px 18px;
         }
 
-        /* 헤더 */
+        /* 헤더 & 엠블렘 */
         .header {
             text-align: center;
-            padding: 25px 10px;
+            padding: 20px 10px;
             border-bottom: 2px dashed var(--accent-blood);
             margin-bottom: 25px;
+        }
+
+        .emblem-wrapper {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 15px auto;
+            background: radial-gradient(circle, #2a0808 0%, #0d0404 100%);
+            border: 2px solid var(--accent-blood);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(163, 8, 8, 0.6);
+            position: relative;
+        }
+
+        .emblem-wrapper svg {
+            width: 65px;
+            height: 65px;
+            fill: var(--accent-gold);
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.9));
         }
 
         .header-badge {
@@ -49,7 +70,7 @@
             font-weight: bold;
             padding: 3px 10px;
             letter-spacing: 2px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             border-radius: 2px;
         }
 
@@ -99,7 +120,7 @@
             padding-left: 10px;
         }
 
-        /* 팀 구성 박스 */
+        /* 팀 구성 및 유산 박스 */
         .grid-box {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -168,6 +189,11 @@
             font-weight: bold;
         }
 
+        .highlight-gold {
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+
         .notice-box {
             background-color: rgba(163, 8, 8, 0.1);
             border: 1px dashed var(--accent-blood);
@@ -219,38 +245,43 @@
 </head>
 <body>
 
-    <!-- 헤더 -->
+    <!-- 헤더 & 어두운 엠블렘 -->
     <header class="header">
+        <div class="emblem-wrapper">
+            <svg viewBox="0 0 24 24">
+                <path d="M12,2A9,9 0 0,0 3,11C3,14.03 4.5,16.7 6.81,18.31L6,22L9.5,20.5C10.28,20.82 11.12,21 12,21C12.88,21 13.72,20.82 14.5,20.5L18,22L17.19,18.31C19.5,16.7 21,14.03 21,11A9,9 0 0,0 12,2M8,9A1.5,1.5 0 0,1 9.5,10.5A1.5,1.5 0 0,1 8,12A1.5,1.5 0 0,1 6.5,10.5A1.5,1.5 0 0,1 8,9M16,9A1.5,1.5 0 0,1 17.5,10.5A1.5,1.5 0 0,1 16,12A1.5,1.5 0 0,1 14.5,10.5A1.5,1.5 0 0,1 16,9M12,14A2,2 0 0,1 14,16H10A2,2 0 0,1 12,14Z"/>
+            </svg>
+        </div>
         <div class="header-badge">NO MERCY RACE</div>
         <h1 class="title-main">2026 개똥같은할리데이</h1>
         <h2 class="title-sub">김회장의 30만 원 잔혹 유산쟁탈전</h2>
     </header>
 
-    <!-- 게임 개요 -->
+    <!-- 게임 개요 및 승리 조건 -->
     <section class="card">
-        <div class="card-title">사건 개요 & 조건</div>
+        <div class="card-title">최종 목표 & 유산 상속</div>
         <div class="grid-box">
             <div class="info-cell">
-                <div class="info-label">최종 현상금</div>
+                <div class="info-label">최종 유산 (현상금)</div>
                 <div class="info-val">30만 원 상품권</div>
             </div>
             <div class="info-cell">
-                <div class="info-label">팀별 활동비</div>
+                <div class="info-label">팀별 초기 활동비</div>
                 <div class="info-val">10만 원 현금</div>
             </div>
         </div>
         <div class="notice-box">
-            김깽 회장의 독단 아래 시작되는 잔혹한 추적 레이스. 각 팀은 수령한 미션의 정답 장소를 유추하고, 현장에 도착해 전원 인증샷을 완성해야 합니다.
+            🏆 <strong class="highlight-gold">승리 조건:</strong> 모든 미션을 해결하고 <span class="highlight">최종 목적지인 식당에 가장 먼저 도착한 1개 팀</span>이 김회장의 30만 원 유산을 단독으로 독식합니다.
         </div>
     </section>
 
     <!-- 팀 구성 방식 -->
     <section class="card">
-        <div class="card-title">작전 팀 구성</div>
+        <div class="card-title">작전 팀 구성 & 규칙</div>
         <ul>
             <li><strong>팀장 (1명):</strong> 차량 운전 및 이동 담당</li>
-            <li><strong>팀원 (2명):</strong> 랜덤 추첨으로 배정된 두뇌/수색 요원</li>
-            <li>팀원 전원이 해당 목적지에 도착하여 <span class="highlight">인증샷</span>을 촬영해야 다음 단계로 이동 가능합니다.</li>
+            <li><strong>팀원 (2명):</strong> 추첨으로 배정된 두뇌/수색 요원</li>
+            <li>수령한 미션의 정답 장소를 유추하고, 현장에 도착해 <span class="highlight">팀원 전원 인증샷</span>을 완성해야 다음 단계로 이동 가능합니다.</li>
         </ul>
     </section>
 
@@ -276,7 +307,7 @@
             </div>
         </div>
         <div class="notice-box" style="border-color: var(--accent-gold); color: #bbb;">
-            ⚠️ <span class="highlight">오후 18:00까지</span> 도착하지 못한 팀은 즉시 전원 탈락 처리됩니다. 모든 팀이 실패할 경우, 30만 원 상품권은 회장님이 회수합니다.
+            ⚠️ <span class="highlight">오후 18:00까지</span> 식당에 오지 못한 팀은 전원 탈락합니다. 만약 모든 팀이 탈락할 경우, 30만 원 유산은 김회장이 도로 몰수합니다.
         </div>
     </section>
 
@@ -286,7 +317,7 @@
         <p style="font-size: 0.85rem; color: #aaa; margin-top: 6px;">
             아래 버튼을 눌러 당신의 팀에 부여된 비밀 작전을 확인하십시오.
         </p>
-        <a href="https://holidays-woad.vercel.app/mission-a8f3" class="btn-mission" target="_blank">
+        <a href="mission-a8f3.html" class="btn-mission" target="_blank">
             🩸 기밀 미션 확인하기
         </a>
     </section>
