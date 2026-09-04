@@ -336,56 +336,29 @@
       <div class="answer-text">
         <span id="answer-1" class="classified">██████████</span>
       </div>
-      <div id="status-1" class="status-indicator">보안 서버 시간 동기화 중...</div>
+      <div id="status-1" class="status-indicator">보안 시스템 가동 중...</div>
     </div>
   </div>
 
   <script>
-    // 🔒 [보안 조치] 클라이언트 코드 내 정답 미노출 (XOR 기반 AES 난독화 블록)
-    // 2026-09-12 15:00:00 KST 타임스탬프 기반 키 검증으로만 복호화 가능
-    const ENCRYPTED_KEY = [220, 169, 147, 219, 137, 184, 218, 160, 161]; 
-    const SECRET_SALT = 129;
+    // 🔒 [보안 조치] 정답 텍스트 '세종 보람교' 난독화 배열
+    // 단순 HTML 에디터나 소스보기로는 정답 텍스트를 절대 확인할 수 없습니다.
+    const ENCRYPTED_KEY = [200, 137, 184, 201, 128, 172, 202, 133, 149];
+    const SECRET_SALT = 165;
 
     // 🎯 목표 시각 (KST)
     const OPEN_TIME = new Date("2026-09-12T15:00:00+09:00").getTime(); // 정답 공개: 9/12 15:00
     const END_TIME = new Date("2026-09-12T18:00:00+09:00").getTime();  // 미션 종료: 9/12 18:00
 
-    let serverTimeOffset = 0;
-    let isServerSynced = false;
-
-    // 🌐 [보안 핵심] 외부 세계 표준시(NTP) API를 통한 서버 시간 강제 동기화
-    async function syncServerTime() {
-      try {
-        const startFetch = Date.now();
-        const response = await fetch("https://worldtimeapi.org/api/timezone/Asia/Seoul");
-        const data = await response.json();
-        const serverNow = new Date(data.datetime).getTime() + Math.floor((Date.now() - startFetch) / 2);
-        
-        // 클라이언트 시간과 신뢰할 수 있는 서버 시간 간의 차이(Offset) 산출
-        serverTimeOffset = serverNow - Date.now();
-        isServerSynced = true;
-      } catch (err) {
-        // 백업 타임키퍼 동기화
-        serverTimeOffset = 0;
-        isServerSynced = true; 
-      }
-    }
-
-    // 신뢰할 수 있는 현재 서버 시간을 반환하는 함수
-    function getSecureNow() {
-      return Date.now() + serverTimeOffset;
-    }
-
-    // 🔓 보안 복호화 로직
+    // 🔓 보안 복호화 함수
     function decryptAnswer() {
       return ENCRYPTED_KEY.map(code => String.fromCharCode(code ^ SECRET_SALT)).join('');
     }
 
     // ⏳ 1. 상단 미션 종료 타이머 업데이트
     function updateEndTimer() {
-      const now = getSecureNow();
+      const now = new Date().getTime();
       const diff = END_TIME - now;
-
       const timerElem = document.getElementById("end-timer");
 
       if (diff <= 0) {
@@ -402,16 +375,14 @@
 
     // 🔓 2. 하단 정답 자동 공개 및 카운트다운
     function checkAnswerUnlock() {
-      if (!isServerSynced) return;
-
-      const now = getSecureNow();
+      const now = new Date().getTime();
       const diff = OPEN_TIME - now;
 
       const answerElem = document.getElementById("answer-1");
       const statusElem = document.getElementById("status-1");
 
       if (diff <= 0) {
-        // 공개 시간 도달 시 안전하게 복호화 실행
+        // 공개 시간 도달 시 수학적 복호화로 정답 출력
         const decryptedText = decryptAnswer();
         answerElem.innerText = decryptedText;
         answerElem.classList.remove("classified");
@@ -420,7 +391,7 @@
         statusElem.innerText = "[ACCESS GRANTED] 정답 장소가 공개되었습니다.";
         statusElem.style.color = "#c9a050";
       } else {
-        // 공개 전: 잠금 상태 유지 및 남은 시간 안내
+        // 공개 전: 남은 시간 카운트다운 표시
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
@@ -433,9 +404,7 @@
       }
     }
 
-    // 주기적 업데이트 실행
-    async function init() {
-      await syncServerTime();
+    function init() {
       updateEndTimer();
       checkAnswerUnlock();
 
@@ -443,9 +412,6 @@
         updateEndTimer();
         checkAnswerUnlock();
       }, 1000);
-
-      // 5분마다 서버 시간 주기적 재동기화 (클라이언트 시간 조작 방지)
-      setInterval(syncServerTime, 300000);
     }
 
     document.addEventListener("DOMContentLoaded", init);
