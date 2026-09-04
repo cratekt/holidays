@@ -1,421 +1,51 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TOP SECRET: MISSION #1</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+export default function handler(req, res) {
+  // CORS 헤더 설정
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET');
 
-  <style>
-    :root {
-      --bg-color: #08080a;
-      --card-bg: #121316;
-      --accent-gold: #c9a050;
-      --blood-dark: #3a0000;
-      --blood-mid: #6e0000;
-      --blood-red: #8b0000;
-      --blood-bright: #c81321;
-      --blood-shine: #ff3b3b;
-      --text-color: #d1d5db;
-      --border-color: #262930;
+  const { id } = req.query;
+
+  // 🎯 각 미션별 정답, 이미지 목록 및 공개 목표 시간 설정 (KST)
+  const missions = {
+    "1": {
+      answer: "세종 금강보행교 (이응다리)",
+      images: ["/answer1.png"],
+      openTime: new Date("2026-09-12T15:00:00+09:00").getTime() // 9/12 15:00 KST
+    },
+    "2": {
+      answer: "공주시 공산성 공산정 [위도: 36.465294 / 경도: 127.124898]",
+      images: ["/answer2.jpg"],
+      openTime: new Date("2026-09-12T16:00:00+09:00").getTime() // 9/12 16:00 KST
+    },
+    "3": {
+      answer: "계룡산 갑사 대웅전",
+      images: ["/answer3_1.jpg", "/answer3_2.jpg"],
+      openTime: new Date("2026-09-12T17:00:00+09:00").getTime() // 9/12 17:00 KST
     }
+  };
 
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: 'Noto Serif KR', serif;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      box-sizing: border-box;
-      background-image:
-        radial-gradient(circle at 20% 30%, rgba(139,0,0,0.06), transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(139,0,0,0.05), transparent 45%),
-        radial-gradient(#1a1c23 1px, transparent 1px);
-      background-size: auto, auto, 24px 24px;
-      overflow-x: hidden;
-    }
+  const mission = missions[id];
 
-    /* 🩸 리얼 핏자국(Blood Drips) 애니메이션 레이어 */
-    .blood-drips-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 10;
-    }
+  if (!mission) {
+    return res.status(404).json({ error: "존재하지 않는 미션 ID입니다." });
+  }
 
-    .drip {
-      position: absolute;
-      width: 5px;
-      border-radius: 45% 45% 60% 60% / 30% 30% 70% 70%;
-      background: linear-gradient(to bottom,
-        var(--blood-dark) 0%,
-        var(--blood-mid) 35%,
-        var(--blood-red) 65%,
-        var(--blood-bright) 100%);
-      box-shadow:
-        inset 1px 0 3px rgba(0,0,0,0.85),
-        inset -1px 0 2px rgba(255,60,60,0.15),
-        0 0 6px rgba(139,0,0,0.5);
-      filter: url(#dripWobble);
-      animation: realisticDrip 5s infinite cubic-bezier(.3,0,.6,1);
-      transform-origin: top center;
-    }
+  // 서버의 현재 시간 검증 (클라이언트 브라우저 시간 조작 불가능)
+  const now = Date.now();
+  const diff = mission.openTime - now;
 
-    .drip::after {
-      content: "";
-      position: absolute;
-      bottom: -3px;
-      left: 50%;
-      width: 8px;
-      height: 8px;
-      background: radial-gradient(circle at 35% 30%, var(--blood-shine), var(--blood-red) 55%, var(--blood-dark) 100%);
-      border-radius: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      animation: dropBead 5s infinite cubic-bezier(.3,0,.6,1);
-    }
-
-    .drip-top-1 { top: -10px; left: 12%; width: 4px; animation-delay: 0s; }
-    .drip-top-2 { top: -10px; left: 48%; width: 5px; animation-delay: 1.8s; }
-    .drip-top-3 { top: -10px; left: 82%; width: 4px; animation-delay: 3.2s; }
-
-    @keyframes realisticDrip {
-      0% { height: 0px; opacity: 0; }
-      10% { opacity: 0.95; }
-      60% { height: 110px; opacity: 0.9; }
-      80% { height: 130px; opacity: 0.5; }
-      100% { height: 140px; opacity: 0; }
-    }
-
-    @keyframes dropBead {
-      0%, 50% { opacity: 0; transform: translateX(-50%) scale(0.6); }
-      58% { opacity: 1; transform: translateX(-50%) scale(1); }
-      72% { opacity: 1; transform: translateX(-50%) translateY(6px) scale(1.05); }
-      85% { opacity: 0; transform: translateX(-50%) translateY(18px) scale(0.4); }
-      100% { opacity: 0; }
-    }
-
-    /* 📜 카드 내부 번지는 혈흔 얼룩 연출 */
-    .will-splatter-on {
-      position: absolute;
-      background: radial-gradient(circle at 40% 35%, rgba(200,19,33,0.7) 0%, rgba(110,0,0,0.5) 40%, rgba(90,0,0,0.2) 65%, transparent 75%);
-      border-radius: 42% 58% 53% 47% / 48% 42% 58% 52%;
-      filter: blur(1.2px) url(#dripWobble);
-      mix-blend-mode: screen;
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0;
-      animation: splatterSpread 7s infinite ease-out;
-    }
-
-    .splatter-1 { top: 15%; right: 10%; width: 50px; height: 45px; animation-delay: 1s; }
-    .splatter-2 { bottom: 20%; left: 8%; width: 60px; height: 50px; animation-delay: 3.5s; }
-
-    @keyframes splatterSpread {
-      0% { transform: scale(0.2); opacity: 0; }
-      20% { transform: scale(1.1); opacity: 0.6; }
-      50% { transform: scale(1.0); opacity: 0.4; }
-      100% { transform: scale(1.2); opacity: 0; }
-    }
-
-    /* 기밀 문서 카드 */
-    .dossier-card {
-      background-color: var(--card-bg);
-      border: 2px solid var(--border-color);
-      border-radius: 4px;
-      padding: 32px 26px;
-      max-width: 480px;
-      width: 100%;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 25px rgba(139, 0, 0, 0.25);
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* ⏳ 미션 종료 카운트다운 타이머 박스 */
-    .mission-timer-box {
-      background: rgba(139, 0, 0, 0.15);
-      border: 1px solid var(--blood-red);
-      border-radius: 4px;
-      padding: 10px 14px;
-      margin-bottom: 20px;
-      text-align: center;
-      position: relative;
-      z-index: 5;
-    }
-
-    .timer-label {
-      font-size: 0.75rem;
-      color: #a0a5b0;
-      letter-spacing: 1.5px;
-      margin-bottom: 4px;
-    }
-
-    .timer-value {
-      font-family: 'Special Elite', monospace;
-      font-size: 1.15rem;
-      font-weight: bold;
-      color: var(--accent-gold);
-      letter-spacing: 1px;
-    }
-
-    /* 핏빛 CLASSIFIED 직인 */
-    .stamp {
-      position: absolute;
-      top: 15px;
-      right: -10px;
-      color: var(--blood-bright);
-      border: 3px double var(--blood-bright);
-      font-family: 'Special Elite', cursive;
-      font-size: 0.85rem;
-      font-weight: bold;
-      padding: 4px 12px;
-      text-transform: uppercase;
-      transform: rotate(12deg);
-      opacity: 0.85;
-      letter-spacing: 2px;
-      pointer-events: none;
-      text-shadow: 0 0 5px rgba(209, 26, 42, 0.5);
-    }
-
-    .case-number {
-      font-family: 'Special Elite', cursive;
-      color: var(--accent-gold);
-      font-size: 0.9rem;
-      letter-spacing: 1.5px;
-      margin-bottom: 6px;
-    }
-
-    .card-title {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: #ffffff;
-      margin: 0 0 18px 0;
-      padding-bottom: 12px;
-      border-bottom: 1px dashed var(--border-color);
-      letter-spacing: -0.5px;
-    }
-
-    .mission-story {
-      line-height: 1.8;
-      font-size: 0.95rem;
-      color: #c0c4cc;
-      margin-bottom: 24px;
-      word-break: keep-all;
-      background: rgba(0, 0, 0, 0.4);
-      padding: 16px;
-      border-left: 3px solid var(--blood-red);
-      position: relative;
-      z-index: 5;
-    }
-
-    .clue-tag {
-      display: inline-block;
-      color: var(--blood-bright);
-      font-size: 0.8rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-      letter-spacing: 1px;
-    }
-
-    /* 비밀 해제 금고 박스 */
-    .vault-box {
-      background-color: #090a0c;
-      border: 1px solid #1f2228;
-      border-radius: 6px;
-      padding: 20px;
-      margin-top: 24px;
-      text-align: center;
-      position: relative;
-      z-index: 5;
-    }
-
-    .vault-label {
-      font-size: 0.8rem;
-      color: #717680;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 10px;
-    }
-
-    .answer-text {
-      font-size: 1.25rem;
-      font-family: 'Noto Serif KR', serif;
-      min-height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* 암호 블라인드 효과 */
-    .classified {
-      filter: blur(10px);
-      user-select: none;
-      opacity: 0.3;
-      color: #ffffff;
-      letter-spacing: 4px;
-    }
-
-    /* 암호 해독 후 강조 연출 */
-    .unlocked {
-      filter: none;
-      user-select: auto;
-      opacity: 1;
-      color: var(--accent-gold);
-      font-weight: 700;
-      text-shadow: 0 0 12px rgba(201, 160, 80, 0.6);
-      animation: unlockGlow 1.5s ease-out;
-    }
-
-    @keyframes unlockGlow {
-      0% { transform: scale(0.9); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    .status-indicator {
-      margin-top: 14px;
-      font-size: 0.82rem;
-      color: #8a909a;
-      font-family: 'Special Elite', cursive;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- 핏자국 변형용 SVG 필터 -->
-  <svg width="0" height="0" style="position:absolute">
-    <filter id="dripWobble">
-      <feTurbulence type="fractalNoise" baseFrequency="0.8 0.3" numOctaves="2" seed="5" result="noise"/>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3"/>
-    </filter>
-  </svg>
-
-  <div class="dossier-card">
-    <!-- 🩸 배경 핏자국 애니메이션 레이어 -->
-    <div class="blood-drips-container">
-      <div class="drip drip-top-1"></div>
-      <div class="drip drip-top-2"></div>
-      <div class="drip drip-top-3"></div>
-    </div>
-
-    <div class="will-splatter-on splatter-1"></div>
-    <div class="will-splatter-on splatter-2"></div>
-
-    <!-- ⏳ 상단 미션 종료 카운트다운 타이머 -->
-    <div class="mission-timer-box">
-      <div class="timer-label">⏰ MISSION #1 DEADLINE</div>
-      <div id="end-timer" class="timer-value">계산 중...</div>
-    </div>
-
-    <div class="stamp">CLASSIFIED</div>
-    <div class="case-number">FILE NO. 2022-SJ-01</div>
-    <h2 class="card-title">잃어버린 다리의 기록</h2>
-
-    <div class="mission-story">
-      <span class="clue-tag">[단서 #01]</span>
-      <p style="margin: 4px 0 0 0;">
-        2022년의 어느 날, 우리 조직은 세종에서 접선했다. 당시를 기념하던 영상에서 조직원들이 서 있던 세종의 랜드마크 <strong>'이 다리'</strong>...
-      </p>
-      <p style="margin-top: 10px; color: #8a909a; font-size: 0.88rem;">
-        🔍 <strong>임무:</strong> 현장을 추적하여 과거와 동일한 위치, 동일한 포즈로 장면을 재현하고 기록을 남겨 인증하라.
-      </p>
-    </div>
-
-    <!-- 🔒 보안 적용된 비밀 해제 금고 박스 -->
-    <div class="vault-box">
-      <div class="vault-label">SECRET LOCATION CODE</div>
-      <div class="answer-text">
-        <span id="answer-1" class="classified">██████████</span>
-      </div>
-      <div id="status-1" class="status-indicator">보안 시스템 가동 중...</div>
-    </div>
-  </div>
-
-  <script>
-    // 🔒 [보안 조치] 정답 텍스트 '세종 보람교' 난독화 배열
-    // 단순 HTML 에디터나 소스보기로는 정답 텍스트를 절대 확인할 수 없습니다.
-    const ENCRYPTED_KEY = [200, 137, 184, 201, 128, 172, 202, 133, 149];
-    const SECRET_SALT = 165;
-
-    // 🎯 목표 시각 (KST)
-    const OPEN_TIME = new Date("2026-09-12T15:00:00+09:00").getTime(); // 정답 공개: 9/12 15:00
-    const END_TIME = new Date("2026-09-12T18:00:00+09:00").getTime();  // 미션 종료: 9/12 18:00
-
-    // 🔓 보안 복호화 함수
-    function decryptAnswer() {
-      return ENCRYPTED_KEY.map(code => String.fromCharCode(code ^ SECRET_SALT)).join('');
-    }
-
-    // ⏳ 1. 상단 미션 종료 타이머 업데이트
-    function updateEndTimer() {
-      const now = new Date().getTime();
-      const diff = END_TIME - now;
-      const timerElem = document.getElementById("end-timer");
-
-      if (diff <= 0) {
-        timerElem.innerText = "[MISSION EXPIRED] 타임아웃";
-        timerElem.style.color = "#ff3b3b";
-      } else {
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        timerElem.innerText = `${String(hours).padStart(2, '0')}시간 ${String(minutes).padStart(2, '0')}분 ${String(seconds).padStart(2, '0')}초 남음`;
-      }
-    }
-
-    // 🔓 2. 하단 정답 자동 공개 및 카운트다운
-    function checkAnswerUnlock() {
-      const now = new Date().getTime();
-      const diff = OPEN_TIME - now;
-
-      const answerElem = document.getElementById("answer-1");
-      const statusElem = document.getElementById("status-1");
-
-      if (diff <= 0) {
-        // 공개 시간 도달 시 수학적 복호화로 정답 출력
-        const decryptedText = decryptAnswer();
-        answerElem.innerText = decryptedText;
-        answerElem.classList.remove("classified");
-        answerElem.classList.add("unlocked");
-        
-        statusElem.innerText = "[ACCESS GRANTED] 정답 장소가 공개되었습니다.";
-        statusElem.style.color = "#c9a050";
-      } else {
-        // 공개 전: 남은 시간 카운트다운 표시
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        let timeStr = "";
-        if (hours > 0) timeStr += `${hours}시간 `;
-        timeStr += `${minutes}분 ${seconds}초`;
-
-        statusElem.innerText = `[LOCKED] 정답 공개까지: ${timeStr}`;
-      }
-    }
-
-    function init() {
-      updateEndTimer();
-      checkAnswerUnlock();
-
-      setInterval(() => {
-        updateEndTimer();
-        checkAnswerUnlock();
-      }, 1000);
-    }
-
-    document.addEventListener("DOMContentLoaded", init);
-  </script>
-
-</body>
-</html>
+  if (diff <= 0) {
+    // 🔓 공개 시간이 도달한 경우 정답과 이미지 목록 반환
+    return res.status(200).json({
+      unlocked: true,
+      answer: mission.answer,
+      images: mission.images
+    });
+  } else {
+    // 🔒 공개 시간 이전인 경우 남은 시간(초) 반환
+    return res.status(200).json({
+      unlocked: false,
+      remainingSeconds: Math.ceil(diff / 1000)
+    });
+  }
+}
