@@ -10,7 +10,7 @@ export default function handler(req, res) {
     "1": {
       answer: "세종 금강보행교 (이응다리)",
       images: ["/answer1.png"],
-      openTime: new Date("2026-09-05T00:16:00+09:00").getTime() // 9/12 15:00 KST
+      openTime: new Date("2026-09-05T00:20:00+09:00").getTime() // 9/12 15:00 KST
     },
     "2": {
       answer: "공주시 공산성 공산정 [위도 = (1+4+1+2) * (2+0+2+2)-(4+4+0+4) = 36.465294 / 경도 = (1+4+1+2)² + 3 * (8+5+2+6) = 127.124898]",
