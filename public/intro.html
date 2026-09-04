@@ -13,9 +13,11 @@
       --bg-color: #08080a;
       --card-bg: #121316;
       --accent-gold: #c9a050;
-      --blood-dark: #4a0000;
+      --blood-dark: #3a0000;
+      --blood-mid: #6e0000;
       --blood-red: #8b0000;
-      --blood-bright: #d11a2a;
+      --blood-bright: #c81321;
+      --blood-shine: #ff3b3b;
       --text-color: #d1d5db;
       --border-color: #262930;
     }
@@ -31,12 +33,15 @@
       align-items: center;
       min-height: 100vh;
       box-sizing: border-box;
-      background-image: radial-gradient(#1a1c23 1px, transparent 1px);
-      background-size: 24px 24px;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(139,0,0,0.06), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(139,0,0,0.05), transparent 45%),
+        radial-gradient(#1a1c23 1px, transparent 1px);
+      background-size: auto, auto, 24px 24px;
       overflow-x: hidden;
     }
 
-    /* 🩸 화면 전반 / 유서 주변 핏자국 연출 */
+    /* 🩸 전체 배경 핏자국 연출 (SVG 필터로 불규칙한 가장자리 + 미세 흔들림) */
     .blood-drips-container {
       position: absolute;
       top: 0;
@@ -50,66 +55,72 @@
 
     .drip {
       position: absolute;
-      background: linear-gradient(to bottom, var(--blood-dark), var(--blood-red) 70%, var(--blood-bright));
-      border-radius: 0 0 4px 4px;
-      box-shadow: inset 1px 0 2px rgba(0,0,0,0.8), 0 0 4px var(--blood-red);
-      animation: realisticDrip 5.5s infinite ease-in-out;
+      width: 5px;
+      border-radius: 45% 45% 60% 60% / 30% 30% 70% 70%;
+      background: linear-gradient(to bottom,
+        var(--blood-dark) 0%,
+        var(--blood-mid) 35%,
+        var(--blood-red) 65%,
+        var(--blood-bright) 100%);
+      box-shadow:
+        inset 1px 0 3px rgba(0,0,0,0.85),
+        inset -1px 0 2px rgba(255,60,60,0.15),
+        0 0 6px rgba(139,0,0,0.5);
+      filter: url(#dripWobble);
+      animation: realisticDrip 6s infinite cubic-bezier(.3,0,.6,1);
+      transform-origin: top center;
     }
 
-    /* 흘러내리는 핏자국 위치 및 지연시간 지정 */
-    .drip-top-1 { top: -10px; left: 8%; width: 4px; animation-delay: 0s; }
-    .drip-top-2 { top: -10px; left: 85%; width: 3px; animation-delay: 2.2s; }
-    
-    /* 유서 박스 주변 집중 배치 */
-    .drip-will-left1 { top: 40%; left: 3%; width: 5px; animation-delay: 1.0s; }
-    .drip-will-left2 { top: 52%; left: 6%; width: 4px; animation-delay: 3.5s; }
-    .drip-will-right1 { top: 43%; left: 91%; width: 4px; animation-delay: 0.4s; }
-    .drip-will-right2 { top: 58%; left: 94%; width: 5px; animation-delay: 2.8s; }
+    /* 방울 끝의 둥근 핏방울 */
+    .drip::after {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      left: 50%;
+      width: 9px;
+      height: 9px;
+      background: radial-gradient(circle at 35% 30%, var(--blood-shine), var(--blood-red) 55%, var(--blood-dark) 100%);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      animation: dropBead 6s infinite cubic-bezier(.3,0,.6,1);
+    }
 
-    .drip-bot-1 { top: 78%; left: 78%; width: 4px; animation-delay: 1.7s; }
-    .drip-bot-2 { top: 84%; left: 18%; width: 5px; animation-delay: 4.0s; }
+    .drip-top-1 { top: -10px; left: 14%; width: 4px; animation-delay: 0s; }
+    .drip-top-2 { top: -10px; left: 81%; width: 3px; animation-delay: 2.4s; }
+    .drip-bot-1 { top: 76%; left: 77%; width: 4px; animation-delay: 1.6s; }
+    .drip-bot-2 { top: 83%; left: 17%; width: 5px; animation-delay: 4.2s; }
 
     @keyframes realisticDrip {
       0% { height: 0px; opacity: 0; }
-      20% { opacity: 0.9; }
-      60% { height: 120px; opacity: 0.85; }
-      80% { height: 140px; opacity: 0.3; }
+      8% { opacity: 0.95; }
+      55% { height: 130px; opacity: 0.9; }
+      75% { height: 145px; opacity: 0.55; }
       100% { height: 150px; opacity: 0; }
     }
 
-    /* 🔴 유서 주변 불규칙 원형 핏자국 번짐(Splatter) 연출 */
-    .blood-splatter {
-      position: absolute;
-      background: radial-gradient(circle, var(--blood-bright) 0%, var(--blood-red) 50%, transparent 70%);
-      border-radius: 40% 60% 55% 45% / 50% 45% 55% 50%;
-      filter: blur(1px);
-      pointer-events: none;
-      opacity: 0;
-      animation: splatterSpread 7s infinite ease-out;
-    }
-
-    /* 유서 박스 모서리 및 주변 번짐 위치 설정 */
-    .splatter-1 { top: 38%; left: 2%; width: 22px; height: 18px; animation-delay: 0.8s; }
-    .splatter-2 { top: 48%; right: 3%; width: 30px; height: 26px; animation-delay: 3.2s; }
-    .splatter-3 { top: 62%; left: 4%; width: 26px; height: 22px; animation-delay: 1.9s; }
-    .splatter-4 { top: 68%; right: 5%; width: 35px; height: 28px; animation-delay: 5.1s; }
-
-    @keyframes splatterSpread {
-      0% { transform: scale(0.2); opacity: 0; }
-      25% { transform: scale(1.1); opacity: 0.85; }
-      40% { transform: scale(1.0); opacity: 0.7; }
-      80% { opacity: 0.3; }
-      100% { transform: scale(1.2); opacity: 0; }
+    @keyframes dropBead {
+      0%, 50% { opacity: 0; transform: translateX(-50%) scale(0.6); }
+      58% { opacity: 1; transform: translateX(-50%) scale(1); }
+      72% { opacity: 1; transform: translateX(-50%) translateY(6px) scale(1.05); }
+      85% { opacity: 0; transform: translateX(-50%) translateY(20px) scale(0.4); }
+      100% { opacity: 0; }
     }
 
     .dossier-card {
       background-color: var(--card-bg);
+      background-image:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, transparent 1px, transparent 2px),
+        radial-gradient(ellipse at top left, rgba(60,60,70,0.15), transparent 60%);
       border: 2px solid var(--border-color);
       border-radius: 4px;
       padding: 36px 28px;
       max-width: 620px;
       width: 100%;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 20px rgba(139, 0, 0, 0.25);
+      box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.9),
+        0 0 25px rgba(139, 0, 0, 0.3),
+        inset 0 0 60px rgba(0,0,0,0.4);
       position: relative;
     }
 
@@ -125,8 +136,10 @@
       padding: 4px 12px;
       text-transform: uppercase;
       transform: rotate(12deg);
-      opacity: 0.85;
+      opacity: 0.8;
       letter-spacing: 2px;
+      mix-blend-mode: screen;
+      text-shadow: 0 0 6px rgba(200,19,33,0.6);
     }
 
     .header-tag {
@@ -146,18 +159,38 @@
       border-bottom: 1px dashed var(--border-color);
     }
 
-    /* 📰 신문 스크랩 스타일 */
+    /* 📰 신문 스크랩 스타일 - 실제 종이처럼 색바램/얼룩/구겨진 결 표현 */
     .newspaper-box {
-      background-color: #d8d3c5;
-      background-image: radial-gradient(#c2bcab 1px, transparent 0);
-      background-size: 8px 8px;
+      background-color: #d9d3c2;
+      background-image:
+        radial-gradient(#c2bcab 1px, transparent 0),
+        repeating-linear-gradient(90deg, rgba(0,0,0,0.015) 0px, transparent 1px, transparent 3px),
+        radial-gradient(ellipse at 15% 10%, rgba(120,100,60,0.18), transparent 45%),
+        radial-gradient(ellipse at 85% 90%, rgba(90,75,45,0.15), transparent 50%),
+        radial-gradient(ellipse at 60% 40%, rgba(0,0,0,0.06), transparent 60%);
+      background-size: 8px 8px, auto, auto, auto, auto;
       color: #1a1a1a;
       padding: 22px;
       border: 1px solid #9d9482;
-      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.15), 3px 3px 10px rgba(0,0,0,0.5);
+      box-shadow:
+        inset 0 0 25px rgba(60, 45, 20, 0.25),
+        inset 0 0 3px rgba(0,0,0,0.4),
+        3px 3px 10px rgba(0,0,0,0.5);
       border-radius: 2px;
       margin-bottom: 24px;
       position: relative;
+      filter: contrast(1.02) sepia(0.08);
+    }
+
+    /* 종이 접힌 자국 */
+    .newspaper-box::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(105deg, transparent 48%, rgba(0,0,0,0.05) 49%, rgba(255,255,255,0.05) 50%, transparent 51%),
+        linear-gradient(15deg, transparent 68%, rgba(0,0,0,0.04) 69%, transparent 70%);
+      pointer-events: none;
     }
 
     .newspaper-header {
@@ -170,6 +203,7 @@
       color: #111;
       margin-bottom: 14px;
       letter-spacing: -0.5px;
+      position: relative;
     }
 
     .newspaper-body {
@@ -178,22 +212,43 @@
       font-size: 0.92rem;
       color: #222222;
       word-break: keep-all;
+      position: relative;
     }
 
-    /* 📜 유서 영역 스타일 */
+    /* 📜 유서 및 유서 내부 핏자국 연출 - 오래된 한지 질감 */
     .will-box {
-      background: #f4ebd0;
+      background: #f2e8c9;
+      background-image:
+        radial-gradient(ellipse at 20% 15%, rgba(150,110,50,0.22), transparent 40%),
+        radial-gradient(ellipse at 90% 85%, rgba(120,90,40,0.2), transparent 45%),
+        radial-gradient(circle at 50% 50%, transparent 60%, rgba(90,65,30,0.12) 100%),
+        repeating-linear-gradient(3deg, rgba(120,90,40,0.025) 0px, transparent 2px, transparent 5px);
       color: #2a1e12;
       font-family: 'Gowun Batang', serif;
       font-size: 0.96rem;
       line-height: 1.85;
       padding: 24px;
       border-radius: 2px;
-      border: 1px solid #d3c49f;
-      box-shadow: inset 0 0 20px rgba(100, 70, 30, 0.15), 4px 4px 12px rgba(0,0,0,0.6);
+      border: 1px solid #cbb98e;
+      box-shadow:
+        inset 0 0 35px rgba(90, 60, 20, 0.25),
+        inset 0 0 4px rgba(0,0,0,0.3),
+        4px 4px 12px rgba(0,0,0,0.6);
       margin-bottom: 24px;
       word-break: keep-all;
       position: relative;
+      overflow: hidden;
+      filter: sepia(0.15) contrast(1.03);
+    }
+
+    /* 찢어지고 그을린 듯한 가장자리 비네트 */
+    .will-box::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      box-shadow: inset 0 0 40px 10px rgba(60, 40, 15, 0.35);
+      pointer-events: none;
+      z-index: 3;
     }
 
     .will-title {
@@ -203,6 +258,79 @@
       margin-bottom: 12px;
       border-bottom: 1px dashed #b8a682;
       padding-bottom: 8px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .will-text-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* 🩸 유서 종이 바로 위로 흐르고 번지는 핏자국 - 종이에 스며드는 느낌 */
+    .will-drip-on {
+      position: absolute;
+      top: -5px;
+      border-radius: 40% 40% 60% 60% / 25% 25% 75% 75%;
+      background: linear-gradient(to bottom,
+        var(--blood-dark) 0%,
+        var(--blood-mid) 30%,
+        var(--blood-red) 60%,
+        rgba(139,0,0,0.4) 90%,
+        transparent 100%);
+      box-shadow: 0 0 4px rgba(139,0,0,0.6);
+      opacity: 0.9;
+      z-index: 1;
+      mix-blend-mode: multiply;
+      filter: url(#dripWobble);
+      animation: willDripAnim 7s infinite cubic-bezier(.3,0,.55,1);
+    }
+
+    .will-drip-1 { left: 24%; width: 4px; animation-delay: 0.4s; }
+    .will-drip-2 { left: 61%; width: 5px; animation-delay: 3.4s; }
+    .will-drip-3 { left: 83%; width: 3px; animation-delay: 1.9s; }
+
+    @keyframes willDripAnim {
+      0% { height: 0px; opacity: 0; }
+      15% { opacity: 0.9; }
+      55% { height: 170px; opacity: 0.75; }
+      80% { height: 220px; opacity: 0.35; }
+      100% { height: 235px; opacity: 0; }
+    }
+
+    /* 🔴 유서 종이 위 번지는 원형 혈흔 - 종이에 스며드는 다중 레이어 */
+    .will-splatter-on {
+      position: absolute;
+      background:
+        radial-gradient(circle at 40% 35%, rgba(200,19,33,0.9) 0%, rgba(110,0,0,0.75) 40%, rgba(90,0,0,0.35) 65%, transparent 75%);
+      border-radius: 42% 58% 53% 47% / 48% 42% 58% 52%;
+      filter: blur(1.2px) url(#dripWobble);
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      animation: willSplatterSpread 7.5s infinite ease-out;
+    }
+
+    /* 얼룩 안쪽에 살짝 더 진한 핵심부를 얹어 스며든 느낌 강화 */
+    .will-splatter-on::after {
+      content: "";
+      position: absolute;
+      inset: 20%;
+      background: radial-gradient(circle, rgba(60,0,0,0.55), transparent 70%);
+      border-radius: inherit;
+    }
+
+    .will-splatter-1 { top: 21%; left: 34%; width: 40px; height: 34px; animation-delay: 1.4s; }
+    .will-splatter-2 { top: 57%; left: 54%; width: 48px; height: 40px; animation-delay: 4.1s; }
+    .will-splatter-3 { top: 77%; left: 17%; width: 34px; height: 30px; animation-delay: 2.7s; }
+
+    @keyframes willSplatterSpread {
+      0% { transform: scale(0.15) rotate(0deg); opacity: 0; }
+      18% { transform: scale(1.15) rotate(2deg); opacity: 0.85; }
+      40% { transform: scale(1.0) rotate(0deg); opacity: 0.7; }
+      75% { opacity: 0.4; }
+      100% { transform: scale(1.15) rotate(-1deg); opacity: 0.22; }
     }
 
     .prep-list {
@@ -246,35 +374,33 @@
       background: var(--blood-red);
       color: #ffffff;
       border: none;
-      box-shadow: 0 0 15px rgba(209, 26, 42, 0.6);
+      box-shadow: 0 0 15px rgba(200, 19, 33, 0.6);
     }
 
     .btn-active:hover {
       background: var(--blood-bright);
-      box-shadow: 0 0 20px rgba(209, 26, 42, 0.9);
+      box-shadow: 0 0 20px rgba(200, 19, 33, 0.9);
       transform: translateY(-2px);
     }
   </style>
 </head>
 <body>
 
+  <!-- 핏자국 가장자리를 불규칙하게 만들어주는 SVG 필터 (화면에 보이지 않음) -->
+  <svg width="0" height="0" style="position:absolute">
+    <filter id="dripWobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9 0.35" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.5"/>
+    </filter>
+  </svg>
+
   <div class="dossier-card">
-    <!-- 🩸 흘러내리는 핏자국 & 번지는 원형 핏자국 연출 -->
+    <!-- 🩸 전체 배경 핏자국 -->
     <div class="blood-drips-container">
       <div class="drip drip-top-1"></div>
       <div class="drip drip-top-2"></div>
-      <div class="drip drip-will-left1"></div>
-      <div class="drip drip-will-left2"></div>
-      <div class="drip drip-will-right1"></div>
-      <div class="drip drip-will-right2"></div>
       <div class="drip drip-bot-1"></div>
       <div class="drip drip-bot-2"></div>
-
-      <!-- 번지는 원형 핏자국 (Splatters) -->
-      <div class="blood-splatter splatter-1"></div>
-      <div class="blood-splatter splatter-2"></div>
-      <div class="blood-splatter splatter-3"></div>
-      <div class="blood-splatter splatter-4"></div>
     </div>
 
     <div class="stamp">CONFIDENTIAL</div>
@@ -293,14 +419,24 @@
       </div>
     </div>
 
-    <!-- 📜 정갈한 유서 영역 -->
+    <!-- 📜 유서 박스 -->
     <div class="will-box">
+      <div class="will-drip-on will-drip-1"></div>
+      <div class="will-drip-on will-drip-2"></div>
+      <div class="will-drip-on will-drip-3"></div>
+
+      <div class="will-splatter-on will-splatter-1"></div>
+      <div class="will-splatter-on will-splatter-2"></div>
+      <div class="will-splatter-on will-splatter-3"></div>
+
       <div class="will-title">📜 김 회장의 친필 유서</div>
-      내가 이 징글징글한 조직 수장 노릇을 해먹은 지 어언 8년... 이젠 뼈마디가 쑤셔서 더는 못 해먹겠다.<br><br>
-      갓 들어온 신입 조직원 놈들은 지들이 무슨 선량한 준법시민이라도 된 양 범죄 모의엔 숟가락도 안 얹고, 회장 말은 귓등으로도 안 들어처먹는다. 고참이라는 임원 놈들도 기가 차긴 마찬가지다. 뭐 하나 시키면 '거리가 멀다', '몸이 힘들다' 징징대기 바쁜데, 온갖 투정 다 받아주면서 거대 조직을 운영하는 게 말이 되냐? 그나마 행동대장 손 이사 놈은 영혼 없는 대답이라도 꼬박꼬박 잘하지만 딱 거기까지다.<br><br>
-      특히 올해 범죄 계획 꼴을 보니 아주 가관이더구나... 일수금 징수는 기한 한번 제대로 맞춘 적이 없고, 수중 작전을 제안했던 윤 실장 놈은 말만 거창하게 던져놓고 나 몰라라 했으며, 친히 이 회장님이 기획한 야심 찬 '양양 작전'마저 너희 놈들의 타성 때문에 개같이 멸망했다... 이따위 정신머리로 무슨 부귀영화와 조직의 미래를 논하겠느냐!<br><br>
-      나는 곧 흔적도 없이 사라지겠지만, 너희 놈들 버르장머리를 싹 고쳐놓지 않으면 난 흙밥을 먹어서도 억울해서 눈을 못 감는다.<br><br>
-      <strong>하여 나의 전 재산을 걸고 마지막 훈육 미션을 남긴다. 그동안 범죄 계획 한 번 제대로 제안 안 하고 꿀 빠신 놈들... 오늘 한번 개고생 빡세게 해봐라. 이 짓거리를 겪고 나면, 내년부터는 너희가 먼저 눈에 불을 켜고 작전안을 내게 될 테니...</strong>
+      <div class="will-text-content">
+        내가 이 징글징글한 조직 수장 노릇을 해먹은 지 어언 8년... 이젠 뼈마디가 쑤셔서 더는 못 해먹겠다.<br><br>
+        갓 들어온 신입 조직원 놈들은 지들이 무슨 선량한 준법시민이라도 된 양 범죄 모의엔 숟가락도 안 얹고, 회장 말은 귓등으로도 안 들어처먹는다. 고참이라는 임원 놈들도 기가 차긴 마찬가지다. 뭐 하나 시키면 '거리가 멀다', '몸이 힘들다' 징징대기 바쁜데, 온갖 투정 다 받아주면서 거대 조직을 운영하는 게 말이 되냐? 그나마 행동대장 손 이사 놈은 영혼 없는 대답이라도 꼬박꼬박 잘하지만 딱 거기까지다.<br><br>
+        특히 올해 범죄 계획 꼴을 보니 아주 가관이더구나... 일수금 징수는 기한 한번 제대로 맞춘 적이 없고, 수중 작전을 제안했던 윤 실장 놈은 말만 거창하게 던져놓고 나 몰라라 했으며, 친히 이 회장님이 기획한 야심 찬 '양양 작전'마저 너희 놈들의 타성 때문에 개같이 멸망했다... 이따위 정신머리로 무슨 부귀영화와 조직의 미래를 논하겠느냐!<br><br>
+        나는 곧 흔적도 없이 사라지겠지만, 너희 놈들 버르장머리를 싹 고쳐놓지 않으면 난 흙밥을 먹어서도 억울해서 눈을 못 감는다.<br><br>
+        <strong>하여 나의 전 재산을 걸고 마지막 훈육 미션을 남긴다. 그동안 범죄 계획 한 번 제대로 제안 안 하고 꿀 빠신 놈들... 오늘 한번 개고생 빡세게 해봐라. 이 짓거리를 겪고 나면, 내년부터는 너희가 먼저 눈에 불을 켜고 작전안을 내게 될 테니...</strong>
+      </div>
     </div>
 
     <!-- 🎒 준비물 영역 -->
