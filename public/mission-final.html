@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOP SECRET: FINAL MISSION</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #08080a;
+      --card-bg: #121316;
+      --accent-gold: #c9a050;
+      --blood-dark: #4a0000;
+      --blood-red: #8b0000;
+      --blood-bright: #d11a2a;
+      --text-color: #d1d5db;
+      --border-color: #262930;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Noto Serif KR', serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+      background-image: radial-gradient(#1a1c23 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .dossier-card {
+      background-color: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 4px;
+      padding: 36px 28px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 20px rgba(139, 0, 0, 0.2);
+      position: relative;
+    }
+
+    .stamp {
+      position: absolute;
+      top: 15px;
+      right: -10px;
+      color: var(--blood-bright);
+      border: 3px double var(--blood-bright);
+      font-family: 'Special Elite', cursive;
+      font-size: 0.85rem;
+      font-weight: bold;
+      padding: 4px 12px;
+      text-transform: uppercase;
+      transform: rotate(12deg);
+      opacity: 0.85;
+      letter-spacing: 2px;
+    }
+
+    .team-badge {
+      display: inline-block;
+      background: rgba(201, 160, 80, 0.15);
+      color: var(--accent-gold);
+      border: 1px solid var(--accent-gold);
+      padding: 4px 10px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      border-radius: 3px;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 20px 0;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .mission-story {
+      line-height: 1.75;
+      font-size: 0.92rem;
+      color: #c0c4cc;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 16px;
+      border-left: 3px solid var(--blood-red);
+      margin-bottom: 20px;
+      word-break: keep-all;
+    }
+
+    .login-box, .auth-box {
+      background: #090a0c;
+      border: 1px solid #1f2228;
+      padding: 24px 20px;
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    .custom-select, .custom-input {
+      background: #121316;
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 12px;
+    }
+
+    .custom-btn {
+      background: var(--blood-red);
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+      font-size: 0.95rem;
+    }
+
+    .custom-btn:hover {
+      background: var(--blood-bright);
+    }
+
+    .progress-bar-container {
+      background: #000;
+      border: 1px solid var(--border-color);
+      height: 14px;
+      border-radius: 7px;
+      overflow: hidden;
+      margin: 15px 0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blood-red), var(--accent-gold));
+      transition: width 0.5s ease;
+    }
+
+    .location-display {
+      margin-top: 18px;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 1.05rem;
+      color: var(--accent-gold);
+      font-weight: bold;
+      min-height: 28px;
+      word-break: keep-all;
+      line-height: 1.5;
+    }
+
+    .logout-btn {
+      background: transparent;
+      border: none;
+      color: #666;
+      font-size: 0.75rem;
+      cursor: pointer;
+      text-decoration: underline;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dossier-card">
+    <div class="stamp">FINAL MISSION</div>
+
+    <!-- 1. 로그인 전 화면 -->
+    <div id="login-section">
+      <h2 class="card-title">팀 접속 인증</h2>
+      <div class="mission-story">
+        부여받은 팀을 선택하고, **팀 전용 비밀번호**를 입력하여 기밀 세션에 접속하십시오.
+      </div>
+      <div class="login-box">
+        <select id="team-select" class="custom-select">
+          <option value="A">TEAM A</option>
+          <option value="B">TEAM B</option>
+          <option value="C">TEAM C</option>
+        </select>
+        <input type="password" id="team-pass" class="custom-input" placeholder="팀 비밀번호 입력">
+        <button onclick="loginTeam()" class="custom-btn">세션 접속</button>
+      </div>
+    </div>
+
+    <!-- 2. 로그인 후 미션 메인 화면 -->
+    <div id="mission-section" style="display: none;">
+      <div id="team-display" class="team-badge">TEAM LOADING...</div>
+      <h2 class="card-title">최종 목적지 해독</h2>
+
+      <div class="mission-story">
+        가족 또는 친구에게 <strong>"나도 사랑해"</strong> 답장 문자를 받아 진행자에게 인증하라.<br><br>
+        팀원 3명의 인증이 완료되면 최종 목적지가 완전히 드러난다.
+      </div>
+
+      <div class="auth-box">
+        <div style="font-size: 0.85rem; color: #8a909a; margin-bottom: 8px;">
+          팀 인증 진행도 (<span id="count-text">0</span>/3)
+        </div>
+        <div class="progress-bar-container">
+          <div id="progress-bar" class="progress-bar"></div>
+        </div>
+
+        <div style="margin-top: 18px; display: flex; gap: 8px;">
+          <input type="password" id="admin-code" class="custom-input" style="margin-bottom: 0;" placeholder="진행자 승인 암호">
+          <button onclick="submitAdminAuth()" class="custom-btn" style="width: auto; white-space: nowrap;">승인</button>
+        </div>
+
+        <div id="location-result" class="location-display">
+          ████████████████████
+        </div>
+
+        <button onclick="logoutTeam()" class="logout-btn">다른 팀으로 변경 (로그아웃)</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 1. 팀별 접속 비밀번호 설정
+    const TEAM_PASSWORDS = {
+      'A': '1004',
+      'B': '2008',
+      'C': '3012'
+    };
+
+    // 2. 진행자 공통 승인 암호
+    const ADMIN_CODE = '7777';
+
+    // 3. 단계별 공개 목적지 주소
+    const ADDRESS_STAGES = [
+      "████████████████████",                     // 0회 완료
+      "충청남도 공주시 계룡면 ████████",             // 1회 완료
+      "충청남도 공주시 계룡면 갑사로 ████",          // 2회 완료
+      "충청남도 공주시 계룡면 갑사로 567 (최종 목적지)" // 3회 완료
+    ];
+
+    let currentTeam = null;
+
+    // 초기화 및 저장된 팀 체크
+    function init() {
+      const savedTeam = localStorage.getItem('active_team');
+      if (savedTeam && TEAM_PASSWORDS[savedTeam]) {
+        currentTeam = savedTeam;
+        showMissionPage();
+      } else {
+        document.getElementById('login-section').style.display = 'block';
+        document.getElementById('mission-section').style.display = 'none';
+      }
+    }
+
+    // 팀 로그인
+    function loginTeam() {
+      const team = document.getElementById('team-select').value;
+      const pass = document.getElementById('team-pass').value;
+
+      if (TEAM_PASSWORDS[team] === pass) {
+        currentTeam = team;
+        localStorage.setItem('active_team', team);
+        document.getElementById('team-pass').value = '';
+        showMissionPage();
+      } else {
+        alert('팀 비밀번호가 올바르지 않습니다.');
+      }
+    }
+
+    // 팀 로그아웃
+    function logoutTeam() {
+      localStorage.removeItem('active_team');
+      currentTeam = null;
+      init();
+    }
+
+    // 미션 화면 표시 및 정보 업데이트
+    function showMissionPage() {
+      document.getElementById('login-section').style.display = 'none';
+      document.getElementById('mission-section').style.display = 'block';
+      document.getElementById('team-display').innerText = `SESSION: TEAM ${currentTeam}`;
+
+      updateUI();
+    }
+
+    // 팀의 현재 해금 단계 가져오기
+    function getUnlockCount() {
+      return parseInt(localStorage.getItem(`unlock_count_team_${currentTeam}`) || "0");
+    }
+
+    // UI 업데이트
+    function updateUI() {
+      const count = getUnlockCount();
+      document.getElementById('count-text').innerText = count;
+      document.getElementById('progress-bar').style.width = `${(count / 3) * 100}%`;
+      document.getElementById('location-result').innerText = ADDRESS_STAGES[count];
+    }
+
+    // 진행자 승인 암호 제출
+    function submitAdminAuth() {
+      const inputCode = document.getElementById('admin-code').value;
+      let currentCount = getUnlockCount();
+
+      if (currentCount >= 3) {
+        alert("이미 모든 인증이 완료되어 최종 목적지가 공개되었습니다.");
+        return;
+      }
+
+      if (inputCode === ADMIN_CODE) {
+        currentCount++;
+        localStorage.setItem(`unlock_count_team_${currentTeam}`, currentCount);
+        document.getElementById('admin-code').value = "";
+        updateUI();
+        alert(`승인 완료! (${currentCount}/3) 목적지 단서가 추가 해독되었습니다.`);
+      } else {
+        alert("진행자 승인 암호가 올바르지 않습니다.");
+      }
+    }
+
+    init();
+  </script>
+
+</body>
+</html>
