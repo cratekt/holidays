@@ -13,7 +13,7 @@ export default function handler(req, res) {
       openTime: new Date("2026-09-12T15:00:00+09:00").getTime() // 9/12 15:00 KST
     },
     "2": {
-      answer: "공주시 공산성 공산정 [위도: 36.465294 / 경도: 127.124898]",
+      answer: "공주시 공산성 공산정 [위도 = (1+4+1+2) * (2+0+2+2)-(4+4+0+4) = 36.465294 / 경도 = (1+4+1+2)² + 3 * (8+5+2+6) = 127.124898]",
       images: ["/answer2.jpg"],
       openTime: new Date("2026-09-12T16:00:00+09:00").getTime() // 9/12 16:00 KST
     },
