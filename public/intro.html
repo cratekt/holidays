@@ -357,6 +357,14 @@
       text-align: center;
     }
 
+    .timer-display {
+      font-family: 'Special Elite', monospace;
+      font-size: 1.1rem;
+      color: var(--accent-gold);
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
     .action-btn {
       display: inline-block;
       width: 100%;
@@ -370,11 +378,21 @@
       cursor: pointer;
     }
 
+    .btn-disabled {
+      background: #23262d;
+      color: #6c727f;
+      border: 1px solid #343842;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+
     .btn-active {
       background: var(--blood-red);
       color: #ffffff;
       border: none;
       box-shadow: 0 0 15px rgba(200, 19, 33, 0.6);
+      pointer-events: auto;
+      cursor: pointer;
     }
 
     .btn-active:hover {
@@ -432,10 +450,10 @@
       <div class="will-title">📜 김 회장의 친필 유서</div>
       <div class="will-text-content">
         내가 이 징글징글한 조직 수장 노릇을 해먹은 지 어언 8년... 이젠 뼈마디가 쑤셔서 더는 못 해먹겠다.<br><br>
-        갓 들어온 신입 조직원 놈들은 지들이 무슨 선량한 준법시민이라도 된 양 범죄 모의엔 숟가락도 안 얹고, 회장 말은 귓등으로도 안 들어처먹는다. 고참이라는 임원 놈들도 기가 차긴 마찬가지다. 뭐 하나 시키면 '거리가 멀다', '몸이 힘들다' 징징대기 바쁜데, 온갖 투정 다 받아주면서 거대 조직을 운영하는 게 말이 되냐? 그나마 행동대장 손 이사 놈은 영혼 없는 대답이라도 꼬박꼬박 잘하지만 딱 거기까지다.<br><br>
+        갓 들어온 신입 조직원 놈들은 지들이 무슨 선량한 준법시민이라도 된 양 범죄 모의엔 숟가락도 안 얹고, 회장 말은 귓등으로도 안 들어처먹는다. 고참이라는 임원 놈들도 기가 차긴 마찬가지다. 뭐 하나 시키면 '거리가 멀다', '몸이 힘들다' 징징대기 바쁜데, 온갖 투정 다 받아주면서 거대 조직 운영하는 게 말이 되냐? 그나마 행동대장 손 이사 놈은 영혼 없는 대답이라도 꼬박꼬박 잘하지만 딱 거기까지다.<br><br>
         특히 올해 범죄 계획 꼴을 보니 아주 가관이더구나... 일수금 징수는 기한 한번 제대로 맞춘 적이 없고, 수중 작전을 제안했던 윤 실장 놈은 말만 거창하게 던져놓고 나 몰라라 했으며, 친히 이 회장님이 기획한 야심 찬 '양양 작전'마저 너희 놈들의 타성 때문에 개같이 멸망했다... 이따위 정신머리로 무슨 부귀영화와 조직의 미래를 논하겠느냐!<br><br>
         나는 곧 흔적도 없이 사라지겠지만, 너희 놈들 버르장머리를 싹 고쳐놓지 않으면 난 흙밥을 먹어서도 억울해서 눈을 못 감는다.<br><br>
-        <strong>하여 나의 전 재산을 걸고 마지막 훈육 미션을 남긴다. 그동안 범죄 계획 한 번 제대로 제안 안 하고 꿀 빠신 놈들... 오늘 한번 개고생 빡세게 해봐라. 이 짓거리를 겪고 나면, 내년부터는 너희가 먼저 눈에 불을 켜고 작전안을 내게 될 테니...</strong>
+        <strong>하여 나의 전 재산을 걸고 마지막 훈육 미션을 남긴다. 그동안 범죄 계획 한 번 제대로 제안 안 하고 꿀 빠신 놈들... 이번에 한번 개고생 빡세게 해봐라. 이 짓거리를 겪고 나면, 내년부터는 너희가 먼저 눈에 불을 켜고 작전안을 내게 될 테니...</strong>
       </div>
     </div>
 
@@ -449,13 +467,52 @@
       </ul>
     </div>
 
-    <!-- 🔗 미션 링크 -->
+    <!-- 🔗 미션 링크 & 타이머 -->
     <div class="link-container">
-      <a href="https://holidays-woad.vercel.app/index.html" class="action-btn btn-active">
-        🚨 [테스트용] MISSION #1 세션 바로 접속하기
+      <div id="timer" class="timer-display">남은 시간 계산 중...</div>
+      <a id="start-btn" href="https://holidays-woad.vercel.app/index.html" class="action-btn btn-disabled">
+        🚨 게임시작
       </a>
     </div>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // 🎯 목표시간: 2026년 9월 12일 오전 10시 30분 (KST)
+      const targetDate = new Date("2026-09-12T10:30:00+09:00").getTime();
+      const timerDisplay = document.getElementById("timer");
+      const startBtn = document.getElementById("start-btn");
+
+      function updateTimer() {
+        const now = new Date().getTime();
+        const difference = targetDate - now;
+
+        if (difference <= 0) {
+          // 목표시간 오픈 시
+          timerDisplay.innerHTML = "⏳ 작전 개시 가능";
+          timerDisplay.style.color = "#ff3b3b";
+          startBtn.classList.remove("btn-disabled");
+          startBtn.classList.add("btn-active");
+          clearInterval(timerInterval);
+        } else {
+          // 카운트다운 계산
+          const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+          let timeString = "⏳ 오픈까지 ";
+          if (days > 0) timeString += `${days}일 `;
+          timeString += `${String(hours).padStart(2, '0')}시간 ${String(minutes).padStart(2, '0')}분 ${String(seconds).padStart(2, '0')}초 남음`;
+
+          timerDisplay.innerHTML = timeString;
+        }
+      }
+
+      updateTimer();
+      const timerInterval = setInterval(updateTimer, 1000);
+    });
+  </script>
 
 </body>
 </html>
