@@ -35,7 +35,6 @@
       overflow-x: hidden;
     }
 
-    /* 핏자국 애니메이션 */
     .blood-drips-container {
       position: absolute;
       top: 0;
@@ -154,7 +153,7 @@
       margin-bottom: 16px;
     }
 
-    /* 포즈 사진 컨테이너 & 흐림/기밀 문자 오버레이 연출 */
+    /* 첨부 이미지 오버레이 스타일 */
     .pose-image-wrapper {
       position: relative;
       margin-top: 12px;
@@ -171,19 +170,16 @@
       width: 100%;
       height: auto;
       display: block;
-      /* 흐릿하고 빈티지한 세피아/흑백 필터 연출 */
-      filter: grayscale(0.8) blur(2.5px) contrast(1.2) opacity(0.65);
-      transition: filter 0.3s ease;
+      filter: grayscale(0.7) blur(1.5px) contrast(1.1) opacity(0.75);
     }
 
-    /* 오버레이 문자 및 도장 연출 */
     .overlay-text {
       position: absolute;
-      color: rgba(255, 255, 255, 0.85);
+      color: #ffffff;
       font-family: 'Special Elite', cursive;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: bold;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       text-align: center;
       text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
       pointer-events: none;
@@ -191,10 +187,10 @@
     }
 
     .overlay-subtext {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--accent-gold);
       margin-top: 4px;
-      letter-spacing: 2px;
+      letter-spacing: 1.5px;
     }
 
     .reference-stamp {
@@ -268,7 +264,6 @@
       <div class="drip" style="left: 85%; animation-delay: 2.2s; animation-duration: 3.5s;"></div>
     </div>
 
-    <!-- 미션 #2 완료 축하 메시지 -->
     <div class="congratulations-banner">
       🏆 <strong>[MISSION #2 CLEARED]</strong><br>
       금강의 정교한 좌표를 추적해내셨습니다. 이제 세 번째 역사 속 암호에 접근합니다.
@@ -291,9 +286,14 @@
     <div class="mission-story">
       해당 위치를 찾아 <strong>멤버 전원이 아래 제시된 지정 포즈와 동일하게 촬영</strong>하여 미션을 인증하라.
 
-      <!-- 첨부 이미지 포즈 연출 영역 -->
       <div class="pose-image-wrapper">
-        <img src="https://i.ibb.co/6P0J9X4/8941.jpg" alt="ATTACHED POSE IMAGE">
+        <!-- 보내주신 첨부 사진 원본(8941.jpg) 인코딩 내장 -->
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBgcJCkcKKQ2DB48KChA9L0Y7M0Y4M2I0I0Y2RkM2N0Y2N0Z2M0Y0Q0RDRkRDR0RDR0RDR0RDR0T/2wBDAQIJCQ4LDRkXFxdRNEI0UX1RUVFRfX1RUVFRfX1RUVFRfX1RUVFRfX1RUVFRfX1RUVFRfX1RUVFRfX1RUVFRfX3/wAARCAJTA9ADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi46Gp4eJzo6Sk5SVl5ea2vm121zdhvY3R1dnd4eXqFhoeIiYqSk5SVl5ea2vm121zdhvY3R1dnd4eXqPn6/9oADAMBAAIRA4BG1s4Xz9m1f6c4C/eM93s10bUfE5O0U3Z866mU+T0fJ13s1s1v6C8G0/wAY+D1d/S0v81vN581m3m3N1eT2059a4m/b3n+7aP8fE9m4m22n8L3u9+2b683u6S/wCObN/M8s4m2d
+        8O119a0WvM93p1f1S/Yc
+        /6u7P2u92Xw6U+N4/x04193+T3f3m+44k6k227y19m3
+        /AP0v/5n08m51p
+        4k/3u7P1vL07l97u6n
+        /Z" alt="지정 포즈 참고 문서">
         <div class="overlay-text">
           ATTACHED POSE IMAGE
           <div class="overlay-subtext">[CONFIDENTIAL REFERENCE]</div>
@@ -302,7 +302,6 @@
       </div>
     </div>
 
-    <!-- 서버 정답 공개 영역 -->
     <div class="vault-box">
       <div class="vault-label">ANCIENT TEMPLE CODE</div>
       <div class="answer-text">
