@@ -123,13 +123,13 @@
             justify-content: center;
         }
 
-        /* 엠블럼 이미지: 흑백+고대비+어둡게 필터 적용 */
+        /* 엠블럼 이미지: 음침한 톤다운 & 고대비 필터 */
         .emblem-img-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
-            filter: brightness(0.65) contrast(1.4) sepia(0.5) hue-rotate(-50deg);
+            filter: brightness(0.8) contrast(1.2) sepia(0.3) hue-rotate(-30deg);
         }
 
         /* 음침한 그라데이션 비넷 오버레이 (테두리가 검게 그늘짐) */
@@ -141,7 +141,7 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.85) 85%, #0d0000 100%);
+            background: radial-gradient(circle, transparent 50%, rgba(0,0,0,0.6) 80%, #150000 100%);
             pointer-events: none;
         }
 
@@ -336,10 +336,11 @@
         <div class="blood-drop"></div>
     </div>
 
-    <!-- 헤더 & 음침하게 표현된 public/logo.jpg 엠블럼 -->
+    <!-- 헤더 & public/logo.jpg 엠블럼 -->
     <header class="header">
         <div class="emblem-img-wrapper">
-            <img src="/logo.jpg" alt="개똥같은 HARLEY DAYS 엠블럼">
+            <!-- public 폴더 내 동일 경로 수정을 위해 logo.jpg로 변경 -->
+            <img src="logo.jpg" alt="개똥같은 HARLEY DAYS 엠블럼">
         </div>
         <div class="header-badge">NO MERCY RACE</div>
         <h1 class="title-main">2026 개똥같은할리데이</h1>
