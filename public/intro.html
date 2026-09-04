@@ -6,8 +6,7 @@
   <title>서울지방경찰청 기밀 수사 보도자료</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- 구글 폰트: 신문/손글씨/디지털 폰트 불러오기 -->
-  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&family=Noto+Serif+KR:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Serif+KR:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -37,7 +36,7 @@
       overflow-x: hidden;
     }
 
-    /* 🩸 핏자국 연출 */
+    /* 🩸 상단/중간/하단 무작위 핏자국 연출 */
     .blood-drips-container {
       position: absolute;
       top: 0;
@@ -51,19 +50,28 @@
 
     .drip {
       position: absolute;
-      top: -10px;
       background: linear-gradient(to bottom, var(--blood-dark), var(--blood-red) 70%, var(--blood-bright));
       border-radius: 0 0 4px 4px;
       box-shadow: inset 1px 0 2px rgba(0,0,0,0.8), 0 0 4px var(--blood-red);
-      animation: realisticDrip 5s infinite cubic-bezier(0.4, 0, 0.6, 1);
+      animation: realisticDrip 6s infinite ease-in-out;
     }
+
+    /* 위치별 핏자국 지정 */
+    .drip-top-1 { top: -10px; left: 10%; width: 4px; animation-delay: 0s; }
+    .drip-top-2 { top: -10px; left: 80%; width: 3px; animation-delay: 2.5s; }
+    
+    .drip-mid-1 { top: 35%; left: 88%; width: 5px; animation-delay: 1.2s; }
+    .drip-mid-2 { top: 50%; left: 5%; width: 4px; animation-delay: 3.8s; }
+    
+    .drip-bot-1 { top: 75%; left: 75%; width: 4px; animation-delay: 0.5s; }
+    .drip-bot-2 { top: 82%; left: 20%; width: 5px; animation-delay: 4.2s; }
 
     @keyframes realisticDrip {
       0% { height: 0px; opacity: 0; }
-      15% { opacity: 0.95; }
-      70% { height: 160px; opacity: 0.9; }
-      85% { height: 200px; opacity: 0.3; }
-      100% { height: 210px; opacity: 0; }
+      20% { opacity: 0.9; }
+      60% { height: 110px; opacity: 0.8; }
+      80% { height: 130px; opacity: 0.3; }
+      100% { height: 140px; opacity: 0; }
     }
 
     .dossier-card {
@@ -110,7 +118,7 @@
       border-bottom: 1px dashed var(--border-color);
     }
 
-    /* 📰 신문 스크랩 질감 스타일 (경찰 보도자료) */
+    /* 📰 신문 스크랩 스타일 (경찰 보도자료) */
     .newspaper-box {
       background-color: #d8d3c5;
       background-image: radial-gradient(#c2bcab 1px, transparent 0);
@@ -144,13 +152,13 @@
       word-break: keep-all;
     }
 
-    /* 📜 손글씨 유서 스타일 */
+    /* 📜 가독성을 높인 유서 스타일 (고운바탕 폰트 적용) */
     .will-box {
       background: #f4ebd0;
-      color: #2b1d0c;
-      font-family: 'Nanum Pen Script', cursive;
-      font-size: 1.35rem;
-      line-height: 1.6;
+      color: #2a1e12;
+      font-family: 'Gowun Batang', serif;
+      font-size: 0.96rem;
+      line-height: 1.85;
       padding: 24px;
       border-radius: 2px;
       border: 1px solid #d3c49f;
@@ -158,16 +166,15 @@
       margin-bottom: 24px;
       word-break: keep-all;
       position: relative;
-      transform: rotate(-0.5deg);
     }
 
     .will-title {
-      font-size: 1.5rem;
+      font-size: 1.15rem;
       font-weight: bold;
       color: var(--blood-dark);
       margin-bottom: 12px;
       border-bottom: 1px dashed #b8a682;
-      padding-bottom: 6px;
+      padding-bottom: 8px;
     }
 
     .prep-list {
@@ -224,10 +231,14 @@
 <body>
 
   <div class="dossier-card">
+    <!-- 🩸 상단/중간/하단 무작위 핏자국 연출 -->
     <div class="blood-drips-container">
-      <div class="drip" style="left: 10%; width: 3px; animation-delay: 0s; animation-duration: 4.5s;"></div>
-      <div class="drip" style="left: 50%; width: 5px; animation-delay: 1.8s; animation-duration: 5.5s;"></div>
-      <div class="drip" style="left: 85%; width: 3px; animation-delay: 0.8s; animation-duration: 4.2s;"></div>
+      <div class="drip drip-top-1"></div>
+      <div class="drip drip-top-2"></div>
+      <div class="drip drip-mid-1"></div>
+      <div class="drip drip-mid-2"></div>
+      <div class="drip drip-bot-1"></div>
+      <div class="drip drip-bot-2"></div>
     </div>
 
     <div class="stamp">CONFIDENTIAL</div>
@@ -237,36 +248,36 @@
     <!-- 📰 신문 스타일 영역 -->
     <div class="newspaper-box">
       <div class="newspaper-header">
-        [경찰청 속보] 2026년 9월 조직폭력집단 수장 실종 사건
+        [경찰청 속보] 2026년 9월 신흥범죄조직 수장 '김회장' 실종 사건
       </div>
       <div class="newspaper-body">
-        서울지방경찰청은 신흥 조직폭력집단 '할배데이'의 수장 김 모 회장의 실종 사건과 관련하여 아래와 같이 공식 브리핑을 단행했다.<br><br>
+        서울지방경찰청은 신흥범죄조직 '개떵같은 할배데이'의 수장 김 모 회장의 실종 사건과 관련하여 아래와 같이 공식 브리핑을 단행했다.<br><br>
         "최초 신고를 접수하고 현장에 즉시 출동한 바, 피의자 자택 내부에서 피해자의 것으로 추정되는 다량의 혈흔 및 가해자의 것으로 추정되는 족적을 확보하였습니다. 현재 과학수사대(KCSI)는 족적의 패턴 분석 및 정밀 감식을 통해 용의자 추적에 총력을 기울이고 있습니다.<br><br>
         한편, 현장 감식 과정에서 사건 발생 이전 작성된 것으로 추정되는 피해자 김 모 씨의 친필 유서가 발견되었습니다. 본 경찰청은 상황의 중대성을 인지하고 신속한 용의자 신원 확보를 위하여 해당 유서의 내용을 대중에 긴급 공개합니다."
       </div>
     </div>
 
-    <!-- 📜 손글씨 유서 영역 -->
+    <!-- 📜 가독성을 올린 정갈한 유서 영역 -->
     <div class="will-box">
-      <div class="will-title">✍️ 김 회장의 친필 유서</div>
+      <div class="will-title">📜 김 회장의 친필 유서</div>
       내가 이 징글징글한 조직 수장 노릇을 해먹은 지 어언 8년... 이젠 뼈마디가 쑤셔서 더는 못 해먹겠다.<br><br>
       갓 들어온 신입 조직원 놈들은 지들이 무슨 선량한 준법시민이라도 된 양 범죄 모의엔 숟가락도 안 얹고, 회장 말은 귓등으로도 안 들어처먹는다. 고참이라는 임원 놈들도 기가 차긴 마찬가지다. 뭐 하나 시키면 '거리가 멀다', '몸이 힘들다' 징징대기 바쁜데, 온갖 투정 다 받아주면서 거대 조직을 운영하는 게 말이 되냐? 그나마 행동대장 손 이사 놈은 영혼 없는 대답이라도 꼬박꼬박 잘하지만 딱 거기까지다.<br><br>
       특히 올해 범죄 계획 꼴을 보니 아주 가관이더구나... 일수금 징수는 기한 한번 제대로 맞춘 적이 없고, 수중 작전을 제안했던 윤 실장 놈은 말만 거창하게 던져놓고 나 몰라라 했으며, 친히 이 회장님이 기획한 야심 찬 '양양 작전'마저 너희 놈들의 타성 때문에 개같이 멸망했다... 이따위 정신머리로 무슨 부귀영화와 조직의 미래를 논하겠느냐!<br><br>
       나는 곧 흔적도 없이 사라지겠지만, 너희 놈들 버르장머리를 싹 고쳐놓지 않으면 난 흙밥을 먹어서도 억울해서 눈을 못 감는다.<br><br>
-      하여 나의 전 재산을 걸고 마지막 훈육 미션을 남긴다. 그동안 범죄 계획 한 번 제대로 제안 안 하고 꿀 빠신 놈들... 오늘 한번 개고생 빡세게 해봐라. 이 짓거리를 겪고 나면, 내년부터는 너희가 먼저 눈에 불을 켜고 작전안을 내게 될 테니...
+      <strong>하여 나의 전 재산을 걸고 마지막 훈육 미션을 남긴다. 그동안 범죄 계획 한 번 제대로 제안 안 하고 꿀 빠신 놈들... 오늘 한번 개고생 빡세게 해봐라. 이 짓거리를 겪고 나면, 내년부터는 너희가 먼저 눈에 불을 켜고 작전안을 내게 될 테니...</strong>
     </div>
 
     <!-- 🎒 준비물 영역 -->
     <div class="prep-list">
       <strong style="color: var(--accent-gold); font-size: 1rem;">🎒 수사/작전 수행 필수 준비물</strong>
       <ul>
-        <li><strong>편한 신발</strong> (도망칠 때 필요함)</li>
+        <li><strong>편한 신발</strong> (용의자 수색, 도망칠 때 필요함)</li>
         <li><strong>선글라스, 썬크림, 모자</strong> (신원 숨기기용)</li>
         <li><strong>삼각대 또는 셀카봉</strong> (★가장 중요★ 현장 인증용)</li>
       </ul>
     </div>
 
-    <!-- 🔗 테스트용 즉시 활성화 미션 링크 -->
+    <!-- 🔗 미션 링크 -->
     <div class="link-container">
       <a href="https://holidays-woad.vercel.app/index.html" class="action-btn btn-active">
         🚨 [테스트용] MISSION #1 세션 바로 접속하기
