@@ -9,6 +9,7 @@
             --bg-color: #0b090a;
             --card-bg: #161213;
             --accent-blood: #a30808;
+            --accent-orange: #ff5500;
             --accent-gold: #d4af37;
             --text-main: #e0e0e0;
             --text-sub: #a0a0a0;
@@ -19,7 +20,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Courier New', Courier, -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
@@ -33,7 +34,7 @@
             background-size: 18px 18px;
         }
 
-        /* 헤더 & 엠블렘 */
+        /* 헤더 */
         .header {
             text-align: center;
             padding: 20px 10px;
@@ -41,25 +42,33 @@
             margin-bottom: 25px;
         }
 
-        .emblem-wrapper {
-            width: 110px;
-            height: 110px;
+        /* 첨부 엠블럼 재현 스타일 */
+        .custom-emblem-container {
+            width: 220px;
+            height: 220px;
             margin: 0 auto 15px auto;
-            background: radial-gradient(circle, #2a0808 0%, #0d0404 100%);
-            border: 2px solid var(--accent-blood);
-            border-radius: 50%;
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 15px rgba(163, 8, 8, 0.6);
-            position: relative;
         }
 
-        .emblem-wrapper svg {
-            width: 65px;
-            height: 65px;
-            fill: var(--accent-gold);
-            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.9));
+        /* 외곽 원형 및 번짐 효과 */
+        .splatter-circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 6px solid #6b1111;
+            box-shadow: 0 0 15px rgba(163, 8, 8, 0.6), inset 0 0 15px rgba(163, 8, 8, 0.6);
+            background-color: #f7f5f0; /* 로고 내부 연한 백그라운드 */
+        }
+
+        /* 할리데이비슨 패러디 로고 SVG 위치 */
+        .harley-shield-svg {
+            width: 85%;
+            height: 85%;
+            z-index: 2;
         }
 
         .header-badge {
@@ -245,11 +254,24 @@
 </head>
 <body>
 
-    <!-- 헤더 & 어두운 엠블렘 -->
+    <!-- 헤더 & 정밀 재현 엠블럼 -->
     <header class="header">
-        <div class="emblem-wrapper">
-            <svg viewBox="0 0 24 24">
-                <path d="M12,2A9,9 0 0,0 3,11C3,14.03 4.5,16.7 6.81,18.31L6,22L9.5,20.5C10.28,20.82 11.12,21 12,21C12.88,21 13.72,20.82 14.5,20.5L18,22L17.19,18.31C19.5,16.7 21,14.03 21,11A9,9 0 0,0 12,2M8,9A1.5,1.5 0 0,1 9.5,10.5A1.5,1.5 0 0,1 8,12A1.5,1.5 0 0,1 6.5,10.5A1.5,1.5 0 0,1 8,9M16,9A1.5,1.5 0 0,1 17.5,10.5A1.5,1.5 0 0,1 16,12A1.5,1.5 0 0,1 14.5,10.5A1.5,1.5 0 0,1 16,9M12,14A2,2 0 0,1 14,16H10A2,2 0 0,1 12,14Z"/>
+        <div class="custom-emblem-container">
+            <div class="splatter-circle"></div>
+            <svg class="harley-shield-svg" viewBox="0 0 300 200">
+                <!-- 방패 아웃라인 -->
+                <polygon points="150,15 250,50 250,150 150,185 50,150 50,50" fill="#000" stroke="#ff5500" stroke-width="8"/>
+                <polygon points="150,25 240,56 240,144 150,175 60,144 60,56" fill="#000"/>
+                
+                <!-- 상단 텍스트 "개똥" -->
+                <text x="150" y="52" fill="#ff5500" font-size="28" font-weight="900" text-anchor="middle">개 똥</text>
+                
+                <!-- 중앙 검정 띠 -->
+                <rect x="20" y="70" width="260" height="55" fill="#000" stroke="#ff5500" stroke-width="6"/>
+                <text x="150" y="108" fill="#ffffff" font-size="25" font-weight="900" text-anchor="middle" letter-spacing="1">HARLEY DAYS</text>
+                
+                <!-- 하단 텍스트 "같은" -->
+                <text x="150" y="152" fill="#ff5500" font-size="26" font-weight="900" text-anchor="middle">같 은</text>
             </svg>
         </div>
         <div class="header-badge">NO MERCY RACE</div>
