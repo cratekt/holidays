@@ -13,6 +13,7 @@
       --bg-color: #08080a;
       --card-bg: #121316;
       --accent-gold: #c9a050;
+      --blood-dark: #4a0000;
       --blood-red: #8b0000;
       --blood-bright: #d11a2a;
       --text-color: #d1d5db;
@@ -35,6 +36,7 @@
       overflow-x: hidden;
     }
 
+    /* 🩸 사실적인 핏자국(Blood Drips) 애니메이션 */
     .blood-drips-container {
       position: absolute;
       top: 0;
@@ -48,30 +50,40 @@
 
     .drip {
       position: absolute;
-      top: -20px;
-      background: linear-gradient(to bottom, var(--blood-red), var(--blood-bright));
-      width: 3px;
-      border-radius: 0 0 5px 5px;
-      opacity: 0.8;
-      animation: dripAnim 4s infinite ease-in;
+      top: -10px;
+      background: linear-gradient(to bottom, var(--blood-dark), var(--blood-red) 70%, var(--blood-bright));
+      border-radius: 0 0 4px 4px;
+      box-shadow: inset 1px 0 2px rgba(0,0,0,0.8), 0 0 4px var(--blood-red);
+      animation: realisticDrip 5s infinite cubic-bezier(0.4, 0, 0.6, 1);
     }
 
     .drip::after {
       content: '';
       position: absolute;
-      bottom: -4px;
-      left: -2px;
-      width: 7px;
-      height: 7px;
-      background-color: var(--blood-bright);
-      border-radius: 50%;
-      box-shadow: 0 0 6px var(--blood-bright);
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 10px;
+      background: var(--blood-bright);
+      border-radius: 50% 50% 60% 60%;
+      box-shadow: 0 0 8px var(--blood-bright), inset -1px -1px 2px rgba(0,0,0,0.6);
+      animation: dropletBulge 5s infinite ease-in-out;
     }
 
-    @keyframes dripAnim {
-      0% { height: 0px; opacity: 1; }
-      70% { height: 120px; opacity: 0.9; }
-      100% { height: 140px; opacity: 0; }
+    @keyframes realisticDrip {
+      0% { height: 0px; opacity: 0; }
+      15% { opacity: 0.95; }
+      70% { height: 180px; opacity: 0.9; }
+      85% { height: 210px; opacity: 0.3; }
+      100% { height: 220px; opacity: 0; }
+    }
+
+    @keyframes dropletBulge {
+      0% { transform: translateX(-50%) scale(0.6); }
+      60% { transform: translateX(-50%) scale(1.3); }
+      75% { transform: translateX(-50%) scale(0.8); }
+      100% { transform: translateX(-50%) scale(1); }
     }
 
     .dossier-card {
@@ -81,7 +93,7 @@
       padding: 36px 28px;
       max-width: 500px;
       width: 100%;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 20px rgba(139, 0, 0, 0.15);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 20px rgba(139, 0, 0, 0.2);
       position: relative;
       overflow: hidden;
     }
@@ -153,12 +165,12 @@
       margin-bottom: 16px;
     }
 
-    /* 첨부 이미지 오버레이 스타일 */
+    /* 이미지 컨테이너 */
     .pose-image-wrapper {
       position: relative;
       margin-top: 12px;
       background: #000;
-      border: 1px solid #333;
+      border: 1px solid var(--border-color);
       border-radius: 4px;
       overflow: hidden;
       display: flex;
@@ -170,42 +182,7 @@
       width: 100%;
       height: auto;
       display: block;
-      filter: grayscale(0.7) blur(1.5px) contrast(1.1) opacity(0.75);
-    }
-
-    .overlay-text {
-      position: absolute;
-      color: #ffffff;
-      font-family: 'Special Elite', cursive;
-      font-size: 1.1rem;
-      font-weight: bold;
-      letter-spacing: 2px;
-      text-align: center;
-      text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    .overlay-subtext {
-      font-size: 0.72rem;
-      color: var(--accent-gold);
-      margin-top: 4px;
-      letter-spacing: 1.5px;
-    }
-
-    .reference-stamp {
-      position: absolute;
-      bottom: 12px;
-      right: 12px;
-      border: 2px solid var(--blood-bright);
-      color: var(--blood-bright);
-      font-family: 'Special Elite', cursive;
-      font-size: 0.75rem;
-      padding: 2px 8px;
-      transform: rotate(-8deg);
-      opacity: 0.8;
-      pointer-events: none;
-      z-index: 2;
+      filter: none;
     }
 
     .vault-box {
@@ -260,10 +237,13 @@
 
   <div class="dossier-card">
     <div class="blood-drips-container">
-      <div class="drip" style="left: 30%; animation-delay: 0.8s; animation-duration: 4.0s;"></div>
-      <div class="drip" style="left: 85%; animation-delay: 2.2s; animation-duration: 3.5s;"></div>
+      <div class="drip" style="left: 12%; width: 3px; animation-delay: 0s; animation-duration: 4.5s;"></div>
+      <div class="drip" style="left: 38%; width: 5px; animation-delay: 1.6s; animation-duration: 5.8s;"></div>
+      <div class="drip" style="left: 65%; width: 2px; animation-delay: 0.7s; animation-duration: 3.9s;"></div>
+      <div class="drip" style="left: 88%; width: 4px; animation-delay: 2.4s; animation-duration: 5.2s;"></div>
     </div>
 
+    <!-- 미션 #2 완료 축하 메시지 -->
     <div class="congratulations-banner">
       🏆 <strong>[MISSION #2 CLEARED]</strong><br>
       금강의 정교한 좌표를 추적해내셨습니다. 이제 세 번째 역사 속 암호에 접근합니다.
@@ -287,21 +267,12 @@
       해당 위치를 찾아 <strong>멤버 전원이 아래 제시된 지정 포즈와 동일하게 촬영</strong>하여 미션을 인증하라.
 
       <div class="pose-image-wrapper">
-        <!-- 보내주신 첨부 사진 원본(8941.jpg) 인코딩 내장 -->
-        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBgcJCkcKKQ2DB48KChA9L0Y7M0Y4M2I0I0Y2RkM2N0Y2N0Z2M0Y0Q0RDRkRDR0RDR0RDR0RDR0T/2wBDAQIJCQ4LDRkXFxdRNEI0UX1RUVFRfX1RUVFRfX1RUVFRfX1RUVFRfX1RUVFRfX1RUVFRfX1RUVFRfX1RUVFRfX3/wAARCAJTA9ADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi46Gp4eJzo6Sk5SVl5ea2vm121zdhvY3R1dnd4eXqFhoeIiYqSk5SVl5ea2vm121zdhvY3R1dnd4eXqPn6/9oADAMBAAIRA4BG1s4Xz9m1f6c4C/eM93s10bUfE5O0U3Z866mU+T0fJ13s1s1v6C8G0/wAY+D1d/S0v81vN581m3m3N1eT2059a4m/b3n+7aP8fE9m4m22n8L3u9+2b683u6S/wCObN/M8s4m2d
-        8O119a0WvM93p1f1S/Yc
-        /6u7P2u92Xw6U+N4/x04193+T3f3m+44k6k227y19m3
-        /AP0v/5n08m51p
-        4k/3u7P1vL07l97u6n
-        /Z" alt="지정 포즈 참고 문서">
-        <div class="overlay-text">
-          ATTACHED POSE IMAGE
-          <div class="overlay-subtext">[CONFIDENTIAL REFERENCE]</div>
-        </div>
-        <div class="reference-stamp">REFERENCE</div>
+        <!-- GitHub에 업로드한 pose3.jpg 파일을 직접 참조 -->
+        <img src="pose3.jpg" alt="지정 포즈 원본 사진">
       </div>
     </div>
 
+    <!-- 서버 정답 공개 영역 -->
     <div class="vault-box">
       <div class="vault-label">ANCIENT TEMPLE CODE</div>
       <div class="answer-text">
