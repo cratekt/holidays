@@ -3,319 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TOP SECRET: SEOUL METROPOLITAN POLICE PRESS</title>
+  <title>서울지방경찰청 기밀 수사 보도자료</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --bg-color: #08080a;
-      --card-bg: #121316;
-      --accent-gold: #c9a050;
-      --blood-dark: #4a0000;
-      --blood-red: #8b0000;
-      --blood-bright: #d11a2a;
-      --text-color: #d1d5db;
-      --border-color: #262930;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: 'Noto Serif KR', serif;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      box-sizing: border-box;
-      background-image: radial-gradient(#1a1c23 1px, transparent 1px);
-      background-size: 24px 24px;
-      overflow-x: hidden;
-    }
-
-    /* 🩸 핏자국 애니메이션 */
-    .blood-drips-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 10;
-    }
-
-    .drip {
-      position: absolute;
-      top: -10px;
-      background: linear-gradient(to bottom, var(--blood-dark), var(--blood-red) 70%, var(--blood-bright));
-      border-radius: 0 0 4px 4px;
-      box-shadow: inset 1px 0 2px rgba(0,0,0,0.8), 0 0 4px var(--blood-red);
-      animation: realisticDrip 5s infinite cubic-bezier(0.4, 0, 0.6, 1);
-    }
-
-    @keyframes realisticDrip {
-      0% { height: 0px; opacity: 0; }
-      15% { opacity: 0.95; }
-      70% { height: 170px; opacity: 0.9; }
-      85% { height: 200px; opacity: 0.3; }
-      100% { height: 210px; opacity: 0; }
-    }
-
-    .dossier-card {
-      background-color: var(--card-bg);
-      border: 2px solid var(--border-color);
-      border-radius: 4px;
-      padding: 36px 28px;
-      max-width: 550px;
-      width: 100%;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 20px rgba(139, 0, 0, 0.25);
-      position: relative;
-    }
-
-    .stamp {
-      position: absolute;
-      top: 15px;
-      right: -10px;
-      color: var(--blood-bright);
-      border: 3px double var(--blood-bright);
-      font-family: 'Special Elite', cursive;
-      font-size: 0.85rem;
-      font-weight: bold;
-      padding: 4px 12px;
-      text-transform: uppercase;
-      transform: rotate(12deg);
-      opacity: 0.85;
-      letter-spacing: 2px;
-      text-shadow: 0 0 5px rgba(209, 26, 42, 0.5);
-    }
-
-    .header-sub {
-      font-family: 'Special Elite', cursive;
-      color: var(--accent-gold);
-      font-size: 0.85rem;
-      letter-spacing: 1.5px;
-      margin-bottom: 6px;
-    }
-
-    .card-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #ffffff;
-      margin: 0 0 20px 0;
-      padding-bottom: 12px;
-      border-bottom: 1px dashed var(--border-color);
-      line-height: 1.3;
-    }
-
-    .police-briefing {
-      line-height: 1.75;
-      font-size: 0.9rem;
-      color: #d1d5db;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 16px;
-      border-left: 3px solid var(--accent-gold);
-      margin-bottom: 24px;
-      word-break: keep-all;
-    }
-
-    .section-header {
-      color: var(--blood-bright);
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin: 24px 0 10px 0;
-      letter-spacing: 1px;
-    }
-
-    .will-content {
-      line-height: 1.8;
-      font-size: 0.9rem;
-      color: #c0c4cc;
-      background: rgba(20, 10, 10, 0.6);
-      padding: 18px;
-      border-left: 3px solid var(--blood-red);
-      border-radius: 2px;
-      word-break: keep-all;
-    }
-
-    .will-content p {
-      margin: 0 0 12px 0;
-    }
-
-    .will-content p:last-child {
-      margin-bottom: 0;
-    }
-
-    .supplies-box {
-      background: #090a0c;
-      border: 1px dashed var(--accent-gold);
-      padding: 16px;
-      border-radius: 4px;
-      margin-top: 24px;
-    }
-
-    .supplies-title {
-      color: var(--accent-gold);
-      font-size: 0.95rem;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .supplies-list {
-      margin: 0;
-      padding-left: 20px;
-      font-size: 0.88rem;
-      color: #b0b4bc;
-      line-height: 1.7;
-    }
-
-    /* ⏳ 타이머 & 미션 버튼 영역 */
-    .link-container {
-      margin-top: 30px;
-      text-align: center;
-      background: #000;
-      padding: 20px;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-    }
-
-    .timer-text {
-      font-family: 'Special Elite', cursive;
-      color: var(--blood-bright);
-      font-size: 0.9rem;
-      margin-bottom: 12px;
-    }
-
-    .timer-digits {
-      font-size: 1.2rem;
-      color: #fff;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
-
-    .mission-btn {
-      display: inline-block;
-      width: 100%;
-      padding: 14px 0;
-      background: #222;
-      color: #666;
-      font-weight: bold;
-      font-size: 1rem;
-      text-decoration: none;
-      border-radius: 4px;
-      border: 1px solid #444;
-      cursor: not-allowed;
-      transition: all 0.3s ease;
-      box-sizing: border-box;
-    }
-
-    .mission-btn.active {
-      background: var(--blood-red);
-      color: #ffffff;
-      border-color: var(--blood-bright);
-      cursor: pointer;
-      box-shadow: 0 0 15px rgba(209, 26, 42, 0.6);
-    }
-
-    .mission-btn.active:hover {
-      background: var(--blood-bright);
-    }
-  </style>
-</head>
-<body>
-
-  <div class="dossier-card">
-    <div class="blood-drips-container">
-      <div class="drip" style="left: 20%; width: 3px; animation-delay: 0s; animation-duration: 4.5s;"></div>
-      <div class="drip" style="left: 50%; width: 4px; animation-delay: 1.5s; animation-duration: 5.2s;"></div>
-      <div class="drip" style="left: 80%; width: 3px; animation-delay: 0.7s; animation-duration: 4s;"></div>
-    </div>
-
-    <div class="stamp">CONFIDENTIAL</div>
-    <div class="header-sub">SEOUL METROPOLITAN POLICE PRESS RELEASE</div>
-    <h2 class="card-title">2026.09 조직폭력집단 수장 실종 사건 브리핑</h2>
-
-    <div class="police-briefing">
-      <strong>[서울지방경찰청 보도자료]</strong><br><br>
-      신고를 접수하고 출동했을 때, 김 모 씨 자택에는 피해자의 것으로 추정되는 무수한 핏자국과 용의자의 것으로 추정되는 발자국이 발견되었습니다.<br><br>
-      발자국의 크기와 종류를 바탕으로 현재 과학수사팀이 용의자를 특정 중에 있습니다. 한편 사건 현장에서 김 모 씨의 친필 유서가 발견되었는바, 본 경찰청은 상황의 중대성을 인지하고 신속한 용의자 특정을 위해 해당 유서를 긴급 공개합니다.
-    </div>
-
-    <div class="section-header">📜 [발견된 친필 유서 전문]</div>
-    <div class="will-content">
-      <p>내가 조직을 맡은 지 어언 8년... 이젠 힘이 든다.</p>
-      <p>갓 들어온 신입 조직원 놈들은 지들이 선량한 시민인 양 조직 범죄에 가담하지도 않고, 말도 안 들어처먹는다. 고참이라는 임원들도 뭐라도 시키면 멀다고, 힘들다고 징징거리기 일쑤다. 이것저것 다 따져서 조직이 돌아가겠는가! 그나마 행동대장 손 이사는 꼬박꼬박 대답이라도 잘하지만 딱 거기까지다.</p>
-      <p>올해의 범죄 계획은 정말 가관이었다... 일수금도 항상 기한을 맞추지 못했고, 수중 작전을 제안한 윤 실장은 말만 던지고 나 몰라라 했고, 친히 회장인 내가 제안한 '양양 작전'도 조직원들의 비협조로 실패로 끝이 났다...</p>
-      <p>이래서야 우리 조직은 더 이상 미래가 없다. 나는 곧 사라지겠지만 이것들의 정신머리를 고쳐놓지 않는다면 나는 죽어서도 편히 눈을 감지 못할 것이다.</p>
-      <p><strong>하여 이렇게 나의 전 재산을 남기고 마지막 미션을 남긴다.<br>범죄 계획을 제안하지 않은 자... 고생 한번 빡시게 해봐라.<br>내년부터는 서로 먼저 계획을 제안하게 될 테니...</strong></p>
-    </div>
-
-    <div class="supplies-box">
-      <div class="supplies-title">🎒 [수사/작전 수행 필수 준비물]</div>
-      <ul class="supplies-list">
-        <li><strong>편한 신발</strong> (추적 및 이동 필수)</li>
-        <li><strong>선글라스, 썬크림, 모자</strong> (신원 보안 유지)</li>
-        <li><strong>삼각대 또는 셀카봉</strong> (★가장 중요: 현장 검증용)</li>
-      </ul>
-    </div>
-
-    <!-- ⏳ 모임 당일 26년 9월 12일 10:30 오픈 링크 영역 -->
-    <div class="link-container">
-      <div class="timer-text">
-        🔒 작전 개시 잠금 해제까지: <span id="open-timer" class="timer-digits">계산 중...</span>
-      </div>
-      <a id="mission-link" href="#" class="mission-btn" onclick="preventAccess(event)">
-        최종 미션 세션 접속 (잠김)
-      </a>
-    </div>
-  </div>
-
-  <script>
-    // 오픈 목표 시간: 2026년 9월 12일 오전 10시 30분 (한국 표준시)
-    const OPEN_TIME = new Date('2026-09-12T10:30:00+09:00').getTime();
-
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = OPEN_TIME - now;
-
-      const timerElem = document.getElementById('open-timer');
-      const btnElem = document.getElementById('mission-link');
-
-      if (distance <= 0) {
-        timerElem.innerText = "OPENED (작전 개시 가능)";
-        timerElem.style.color = "#c9a050";
-        
-        btnElem.innerText = "🚨 최종 미션 세션 접속하기";
-        btnElem.href = "mission-final.html"; // 최종 미션 페이지 경로 연동
-        btnElem.classList.add('active');
-        btnElem.removeAttribute('onclick');
-      } else {
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((요청하신 연출 방향과 수정된 텍스트 내용을 반영하여, 극적인 몰입감을 주는 기밀 수사 문서 컨셉의 `index.html` 전체 소스 코드를 작성했습니다.
-
-지정한 모임 시각(**2026년 9월 12일 오전 10시 30분 KST**) 전에는 접근 링크가 비활성화된 상태로 카운트다운 타이머가 작동하며, 해당 시간이 지나면 1번 미션 페이지로 들어갈 수 있는 링크가 자동으로 활성화됩니다.
-
----
-
-### `public/index.html` 전체 소스 코드
-
-GitHub의 **`public/index.html`** 파일로 업로드(Commit)해 주세요.
-
-```html
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>서울지방경찰청 기밀 수사 브리핑</title>
-  <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
-  <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
-  <link href="[https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Special+Elite&display=swap](https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Special+Elite&display=swap)" rel="stylesheet">
+  <!-- 구글 폰트: 신문/손글씨/디지털 폰트 불러오기 -->
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&family=Noto+Serif+KR:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -370,8 +62,8 @@ GitHub의 **`public/index.html`** 파일로 업로드(Commit)해 주세요.
       0% { height: 0px; opacity: 0; }
       15% { opacity: 0.95; }
       70% { height: 160px; opacity: 0.9; }
-      85% { height: 190px; opacity: 0.3; }
-      100% { height: 200px; opacity: 0; }
+      85% { height: 200px; opacity: 0.3; }
+      100% { height: 210px; opacity: 0; }
     }
 
     .dossier-card {
@@ -379,7 +71,7 @@ GitHub의 **`public/index.html`** 파일로 업로드(Commit)해 주세요.
       border: 2px solid var(--border-color);
       border-radius: 4px;
       padding: 36px 28px;
-      max-width: 600px;
+      max-width: 620px;
       width: 100%;
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 20px rgba(139, 0, 0, 0.25);
       position: relative;
@@ -418,36 +110,64 @@ GitHub의 **`public/index.html`** 파일로 업로드(Commit)해 주세요.
       border-bottom: 1px dashed var(--border-color);
     }
 
-    .section-title {
-      color: var(--blood-bright);
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-top: 24px;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
+    /* 📰 신문 스크랩 질감 스타일 (경찰 보도자료) */
+    .newspaper-box {
+      background-color: #d8d3c5;
+      background-image: radial-gradient(#c2bcab 1px, transparent 0);
+      background-size: 8px 8px;
+      color: #1a1a1a;
+      padding: 22px;
+      border: 1px solid #9d9482;
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.15), 3px 3px 10px rgba(0,0,0,0.5);
+      border-radius: 2px;
+      margin-bottom: 24px;
+      position: relative;
     }
 
-    .briefing-box {
-      line-height: 1.8;
+    .newspaper-header {
+      border-bottom: 2px solid #222;
+      border-top: 2px solid #222;
+      padding: 6px 0;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #111;
+      margin-bottom: 14px;
+      letter-spacing: -0.5px;
+    }
+
+    .newspaper-body {
+      font-family: 'Gowun Batang', serif;
+      line-height: 1.75;
       font-size: 0.92rem;
-      color: #c0c4cc;
-      background: rgba(0, 0, 0, 0.4);
-      padding: 18px;
-      border-left: 3px solid var(--blood-red);
-      margin-bottom: 20px;
+      color: #222222;
       word-break: keep-all;
     }
 
+    /* 📜 손글씨 유서 스타일 */
     .will-box {
-      line-height: 1.8;
-      font-size: 0.92rem;
-      color: #d1d5db;
-      background: rgba(18, 19, 22, 0.8);
-      border: 1px solid var(--border-color);
-      padding: 20px;
-      border-radius: 4px;
-      margin-bottom: 20px;
+      background: #f4ebd0;
+      color: #2b1d0c;
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: 1.35rem;
+      line-height: 1.6;
+      padding: 24px;
+      border-radius: 2px;
+      border: 1px solid #d3c49f;
+      box-shadow: inset 0 0 20px rgba(100, 70, 30, 0.15), 4px 4px 12px rgba(0,0,0,0.6);
+      margin-bottom: 24px;
       word-break: keep-all;
+      position: relative;
+      transform: rotate(-0.5deg);
+    }
+
+    .will-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--blood-dark);
+      margin-bottom: 12px;
+      border-bottom: 1px dashed #b8a682;
+      padding-bottom: 6px;
     }
 
     .prep-list {
@@ -474,32 +194,17 @@ GitHub의 **`public/index.html`** 파일로 업로드(Commit)해 주세요.
       text-align: center;
     }
 
-    .timer-display {
-      font-family: 'Special Elite', cursive;
-      color: var(--blood-bright);
-      font-size: 1.1rem;
-      font-weight: bold;
-      margin-bottom: 12px;
-      letter-spacing: 1px;
-    }
-
     .action-btn {
       display: inline-block;
       width: 100%;
-      padding: 14px 0;
+      padding: 16px 0;
       border-radius: 4px;
       font-weight: bold;
-      font-size: 1rem;
+      font-size: 1.05rem;
       text-decoration: none;
       box-sizing: border-box;
       transition: all 0.3s ease;
-    }
-
-    .btn-disabled {
-      background: #262930;
-      color: #666666;
-      cursor: not-allowed;
-      border: 1px solid #333333;
+      cursor: pointer;
     }
 
     .btn-active {
@@ -511,6 +216,8 @@ GitHub의 **`public/index.html`** 파일로 업로드(Commit)해 주세요.
 
     .btn-active:hover {
       background: var(--blood-bright);
+      box-shadow: 0 0 20px rgba(209, 26, 42, 0.9);
+      transform: translateY(-2px);
     }
   </style>
 </head>
@@ -527,15 +234,21 @@ GitHub의 **`public/index.html`** 파일로 업로드(Commit)해 주세요.
     <div class="header-tag">SEOUL METROPOLITAN POLICE AGENCY</div>
     <h2 class="card-title">특별 수사 보도자료</h2>
 
-    <div class="briefing-box">
-      <strong>2026년 9월 어느 날...</strong><br>
-      서울지방경찰청은 신흥 조직폭력집단 '할배데이'의 수장 김 모 회장의 실종 사건과 관련하여 아래와 같이 공식 브리핑을 단행했다.<br><br>
-      "최초 신고를 접수하고 현장에 즉시 출동한 바, 피의자 자택 내부에서 피해자의 것으로 추정되는 다량의 혈흔 및 가해자의 것으로 추정되는 족적을 확보하였습니다. 현재 과학수사대(KCSI)는 족적의 패턴 분석 및 정밀 감식을 통해 용의자 추적에 총력을 기울이고 있습니다.<br><br>
-      한편, 현장 감식 과정에서 사건 발생 이전 작성된 것으로 추정되는 피해자 김 모 씨의 친필 유서가 발견되었습니다. 본 경찰청은 사건의 중대성과 신속한 용의자 신원 확보를 위하여 해당 유서의 내용을 대중에 공개하기로 결정하였습니다."
+    <!-- 📰 신문 스타일 영역 -->
+    <div class="newspaper-box">
+      <div class="newspaper-header">
+        [경찰청 속보] 2026년 9월 조직폭력집단 수장 실종 사건
+      </div>
+      <div class="newspaper-body">
+        서울지방경찰청은 신흥 조직폭력집단 '할배데이'의 수장 김 모 회장의 실종 사건과 관련하여 아래와 같이 공식 브리핑을 단행했다.<br><br>
+        "최초 신고를 접수하고 현장에 즉시 출동한 바, 피의자 자택 내부에서 피해자의 것으로 추정되는 다량의 혈흔 및 가해자의 것으로 추정되는 족적을 확보하였습니다. 현재 과학수사대(KCSI)는 족적의 패턴 분석 및 정밀 감식을 통해 용의자 추적에 총력을 기울이고 있습니다.<br><br>
+        한편, 현장 감식 과정에서 사건 발생 이전 작성된 것으로 추정되는 피해자 김 모 씨의 친필 유서가 발견되었습니다. 본 경찰청은 상황의 중대성을 인지하고 신속한 용의자 신원 확보를 위하여 해당 유서의 내용을 대중에 긴급 공개합니다."
+      </div>
     </div>
 
-    <div class="section-title">📜 김 회장의 친필 유서</div>
+    <!-- 📜 손글씨 유서 영역 -->
     <div class="will-box">
+      <div class="will-title">✍️ 김 회장의 친필 유서</div>
       내가 이 징글징글한 조직 수장 노릇을 해먹은 지 어언 8년... 이젠 뼈마디가 쑤셔서 더는 못 해먹겠다.<br><br>
       갓 들어온 신입 조직원 놈들은 지들이 무슨 선량한 준법시민이라도 된 양 범죄 모의엔 숟가락도 안 얹고, 회장 말은 귓등으로도 안 들어처먹는다. 고참이라는 임원 놈들도 기가 차긴 마찬가지다. 뭐 하나 시키면 '거리가 멀다', '몸이 힘들다' 징징대기 바쁜데, 온갖 투정 다 받아주면서 거대 조직을 운영하는 게 말이 되냐? 그나마 행동대장 손 이사 놈은 영혼 없는 대답이라도 꼬박꼬박 잘하지만 딱 거기까지다.<br><br>
       특히 올해 범죄 계획 꼴을 보니 아주 가관이더구나... 일수금 징수는 기한 한번 제대로 맞춘 적이 없고, 수중 작전을 제안했던 윤 실장 놈은 말만 거창하게 던져놓고 나 몰라라 했으며, 친히 이 회장님이 기획한 야심 찬 '양양 작전'마저 너희 놈들의 타성 때문에 개같이 멸망했다... 이따위 정신머리로 무슨 부귀영화와 조직의 미래를 논하겠느냐!<br><br>
@@ -543,8 +256,9 @@ GitHub의 **`public/index.html`** 파일로 업로드(Commit)해 주세요.
       하여 나의 전 재산을 걸고 마지막 훈육 미션을 남긴다. 그동안 범죄 계획 한 번 제대로 제안 안 하고 꿀 빠신 놈들... 오늘 한번 개고생 빡세게 해봐라. 이 짓거리를 겪고 나면, 내년부터는 너희가 먼저 눈에 불을 켜고 작전안을 내게 될 테니...
     </div>
 
-    <div class="section-title">🎒 필수 준비물</div>
+    <!-- 🎒 준비물 영역 -->
     <div class="prep-list">
+      <strong style="color: var(--accent-gold); font-size: 1rem;">🎒 수사/작전 수행 필수 준비물</strong>
       <ul>
         <li><strong>편한 신발</strong> (도망칠 때 필요함)</li>
         <li><strong>선글라스, 썬크림, 모자</strong> (신원 숨기기용)</li>
@@ -552,45 +266,13 @@ GitHub의 **`public/index.html`** 파일로 업로드(Commit)해 주세요.
       </ul>
     </div>
 
-    <!-- ⏳ 모임 당일 오픈 카운트다운 영역 -->
+    <!-- 🔗 테스트용 즉시 활성화 미션 링크 -->
     <div class="link-container">
-      <div id="timer-text" class="timer-display">작전 개시까지 남은 시간 계산 중...</div>
-      <a id="mission-link" href="#" class="action-btn btn-disabled">잠겨있음 (접근 불가)</a>
+      <a href="https://holidays-woad.vercel.app/index.html" class="action-btn btn-active">
+        🚨 [테스트용] MISSION #1 세션 바로 접속하기
+      </a>
     </div>
   </div>
-
-  <script>
-    // Target Open Time: 2026년 9월 12일 오전 10시 30분 KST
-    const OPEN_TIME = new Date("2026-09-12T10:30:00+09:00").getTime();
-
-    function checkOpenStatus() {
-      const now = new Date().getTime();
-      const difference = OPEN_TIME - now;
-
-      const timerElem = document.getElementById("timer-text");
-      const linkElem = document.getElementById("mission-link");
-
-      if (difference <= 0) {
-        // 지정된 시간이 지나면 링크 활성화
-        timerElem.innerText = "🔓 [SYSTEM UNLOCKED] 작전이 개시되었습니다.";
-        timerElem.style.color = "#c9a050";
-        linkElem.innerText = "MISSION #1 추적 시작하기";
-        linkElem.href = "mission-a8f3.html"; // 1번 미션 페이지 연결
-        linkElem.className = "action-btn btn-active";
-      } else {
-        // 지정된 시간 이전 카운트다운 표시
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-        timerElem.innerText = `🚨 작전 개시까지: ${days}일 ${hours}시간 ${minutes}분 ${seconds}초`;
-      }
-    }
-
-    setInterval(checkOpenStatus, 1000);
-    checkOpenStatus();
-  </script>
 
 </body>
 </html>
