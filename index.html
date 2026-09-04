@@ -99,7 +99,7 @@
             100% { opacity: 0.95; filter: blur(2px) drop-shadow(0 4px 10px #a30808); }
         }
 
-        /* ===== 헤더 및 첨부 이미지 엠블럼 ===== */
+        /* ===== 헤더 및 어둡고 음침한 엠블럼 효과 ===== */
         .header {
             text-align: center;
             padding: 20px 10px;
@@ -114,19 +114,35 @@
             margin: 0 auto 15px auto;
             border-radius: 50%;
             overflow: hidden;
-            box-shadow: 0 0 20px rgba(163, 8, 8, 0.8), 0 0 8px rgba(0,0,0,0.9);
+            position: relative;
+            box-shadow: 0 0 25px rgba(163, 8, 8, 0.9), 0 0 10px rgba(0,0,0,1);
             border: 3px solid var(--accent-blood);
-            background-color: #fff;
+            background-color: #000;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
+        /* 엠블럼 이미지: 흑백+고대비+어둡게 필터 적용 */
         .emblem-img-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
+            filter: brightness(0.65) contrast(1.4) sepia(0.5) hue-rotate(-50deg);
+        }
+
+        /* 음침한 그라데이션 비넷 오버레이 (테두리가 검게 그늘짐) */
+        .emblem-img-wrapper::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.85) 85%, #0d0000 100%);
+            pointer-events: none;
         }
 
         .header-badge {
@@ -320,15 +336,10 @@
         <div class="blood-drop"></div>
     </div>
 
-    <!-- 헤더 & 이미지 엠블럼 -->
+    <!-- 헤더 & 음침하게 표현된 public/logo.jpg 엠블럼 -->
     <header class="header">
         <div class="emblem-img-wrapper">
-            <!-- 
-                📌 [주의] 
-                1. 이미지 파일이 HTML과 같은 폴더에 있어야 합니다.
-                2. 파일명을 'logo.jpg'로 변경하여 넣는 것이 가장 안전합니다.
-            -->
-            <img src="logo.jpg" alt="개똥같은 HARLEY DAYS 엠블럼" onerror="this.src='BandPhoto_2026_09_01_12_44_30.jpg'">
+            <img src="/logo.jpg" alt="개똥같은 HARLEY DAYS 엠블럼">
         </div>
         <div class="header-badge">NO MERCY RACE</div>
         <h1 class="title-main">2026 개똥같은할리데이</h1>
