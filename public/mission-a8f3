@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOP SECRET: MISSION #1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #08080a;
+      --card-bg: #121316;
+      --accent-gold: #c9a050;
+      --blood-red: #8b0000;
+      --blood-bright: #d11a2a;
+      --text-color: #d1d5db;
+      --border-color: #262930;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Noto Serif KR', serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+      background-image: radial-gradient(#1a1c23 1px, transparent 1px);
+      background-size: 24px 24px;
+      overflow-x: hidden;
+    }
+
+    /* 핏자국(Blood Drips) 애니메이션 레이어 */
+    .blood-drips-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .drip {
+      position: absolute;
+      top: -20px;
+      background: linear-gradient(to bottom, var(--blood-red), var(--blood-bright));
+      width: 3px;
+      border-radius: 0 0 5px 5px;
+      opacity: 0.8;
+      animation: dripAnim 4s infinite ease-in;
+    }
+
+    /* 핏울방울 연출 */
+    .drip::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: -2px;
+      width: 7px;
+      height: 7px;
+      background-color: var(--blood-bright);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--blood-bright);
+    }
+
+    @keyframes dripAnim {
+      0% {
+        height: 0px;
+        opacity: 1;
+      }
+      70% {
+        height: 120px;
+        opacity: 0.9;
+      }
+      100% {
+        height: 140px;
+        opacity: 0;
+      }
+    }
+
+    /* 기밀 문서 카드 */
+    .dossier-card {
+      background-color: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 4px;
+      padding: 36px 28px;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 20px rgba(139, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 핏빛 CLASSIFIED 직인 */
+    .stamp {
+      position: absolute;
+      top: 15px;
+      right: -10px;
+      color: var(--blood-bright);
+      border: 3px double var(--blood-bright);
+      font-family: 'Special Elite', cursive;
+      font-size: 0.85rem;
+      font-weight: bold;
+      padding: 4px 12px;
+      text-transform: uppercase;
+      transform: rotate(12deg);
+      opacity: 0.85;
+      letter-spacing: 2px;
+      pointer-events: none;
+      text-shadow: 0 0 5px rgba(209, 26, 42, 0.5);
+    }
+
+    .case-number {
+      font-family: 'Special Elite', cursive;
+      color: var(--accent-gold);
+      font-size: 0.9rem;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 20px 0;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed var(--border-color);
+      letter-spacing: -0.5px;
+    }
+
+    .mission-story {
+      line-height: 1.8;
+      font-size: 0.95rem;
+      color: #c0c4cc;
+      margin-bottom: 24px;
+      word-break: keep-all;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 16px;
+      border-left: 3px solid var(--blood-red);
+    }
+
+    .clue-tag {
+      display: inline-block;
+      color: var(--blood-bright);
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+
+    /* 비밀 해제 금고 박스 */
+    .vault-box {
+      background-color: #090a0c;
+      border: 1px solid #1f2228;
+      border-radius: 6px;
+      padding: 20px;
+      margin-top: 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .vault-label {
+      font-size: 0.8rem;
+      color: #717680;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+    }
+
+    .answer-text {
+      font-size: 1.15rem;
+      font-family: 'Noto Serif KR', serif;
+    }
+
+    /* 암호 블라인드 효과 */
+    .classified {
+      filter: blur(12px);
+      user-select: none;
+      opacity: 0.25;
+      transition: all 1s ease-in-out;
+      color: #ffffff;
+    }
+
+    /* 암호 해독 후 강조 연출 */
+    .unlocked {
+      filter: none;
+      user-select: auto;
+      opacity: 1;
+      color: var(--accent-gold);
+      font-weight: 700;
+      text-shadow: 0 0 10px rgba(201, 160, 80, 0.4);
+    }
+
+    .status-indicator {
+      margin-top: 14px;
+      font-size: 0.82rem;
+      color: #8a909a;
+      font-family: 'Special Elite', cursive;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dossier-card">
+    <!-- 핏자국 애니메이션 레이어 -->
+    <div class="blood-drips-container">
+      <div class="drip" style="left: 15%; animation-delay: 0s; animation-duration: 3.5s;"></div>
+      <div class="drip" style="left: 45%; animation-delay: 1.2s; animation-duration: 4.2s;"></div>
+      <div class="drip" style="left: 80%; animation-delay: 2.1s; animation-duration: 3.8s;"></div>
+    </div>
+
+    <div class="stamp">CLASSIFIED</div>
+    <div class="case-number">FILE NO. 2022-SJ-01</div>
+    <h2 class="card-title">잃어버린 다리의 기록</h2>
+
+    <div class="mission-story">
+      <span class="clue-tag">[단서 #01]</span>
+      <p style="margin: 4px 0 0 0;">
+        2022년의 어느 날, 우리 모임은 세종에서 접선했다. 사진 속 친구들이 서 있던 세종의 랜드마크 <strong>'이 다리'</strong>...
+      </p>
+      <p style="margin-top: 10px; color: #8a909a; font-size: 0.88rem;">
+        🔍 <strong>임무:</strong> 현장을 추적하여 과거와 동일한 위치, 동일한 포즈로 장면을 재현하고 기록을 남겨라.
+      </p>
+    </div>
+
+    <div class="vault-box">
+      <div class="vault-label">SECRET LOCATION CODE</div>
+      <div class="answer-text">
+        <span id="answer-1" class="classified">██████████</span>
+      </div>
+      <div id="status-1" class="status-indicator">암호 해독 중...</div>
+    </div>
+  </div>
+
+  <script>
+    const VERCEL_DOMAIN = "https://holidays-woad.vercel.app";
+
+    async function checkMission1() {
+      const answerElement = document.getElementById("answer-1");
+      const statusElement = document.getElementById("status-1");
+
+      try {
+        const response = await fetch(`${VERCEL_DOMAIN}/api/get-answer?id=1`);
+        const data = await response.json();
+
+        if (data.unlocked) {
+          answerElement.innerText = data.answer;
+          answerElement.classList.remove("classified");
+          answerElement.classList.add("unlocked");
+          statusElement.innerText = "[ACCESS GRANTED] 암호가 해독되었습니다.";
+          statusElement.style.color = "#c9a050";
+        } else {
+          statusElement.innerText = `[LOCKED] 남은 해독 시간: ${data.remainingSeconds}초`;
+        }
+      } catch (error) {
+        statusElement.innerText = "[ERROR] 보안 서버 연결 실패";
+      }
+    }
+
+    setInterval(checkMission1, 2000);
+    checkMission1();
+  </script>
+
+</body>
+</html>
