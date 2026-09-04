@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOP SECRET: MISSION #3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #08080a;
+      --card-bg: #121316;
+      --accent-gold: #c9a050;
+      --blood-dark: #4a0000;
+      --blood-red: #8b0000;
+      --blood-bright: #d11a2a;
+      --text-color: #d1d5db;
+      --border-color: #262930;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Noto Serif KR', serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+      background-image: radial-gradient(#1a1c23 1px, transparent 1px);
+      background-size: 24px 24px;
+      overflow-x: hidden;
+    }
+
+    /* 🩸 사실적인 핏자국(Blood Drips) 애니메이션 */
+    .blood-drips-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .drip {
+      position: absolute;
+      top: -10px;
+      background: linear-gradient(to bottom, var(--blood-dark), var(--blood-red) 70%, var(--blood-bright));
+      border-radius: 0 0 4px 4px;
+      box-shadow: inset 1px 0 2px rgba(0,0,0,0.8), 0 0 4px var(--blood-red);
+      animation: realisticDrip 5s infinite cubic-bezier(0.4, 0, 0.6, 1);
+    }
+
+    .drip::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 10px;
+      background: var(--blood-bright);
+      border-radius: 50% 50% 60% 60%;
+      box-shadow: 0 0 8px var(--blood-bright), inset -1px -1px 2px rgba(0,0,0,0.6);
+      animation: dropletBulge 5s infinite ease-in-out;
+    }
+
+    @keyframes realisticDrip {
+      0% { height: 0px; opacity: 0; }
+      15% { opacity: 0.95; }
+      70% { height: 180px; opacity: 0.9; }
+      85% { height: 210px; opacity: 0.3; }
+      100% { height: 220px; opacity: 0; }
+    }
+
+    @keyframes dropletBulge {
+      0% { transform: translateX(-50%) scale(0.6); }
+      60% { transform: translateX(-50%) scale(1.3); }
+      75% { transform: translateX(-50%) scale(0.8); }
+      100% { transform: translateX(-50%) scale(1); }
+    }
+
+    .dossier-card {
+      background-color: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 4px;
+      padding: 36px 28px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 20px rgba(139, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stamp {
+      position: absolute;
+      top: 15px;
+      right: -10px;
+      color: var(--blood-bright);
+      border: 3px double var(--blood-bright);
+      font-family: 'Special Elite', cursive;
+      font-size: 0.85rem;
+      font-weight: bold;
+      padding: 4px 12px;
+      text-transform: uppercase;
+      transform: rotate(12deg);
+      opacity: 0.85;
+      letter-spacing: 2px;
+      pointer-events: none;
+      text-shadow: 0 0 5px rgba(209, 26, 42, 0.5);
+    }
+
+    .congratulations-banner {
+      background: rgba(201, 160, 80, 0.1);
+      border: 1px solid var(--accent-gold);
+      border-radius: 4px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      color: var(--accent-gold);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .case-number {
+      font-family: 'Special Elite', cursive;
+      color: var(--accent-gold);
+      font-size: 0.9rem;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 20px 0;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed var(--border-color);
+      letter-spacing: -0.5px;
+    }
+
+    .section-title {
+      color: var(--blood-bright);
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-top: 20px;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .mission-story {
+      line-height: 1.75;
+      font-size: 0.92rem;
+      color: #c0c4cc;
+      word-break: keep-all;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 16px;
+      border-left: 3px solid var(--blood-red);
+      margin-bottom: 16px;
+    }
+
+    /* 이미지 컨테이너 */
+    .pose-image-wrapper {
+      position: relative;
+      margin-top: 12px;
+      background: #000;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .pose-image-wrapper img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: none;
+    }
+
+    .vault-box {
+      background-color: #090a0c;
+      border: 1px solid #1f2228;
+      border-radius: 6px;
+      padding: 20px;
+      margin-top: 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .vault-label {
+      font-size: 0.8rem;
+      color: #717680;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+    }
+
+    .answer-text {
+      font-size: 1.1rem;
+      font-family: 'Noto Serif KR', serif;
+    }
+
+    .classified {
+      filter: blur(12px);
+      user-select: none;
+      opacity: 0.25;
+      transition: all 1s ease-in-out;
+      color: #ffffff;
+    }
+
+    .unlocked {
+      filter: none;
+      user-select: auto;
+      opacity: 1;
+      color: var(--accent-gold);
+      font-weight: 700;
+      text-shadow: 0 0 10px rgba(201, 160, 80, 0.4);
+    }
+
+    .status-indicator {
+      margin-top: 14px;
+      font-size: 0.82rem;
+      color: #8a909a;
+      font-family: 'Special Elite', cursive;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dossier-card">
+    <div class="blood-drips-container">
+      <div class="drip" style="left: 12%; width: 3px; animation-delay: 0s; animation-duration: 4.5s;"></div>
+      <div class="drip" style="left: 38%; width: 5px; animation-delay: 1.6s; animation-duration: 5.8s;"></div>
+      <div class="drip" style="left: 65%; width: 2px; animation-delay: 0.7s; animation-duration: 3.9s;"></div>
+      <div class="drip" style="left: 88%; width: 4px; animation-delay: 2.4s; animation-duration: 5.2s;"></div>
+    </div>
+
+    <!-- 미션 #2 완료 축하 메시지 -->
+    <div class="congratulations-banner">
+      🏆 <strong>[MISSION #2 CLEARED]</strong><br>
+      금강의 정교한 좌표를 추적해내셨습니다. 이제 세 번째 역사 속 암호에 접근합니다.
+    </div>
+
+    <div class="stamp">TOP SECRET</div>
+    <div class="case-number">FILE NO. 2026-SJ-03</div>
+    <h2 class="card-title">삼재(三才)의 으뜸 명찰</h2>
+
+    <!-- 미션 3-1 -->
+    <div class="section-title">MISSION 3-1. 역사 추론</div>
+    <div class="mission-story">
+      <p style="margin: 0; font-style: italic; color: #e0e0e0; font-size: 0.95rem;">
+        "하늘과 땅, 인간의 삼재(三才) 중 으뜸이라 불린 고찰... 한때 미륵의 은혜가 머물던 그 거룩한 전각을 추적하라."
+      </p>
+    </div>
+
+    <!-- 미션 3-2 -->
+    <div class="section-title">MISSION 3-2. 현장 인증 포즈</div>
+    <div class="mission-story">
+      해당 위치를 찾아 <strong>멤버 전원이 아래 제시된 지정 포즈와 동일하게 촬영</strong>하여 미션을 인증하라.
+
+      <div class="pose-image-wrapper">
+      <!-- 상대 경로 "pose1.png" 대신 루트 절대 경로 "/pose1.png" 사용 -->
+      <img src="/pose1.png" alt="지정 포즈 원본 사진">
+      </div>
+      
+    </div>
+
+    <!-- 서버 정답 공개 영역 -->
+    <div class="vault-box">
+      <div class="vault-label">ANCIENT TEMPLE CODE</div>
+      <div class="answer-text">
+        <span id="answer-3" class="classified">████████████████</span>
+      </div>
+      <div id="status-3" class="status-indicator">보안 서버 확인 중...</div>
+    </div>
+  </div>
+
+  <script>
+    const VERCEL_DOMAIN = "https://holidays-woad.vercel.app";
+
+    async function checkMission3() {
+      const answerElement = document.getElementById("answer-3");
+      const statusElement = document.getElementById("status-3");
+
+      try {
+        const response = await fetch(`${VERCEL_DOMAIN}/api/get-answer?id=3`);
+        const data = await response.json();
+
+        if (data.unlocked) {
+          answerElement.innerText = data.answer;
+          answerElement.classList.remove("classified");
+          answerElement.classList.add("unlocked");
+          statusElement.innerText = "[ACCESS GRANTED] 암호가 최종 해독되었습니다.";
+          statusElement.style.color = "#c9a050";
+        } else {
+          statusElement.innerText = `[LOCKED] 남은 해독 시간: ${data.remainingSeconds}초`;
+        }
+      } catch (error) {
+        statusElement.innerText = "[ERROR] 보안 서버 연결 실패";
+      }
+    }
+
+    setInterval(checkMission3, 2000);
+    checkMission3();
+  </script>
+
+</body>
+</html>
