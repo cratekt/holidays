@@ -202,6 +202,16 @@
       letter-spacing: 1px;
     }
 
+    .story-intel {
+      background: rgba(139, 0, 0, 0.2);
+      border-left: 3px solid var(--blood-bright);
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      color: #e5e7eb;
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
     .mission-story {
       line-height: 1.75;
       font-size: 0.92rem;
@@ -428,10 +438,19 @@
     <!-- 1. 로그인 화면 -->
     <div id="login-section">
       <h2 class="card-title">팀 세션 인증</h2>
-      <!-- 요청하신 코멘트 변경 적용 -->
-      <div class="mission-story">
-        🩸 암호해독으로 찾은 이곳에는 배신자들의 흔적은 온데간데없고, 계룡산의 정기만 흐르고 있다.. 그리고 김회장의 친필로 작성된 특수 임무 카드를 발견했다..
+
+      <!-- 🩸 위트있고 재미있게 강화된 스토리 코멘트 -->
+      <div class="story-intel">
+        🩸 <strong>[긴급 현장 보고]</strong><br>
+        피비린내 나는 암호해독 끝에 기어코 여기까지 도착했건만, 도망친 배신자 놈들의 흔적은 온데간데없고 으스스한 계룡산의 차가운 정기만 흐르고 있다...<br><br>
+        떨리는 손으로 수색하던 도중, 낡은 전각 구석에서 <strong>김회장이 피로 써 내려간 친필 특수 임무 카드</strong>를 겨우 찾아냈다!
       </div>
+
+      <!-- 복구된 로그인 브리핑 코멘트 -->
+      <div class="mission-story">
+        아직 살아남아 여기까지 오다니.. 축하한다. 부여받은 조직을 선택하고, <strong>전용 비밀번호</strong>를 입력하여 보안 서버에 접속하라.
+      </div>
+
       <div class="login-box">
         <select id="team-select" class="custom-select">
           <option value="A">🐾 개똥파</option>
@@ -448,6 +467,7 @@
       <div id="team-display" class="team-badge">TEAM LOADING...</div>
       <h2 class="card-title">최종 목적지 해독</h2>
 
+      <!-- 복구된 미션 수행 브리핑 코멘트 -->
       <div class="mission-story">
         이제 지난 과오를 회개할 시간이다!! 마지막 미션! 가족 또는 친구에게 <strong>"나도 사랑해"</strong> 답장 문자를 받아 진행자-김비서에게 인증하라.<br><br>
         팀원 3명의 인증이 완료되면 최종 목적지가 즉시 공개된다.
@@ -602,7 +622,6 @@
       timerInterval = setInterval(tick, 1000);
     }
 
-    // 🏆 UI 업데이트 및 winner.html 링크 생성 동적 제어
     function updateUI() {
       const count = getUnlockCount();
       document.getElementById('count-text').innerText = count;
@@ -613,7 +632,6 @@
 
       locationElem.innerText = ADDRESS_STAGES[count];
 
-      // 3단계 인증 완료 시 효과 및 winner.html 이동 버튼 생성
       if (count === 3) {
         locationElem.classList.add('unlocked-effect');
         winnerLinkArea.innerHTML = `
