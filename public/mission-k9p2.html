@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TOP SECRET: MISSION #3</title>
+  <title>TOP SECRET: MISSION #2</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
@@ -85,9 +85,9 @@
       animation: dropBead 5s infinite cubic-bezier(.3,0,.6,1);
     }
 
-    .drip-top-1 { top: -10px; left: 14%; width: 4px; animation-delay: 0.2s; }
-    .drip-top-2 { top: -10px; left: 55%; width: 5px; animation-delay: 2.5s; }
-    .drip-top-3 { top: -10px; left: 86%; width: 4px; animation-delay: 1.2s; }
+    .drip-top-1 { top: -10px; left: 15%; width: 4px; animation-delay: 0.5s; }
+    .drip-top-2 { top: -10px; left: 52%; width: 5px; animation-delay: 2.2s; }
+    .drip-top-3 { top: -10px; left: 85%; width: 4px; animation-delay: 3.8s; }
 
     @keyframes realisticDrip {
       0% { height: 0px; opacity: 0; }
@@ -118,8 +118,8 @@
       animation: splatterSpread 7s infinite ease-out;
     }
 
-    .splatter-1 { top: 14%; right: 6%; width: 55px; height: 48px; animation-delay: 0.8s; }
-    .splatter-2 { bottom: 22%; left: 5%; width: 65px; height: 55px; animation-delay: 3.2s; }
+    .splatter-1 { top: 12%; right: 8%; width: 55px; height: 48px; animation-delay: 1.2s; }
+    .splatter-2 { bottom: 18%; left: 6%; width: 65px; height: 55px; animation-delay: 3.8s; }
 
     @keyframes splatterSpread {
       0% { transform: scale(0.2); opacity: 0; }
@@ -186,6 +186,7 @@
       text-shadow: 0 0 5px rgba(209, 26, 42, 0.5);
     }
 
+    /* 상단 미션 #1 완수 축하 멘트 */
     .congratulations-banner {
       background: rgba(201, 160, 80, 0.1);
       border: 1px solid var(--accent-gold);
@@ -252,22 +253,22 @@
       z-index: 5;
     }
 
-    .pose-image-wrapper {
-      position: relative;
-      margin-top: 12px;
-      background: #000;
-      border: 1px solid var(--border-color);
+    .formula-box {
+      background: #0a0b0d;
+      border: 1px solid #20232a;
+      padding: 12px;
+      font-size: 0.88rem;
+      color: #e0e0e0;
       border-radius: 4px;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      margin: 8px 0;
+      line-height: 1.6;
     }
 
-    .pose-image-wrapper img {
-      width: 100%;
-      height: auto;
-      display: block;
+    .hint-list {
+      margin: 6px 0 0 0;
+      padding-left: 18px;
+      color: #8a909a;
+      font-size: 0.85rem;
     }
 
     .vault-box {
@@ -388,51 +389,66 @@
       <div id="end-timer" class="timer-value">계산 중...</div>
     </div>
 
-    <!-- 미션 #2 완료 축하 메시지 -->
+    <!-- 미션 #1 완료 축하 메시지 -->
     <div class="congratulations-banner">
-      🏆 <strong>[MISSION #2 CLEARED]</strong><br>
-      금강의 정교한 좌표를 추적해내셨습니다. 이제 세 번째 역사 속 암호에 접근합니다.
+      🏆 <strong>[MISSION #1 CLEARED]</strong><br>
+      뛰어난 추리력으로 첫 번째 암호를 해독하셨습니다. 하지만 진짜 추적은 이제 시작입니다.
     </div>
 
     <div class="stamp">TOP SECRET</div>
-    <div class="case-number">FILE NO. 2026-SJ-03</div>
-    <h2 class="card-title">삼재(三才)의 으뜸 명찰</h2>
+    <div class="case-number">FILE NO. 2026-SJ-02</div>
+    <h2 class="card-title">금강의 좌표 추적</h2>
 
     <!-- 추가된 첩보 코멘트 -->
     <div class="intel-comment-box">
-      🩸 조직의 배신자를 쫓아 여기까지 왔지만, 알수없는 문구만 남아있었다. 이 암호같은 문구는 배신자들 및 김회장과 어떤 관계가 있을까...
+      🩸 2명의 조직원이 우리를 배신했다는 첩보를 입수했다. 그들은 이 다리에 어떤 흔적을 남기고 다음장소로 이동한 것으로 보인다. 일단 그들을 추적하라...
     </div>
 
-    <!-- 미션 3-1 -->
-    <div class="section-title">MISSION 3-1. 역사 추론</div> V
-    <div class="mission-story"> l
-      <p style="margin: 0; font-style: italic; color: #e0e0e0; font-size: 0.95rem;">
-        "하늘과 땅, 인간의 삼재(三才) 중 으뜸이라 불린 고찰... 한때 미륵의 은혜가 머물던 그 거룩한 전각을 추적하라."
-      </p>
-    </div> 
-
-    <!-- 미션 3-2 -->
-    <div class="section-title">MISSION 3-2. 현장 인증 포즈</div >
+    <!-- 미션 2-1 -->
+    <div class="section-title">MISSION 2-1. 좌표 암호 해독</div>
     <div class="mission-story">
-      해당 위치를 찾아 <strong>멤버 전원이 아래 제시된 지정 포즈와 동일하게 촬영</strong>하여 미션을 인증하라.
+      <p style="margin: 0 0 10px 0;">
+        아래의 정보, 수식, 힌트를 이용하여 목적지 <strong>위도 █ █ . █ █ █ █ █ █</strong> , <strong>경도 █ █ █ . █ █ █ █ █ █</strong> 를 찾아오세요.
+      </p>
+      <p style="margin: 0 0 10px 0;">
+        금강 북측의 중앙녹지공간과 남측의 <strong>'A'</strong>생활권 수변공원을 연결하여 만든 이응다리는 세종대왕이 한글을 반포한 1446년을 기념하여 둘레를 1446m로 정하였다.
+      </p>
+      <p style="margin: 0 0 10px 0;">
+        하지만 금강보행교의 information 에 따르면 실제 주교량의 연장은 <strong>'B'</strong>m 임을 알 수 있다. (개통연도: <strong>D</strong>)
+      </p>
 
-      <div class="pose-image-wrapper">
-        <img src="/pose1.png" alt="지정 포즈 원본 사진">
+      <div class="formula-box">
+        • <strong>위도 █ █</strong> = (B의 각 자릿수의 합) × (D의 각 자릿수의 합) - (탁구왕 전화번호 중간 4자리 합)<br>
+        • <strong>경도 █ █ █</strong> = (B의 각 자릿수의 합)² + A(노래왕 전화번호 중간 4자리 합)
       </div>
+
+      <div style="font-size: 0.85rem; color: var(--accent-gold); margin-top: 8px;">
+        💡 <strong>HINT:</strong>
+        <ul class="hint-list">
+          <li>소수점 . █ █ █ █ █ █ = 밴드 참조</li>
+          <li>B = 14█2</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 미션 2-2 -->
+    <div class="section-title">MISSION 2-2. 현장 인증 사진</div>
+    <div class="mission-story">
+      해당 위치에서 <strong>'금강이 보이는 구도로, 멤버가 모두 참여한 상태의 얼굴몰아주기 사진'</strong>을 찍어 미션 완료를 인증하세요.
     </div>
 
     <!-- 서버 정답 공개 영역 -->
     <div class="vault-box">
-      <div class="vault-label">ANCIENT TEMPLE CODE</div>
+      <div class="vault-label">TARGET LOCATION ANSWER</div>
       <div class="answer-text">
-        <span id="answer-3" class="classified">████████████████</span>
+        <span id="answer-2" class="classified">████████████████</span>
       </div>
-      <div id="status-3" class="status-indicator">보안 서버 동기화 중...</div>
+      <div id="status-2" class="status-indicator">보안 서버 동기화 중...</div>
     </div>
   </div>
 
   <script>
-    const API_ENDPOINT = "/api/get-answer?id=3";
+    const API_ENDPOINT = "/api/get-answer?id=2";
     const MISSION_END_TIME = new Date("2026-09-12T18:00:00+09:00").getTime();
 
     // 1. 상단 미션 종료 카운트다운 타이머
@@ -464,10 +480,10 @@
       return timeStr;
     }
 
-    // 2. 백엔드 API (get-answer.js) 연동을 통한 미션 #3 정답, 이미지 2장 및 최종 링크 동적 출력
-    async function checkMission3() {
-      const answerElement = document.getElementById("answer-3");
-      const statusElement = document.getElementById("status-3");
+    // 2. 백엔드 API (get-answer.js) 연동을 통한 미션 #2 정답 및 이미지 동적 출력
+    async function checkMission2() {
+      const answerElement = document.getElementById("answer-2");
+      const statusElement = document.getElementById("status-2");
 
       try {
         const response = await fetch(API_ENDPOINT);
@@ -478,7 +494,7 @@
         if (data.unlocked) {
           let contentHtml = `<div>${data.answer}</div>`;
 
-          // 정답 이미지 로드 (answer3_1.jpg, answer3_2.jpg)
+          // 정답 이미지 로드
           if (data.images && data.images.length > 0) {
             contentHtml += `<div class="answer-img-container">`;
             data.images.forEach(imgUrl => {
@@ -487,16 +503,16 @@
             contentHtml += `</div>`;
           }
 
-          // 최종 단계(mission-final.html) 이동 링크 로드
+          // 다음 미션(MISSION #3) 링크 로드
           if (data.nextMission) {
-            contentHtml += `<a href="${data.nextMission}" class="next-btn">🏆 FINAL DESTINATION 확인하기</a>`;
+            contentHtml += `<a href="${data.nextMission}" class="next-btn">🚨 MISSION #3 바로가기</a>`;
           }
 
           answerElement.innerHTML = contentHtml;
           answerElement.classList.remove("classified");
           answerElement.classList.add("unlocked");
 
-          statusElement.innerText = "[ACCESS GRANTED] 암호가 최종 해독되었습니다.";
+          statusElement.innerText = "[ACCESS GRANTED] 좌표가 최종 승인되었습니다.";
           statusElement.style.color = "#c9a050";
         } else {
           const remainingText = formatRemainingTime(data.remainingSeconds);
@@ -510,10 +526,10 @@
 
     function init() {
       updateEndTimer();
-      checkMission3();
+      checkMission2();
 
       setInterval(updateEndTimer, 1000);
-      setInterval(checkMission3, 2000);
+      setInterval(checkMission2, 2000);
     }
 
     document.addEventListener("DOMContentLoaded", init);
