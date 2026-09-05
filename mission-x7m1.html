@@ -13,9 +13,11 @@
       --bg-color: #08080a;
       --card-bg: #121316;
       --accent-gold: #c9a050;
-      --blood-dark: #4a0000;
+      --blood-dark: #3a0000;
+      --blood-mid: #6e0000;
       --blood-red: #8b0000;
-      --blood-bright: #d11a2a;
+      --blood-bright: #c81321;
+      --blood-shine: #ff3b3b;
       --text-color: #d1d5db;
       --border-color: #262930;
     }
@@ -31,12 +33,15 @@
       align-items: center;
       min-height: 100vh;
       box-sizing: border-box;
-      background-image: radial-gradient(#1a1c23 1px, transparent 1px);
-      background-size: 24px 24px;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(139,0,0,0.06), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(139,0,0,0.05), transparent 45%),
+        radial-gradient(#1a1c23 1px, transparent 1px);
+      background-size: auto, auto, 24px 24px;
       overflow-x: hidden;
     }
 
-    /* 🩸 사실적인 핏자국(Blood Drips) 애니메이션 */
+    /* 🩸 리얼 핏자국(Blood Drips) 애니메이션 레이어 */
     .blood-drips-container {
       position: absolute;
       top: 0;
@@ -50,52 +55,117 @@
 
     .drip {
       position: absolute;
-      top: -10px;
-      background: linear-gradient(to bottom, var(--blood-dark), var(--blood-red) 70%, var(--blood-bright));
-      border-radius: 0 0 4px 4px;
-      box-shadow: inset 1px 0 2px rgba(0,0,0,0.8), 0 0 4px var(--blood-red);
-      animation: realisticDrip 5s infinite cubic-bezier(0.4, 0, 0.6, 1);
+      width: 5px;
+      border-radius: 45% 45% 60% 60% / 30% 30% 70% 70%;
+      background: linear-gradient(to bottom,
+        var(--blood-dark) 0%,
+        var(--blood-mid) 35%,
+        var(--blood-red) 65%,
+        var(--blood-bright) 100%);
+      box-shadow:
+        inset 1px 0 3px rgba(0,0,0,0.85),
+        inset -1px 0 2px rgba(255,60,60,0.15),
+        0 0 6px rgba(139,0,0,0.5);
+      filter: url(#dripWobble);
+      animation: realisticDrip 5s infinite cubic-bezier(.3,0,.6,1);
+      transform-origin: top center;
     }
 
     .drip::after {
-      content: '';
+      content: "";
       position: absolute;
-      bottom: -6px;
+      bottom: -3px;
       left: 50%;
-      transform: translateX(-50%);
       width: 8px;
-      height: 10px;
-      background: var(--blood-bright);
-      border-radius: 50% 50% 60% 60%;
-      box-shadow: 0 0 8px var(--blood-bright), inset -1px -1px 2px rgba(0,0,0,0.6);
-      animation: dropletBulge 5s infinite ease-in-out;
+      height: 8px;
+      background: radial-gradient(circle at 35% 30%, var(--blood-shine), var(--blood-red) 55%, var(--blood-dark) 100%);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      animation: dropBead 5s infinite cubic-bezier(.3,0,.6,1);
     }
+
+    .drip-top-1 { top: -10px; left: 14%; width: 4px; animation-delay: 0.2s; }
+    .drip-top-2 { top: -10px; left: 55%; width: 5px; animation-delay: 2.5s; }
+    .drip-top-3 { top: -10px; left: 86%; width: 4px; animation-delay: 1.2s; }
 
     @keyframes realisticDrip {
       0% { height: 0px; opacity: 0; }
-      15% { opacity: 0.95; }
-      70% { height: 180px; opacity: 0.9; }
-      85% { height: 210px; opacity: 0.3; }
-      100% { height: 220px; opacity: 0; }
+      10% { opacity: 0.95; }
+      60% { height: 110px; opacity: 0.9; }
+      80% { height: 130px; opacity: 0.5; }
+      100% { height: 140px; opacity: 0; }
     }
 
-    @keyframes dropletBulge {
-      0% { transform: translateX(-50%) scale(0.6); }
-      60% { transform: translateX(-50%) scale(1.3); }
-      75% { transform: translateX(-50%) scale(0.8); }
-      100% { transform: translateX(-50%) scale(1); }
+    @keyframes dropBead {
+      0%, 50% { opacity: 0; transform: translateX(-50%) scale(0.6); }
+      58% { opacity: 1; transform: translateX(-50%) scale(1); }
+      72% { opacity: 1; transform: translateX(-50%) translateY(6px) scale(1.05); }
+      85% { opacity: 0; transform: translateX(-50%) translateY(18px) scale(0.4); }
+      100% { opacity: 0; }
     }
 
+    /* 📜 카드 내부 번지는 혈흔 얼룩 연출 */
+    .will-splatter-on {
+      position: absolute;
+      background: radial-gradient(circle at 40% 35%, rgba(200,19,33,0.7) 0%, rgba(110,0,0,0.5) 40%, rgba(90,0,0,0.2) 65%, transparent 75%);
+      border-radius: 42% 58% 53% 47% / 48% 42% 58% 52%;
+      filter: blur(1.2px) url(#dripWobble);
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      animation: splatterSpread 7s infinite ease-out;
+    }
+
+    .splatter-1 { top: 14%; right: 6%; width: 55px; height: 48px; animation-delay: 0.8s; }
+    .splatter-2 { bottom: 22%; left: 5%; width: 65px; height: 55px; animation-delay: 3.2s; }
+
+    @keyframes splatterSpread {
+      0% { transform: scale(0.2); opacity: 0; }
+      20% { transform: scale(1.1); opacity: 0.6; }
+      50% { transform: scale(1.0); opacity: 0.4; }
+      100% { transform: scale(1.2); opacity: 0; }
+    }
+
+    /* 기밀 문서 카드 */
     .dossier-card {
       background-color: var(--card-bg);
       border: 2px solid var(--border-color);
       border-radius: 4px;
-      padding: 36px 28px;
+      padding: 32px 26px;
       max-width: 500px;
       width: 100%;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 20px rgba(139, 0, 0, 0.2);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 25px rgba(139, 0, 0, 0.25);
       position: relative;
       overflow: hidden;
+    }
+
+    /* ⏳ 미션 종료 카운트다운 타이머 박스 */
+    .mission-timer-box {
+      background: rgba(139, 0, 0, 0.15);
+      border: 1px solid var(--blood-red);
+      border-radius: 4px;
+      padding: 10px 14px;
+      margin-bottom: 20px;
+      text-align: center;
+      position: relative;
+      z-index: 5;
+    }
+
+    .timer-label {
+      font-size: 0.75rem;
+      color: #a0a5b0;
+      letter-spacing: 1.5px;
+      margin-bottom: 4px;
+    }
+
+    .timer-value {
+      font-family: 'Special Elite', monospace;
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: var(--accent-gold);
+      letter-spacing: 1px;
     }
 
     .stamp {
@@ -125,6 +195,8 @@
       color: var(--accent-gold);
       font-size: 0.88rem;
       line-height: 1.5;
+      position: relative;
+      z-index: 5;
     }
 
     .case-number {
@@ -145,6 +217,19 @@
       letter-spacing: -0.5px;
     }
 
+    /* 배신자 첩보 코멘트 박스 */
+    .intel-comment-box {
+      background: rgba(139, 0, 0, 0.2);
+      border-left: 3px solid var(--blood-bright);
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      color: #e5e7eb;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      position: relative;
+      z-index: 5;
+    }
+
     .section-title {
       color: var(--blood-bright);
       font-size: 0.95rem;
@@ -163,9 +248,10 @@
       padding: 16px;
       border-left: 3px solid var(--blood-red);
       margin-bottom: 16px;
+      position: relative;
+      z-index: 5;
     }
 
-    /* 이미지 컨테이너 */
     .pose-image-wrapper {
       position: relative;
       margin-top: 12px;
@@ -182,7 +268,6 @@
       width: 100%;
       height: auto;
       display: block;
-      filter: none;
     }
 
     .vault-box {
@@ -193,6 +278,7 @@
       margin-top: 24px;
       text-align: center;
       position: relative;
+      z-index: 5;
     }
 
     .vault-label {
@@ -206,6 +292,11 @@
     .answer-text {
       font-size: 1.1rem;
       font-family: 'Noto Serif KR', serif;
+      min-height: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
     .classified {
@@ -231,16 +322,70 @@
       color: #8a909a;
       font-family: 'Special Elite', cursive;
     }
+
+    /* 동적 정답 이미지 컨테이너 */
+    .answer-img-container {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .answer-img-container img {
+      width: 100%;
+      border-radius: 4px;
+      border: 1px solid #3a0000;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+      object-fit: cover;
+    }
+
+    .next-btn {
+      display: block;
+      width: 100%;
+      padding: 14px 0;
+      margin-top: 18px;
+      background: var(--blood-red);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 4px;
+      box-shadow: 0 0 12px rgba(200, 19, 33, 0.5);
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .next-btn:hover {
+      background: var(--blood-bright);
+      box-shadow: 0 0 18px rgba(200, 19, 33, 0.8);
+    }
   </style>
 </head>
 <body>
 
+  <!-- 핏자국 변형용 SVG 필터 -->
+  <svg width="0" height="0" style="position:absolute">
+    <filter id="dripWobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8 0.3" numOctaves="2" seed="5" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3"/>
+    </filter>
+  </svg>
+
   <div class="dossier-card">
+    <!-- 🩸 배경 핏자국 애니메이션 레이어 -->
     <div class="blood-drips-container">
-      <div class="drip" style="left: 12%; width: 3px; animation-delay: 0s; animation-duration: 4.5s;"></div>
-      <div class="drip" style="left: 38%; width: 5px; animation-delay: 1.6s; animation-duration: 5.8s;"></div>
-      <div class="drip" style="left: 65%; width: 2px; animation-delay: 0.7s; animation-duration: 3.9s;"></div>
-      <div class="drip" style="left: 88%; width: 4px; animation-delay: 2.4s; animation-duration: 5.2s;"></div>
+      <div class="drip drip-top-1"></div>
+      <div class="drip drip-top-2"></div>
+      <div class="drip drip-top-3"></div>
+    </div>
+
+    <div class="will-splatter-on splatter-1"></div>
+    <div class="will-splatter-on splatter-2"></div>
+
+    <!-- ⏳ 상단 미션 종료 카운트다운 타이머 (2026-09-12 18:00 KST) -->
+    <div class="mission-timer-box">
+      <div class="timer-label">⏰ ALL MISSION DEADLINE</div>
+      <div id="end-timer" class="timer-value">계산 중...</div>
     </div>
 
     <!-- 미션 #2 완료 축하 메시지 -->
@@ -252,6 +397,11 @@
     <div class="stamp">TOP SECRET</div>
     <div class="case-number">FILE NO. 2026-SJ-03</div>
     <h2 class="card-title">삼재(三才)의 으뜸 명찰</h2>
+
+    <!-- 추가된 첩보 코멘트 -->
+    <div class="intel-comment-box">
+      🩸 조직의 배신자를 쫓아 여기까지 왔지만, 알수없는 문구만 남아있었다. 이 암호같은 문구는 배신자들 및 김회장과 어떤 관계가 있을까...
+    </div>
 
     <!-- 미션 3-1 -->
     <div class="section-title">MISSION 3-1. 역사 추론</div>
@@ -267,10 +417,8 @@
       해당 위치를 찾아 <strong>멤버 전원이 아래 제시된 지정 포즈와 동일하게 촬영</strong>하여 미션을 인증하라.
 
       <div class="pose-image-wrapper">
-      <!-- 상대 경로 "pose1.png" 대신 루트 절대 경로 "/pose1.png" 사용 -->
-      <img src="/pose1.png" alt="지정 포즈 원본 사진">
+        <img src="/pose1.png" alt="지정 포즈 원본 사진">
       </div>
-      
     </div>
 
     <!-- 서버 정답 공개 영역 -->
@@ -279,37 +427,96 @@
       <div class="answer-text">
         <span id="answer-3" class="classified">████████████████</span>
       </div>
-      <div id="status-3" class="status-indicator">보안 서버 확인 중...</div>
+      <div id="status-3" class="status-indicator">보안 서버 동기화 중...</div>
     </div>
   </div>
 
   <script>
-    const VERCEL_DOMAIN = "https://holidays-woad.vercel.app";
+    const API_ENDPOINT = "/api/get-answer?id=3";
+    const MISSION_END_TIME = new Date("2026-09-12T18:00:00+09:00").getTime();
 
+    // 1. 상단 미션 종료 카운트다운 타이머
+    function updateEndTimer() {
+      const now = new Date().getTime();
+      const diff = MISSION_END_TIME - now;
+      const timerElem = document.getElementById("end-timer");
+
+      if (diff <= 0) {
+        timerElem.innerText = "[MISSION EXPIRED] 타임아웃";
+        timerElem.style.color = "#ff3b3b";
+      } else {
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        timerElem.innerText = `${String(hours).padStart(2, '0')}시간 ${String(minutes).padStart(2, '0')}분 ${String(seconds).padStart(2, '0')}초 남음`;
+      }
+    }
+
+    function formatRemainingTime(seconds) {
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = seconds % 60;
+
+      let timeStr = "";
+      if (h > 0) timeStr += `${h}시간 `;
+      timeStr += `${m}분 ${s}초`;
+      return timeStr;
+    }
+
+    // 2. 백엔드 API (get-answer.js) 연동을 통한 미션 #3 정답, 이미지 2장 및 최종 링크 동적 출력
     async function checkMission3() {
       const answerElement = document.getElementById("answer-3");
       const statusElement = document.getElementById("status-3");
 
       try {
-        const response = await fetch(`${VERCEL_DOMAIN}/api/get-answer?id=3`);
+        const response = await fetch(API_ENDPOINT);
+        if (!response.ok) throw new Error("Server status not OK");
+
         const data = await response.json();
 
         if (data.unlocked) {
-          answerElement.innerText = data.answer;
+          let contentHtml = `<div>${data.answer}</div>`;
+
+          // 정답 이미지 로드 (answer3_1.jpg, answer3_2.jpg)
+          if (data.images && data.images.length > 0) {
+            contentHtml += `<div class="answer-img-container">`;
+            data.images.forEach(imgUrl => {
+              contentHtml += `<img src="${imgUrl}" alt="미션 정답 이미지">`;
+            });
+            contentHtml += `</div>`;
+          }
+
+          // 최종 단계(mission-final.html) 이동 링크 로드
+          if (data.nextMission) {
+            contentHtml += `<a href="${data.nextMission}" class="next-btn">🏆 FINAL DESTINATION 확인하기</a>`;
+          }
+
+          answerElement.innerHTML = contentHtml;
           answerElement.classList.remove("classified");
           answerElement.classList.add("unlocked");
+
           statusElement.innerText = "[ACCESS GRANTED] 암호가 최종 해독되었습니다.";
           statusElement.style.color = "#c9a050";
         } else {
-          statusElement.innerText = `[LOCKED] 남은 해독 시간: ${data.remainingSeconds}초`;
+          const remainingText = formatRemainingTime(data.remainingSeconds);
+          statusElement.innerText = `[LOCKED] 정답 공개까지: ${remainingText}`;
+          statusElement.style.color = "#8a909a";
         }
       } catch (error) {
-        statusElement.innerText = "[ERROR] 보안 서버 연결 실패";
+        statusElement.innerText = "[LOCKED] 보안 금고 암호화 진행 중...";
       }
     }
 
-    setInterval(checkMission3, 2000);
-    checkMission3();
+    function init() {
+      updateEndTimer();
+      checkMission3();
+
+      setInterval(updateEndTimer, 1000);
+      setInterval(checkMission3, 2000);
+    }
+
+    document.addEventListener("DOMContentLoaded", init);
   </script>
 
 </body>
