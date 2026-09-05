@@ -41,7 +41,7 @@
       overflow-x: hidden;
     }
 
-    /* 🩸 리얼 핏자국(Blood Drips) 애니메이션 레이어 */
+    /* 🩸 리얼 핏자국 애니메이션 레이어 */
     .blood-drips-container {
       position: absolute;
       top: 0;
@@ -105,7 +105,7 @@
       100% { opacity: 0; }
     }
 
-    /* 📜 카드 내부 번지는 혈흔 얼룩 연출 */
+    /* 📜 혈흔 얼룩 연출 */
     .will-splatter-on {
       position: absolute;
       background: radial-gradient(circle at 40% 35%, rgba(200,19,33,0.7) 0%, rgba(110,0,0,0.5) 40%, rgba(90,0,0,0.2) 65%, transparent 75%);
@@ -141,7 +141,7 @@
       overflow: hidden;
     }
 
-    /* ⏳ 미션 종료 카운트다운 타이머 박스 */
+    /* ⏳ 카운트다운 타이머 박스 */
     .mission-timer-box {
       background: rgba(139, 0, 0, 0.15);
       border: 1px solid var(--blood-red);
@@ -168,7 +168,6 @@
       letter-spacing: 1px;
     }
 
-    /* 핏빛 CLASSIFIED 직인 */
     .stamp {
       position: absolute;
       top: 15px;
@@ -257,7 +256,6 @@
       justify-content: center;
     }
 
-    /* 암호 블라인드 효과 */
     .classified {
       filter: blur(10px);
       user-select: none;
@@ -266,7 +264,6 @@
       letter-spacing: 4px;
     }
 
-    /* 암호 해독 후 강조 연출 */
     .unlocked {
       filter: none;
       user-select: auto;
@@ -289,7 +286,6 @@
       font-family: 'Special Elite', cursive;
     }
 
-    /* 동적 정답 이미지 컨테이너 */
     .answer-img-container {
       margin-top: 15px;
       display: flex;
@@ -305,11 +301,31 @@
       box-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
       object-fit: cover;
     }
+
+    /* 🚨 다음 미션 이동 버튼 스타일 추가 */
+    .next-btn {
+      display: block;
+      width: 100%;
+      padding: 14px 0;
+      margin-top: 18px;
+      background: var(--blood-red);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 4px;
+      box-shadow: 0 0 12px rgba(200, 19, 33, 0.5);
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .next-btn:hover {
+      background: var(--blood-bright);
+      box-shadow: 0 0 18px rgba(200, 19, 33, 0.8);
+    }
   </style>
 </head>
 <body>
 
-  <!-- 핏자국 변형용 SVG 필터 -->
   <svg width="0" height="0" style="position:absolute">
     <filter id="dripWobble">
       <feTurbulence type="fractalNoise" baseFrequency="0.8 0.3" numOctaves="2" seed="5" result="noise"/>
@@ -318,7 +334,6 @@
   </svg>
 
   <div class="dossier-card">
-    <!-- 🩸 배경 핏자국 애니메이션 레이어 -->
     <div class="blood-drips-container">
       <div class="drip drip-top-1"></div>
       <div class="drip drip-top-2"></div>
@@ -328,7 +343,6 @@
     <div class="will-splatter-on splatter-1"></div>
     <div class="will-splatter-on splatter-2"></div>
 
-    <!-- ⏳ 상단 미션 종료 카운트다운 타이머 (2026-09-12 18:00 KST) -->
     <div class="mission-timer-box">
       <div class="timer-label">⏰ MISSION #1 DEADLINE</div>
       <div id="end-timer" class="timer-value">계산 중...</div>
@@ -348,7 +362,6 @@
       </p>
     </div>
 
-    <!-- 🔒 서버 보안 연결 금고 박스 -->
     <div class="vault-box">
       <div class="vault-label">SECRET LOCATION CODE</div>
       <div class="answer-text">
@@ -362,7 +375,6 @@
     const API_ENDPOINT = "/api/get-answer?id=1";
     const MISSION_END_TIME = new Date("2026-09-12T18:00:00+09:00").getTime();
 
-    // 1. 상단 미션 종료 카운트다운 타이머
     function updateEndTimer() {
       const now = new Date().getTime();
       const diff = MISSION_END_TIME - now;
@@ -380,7 +392,6 @@
       }
     }
 
-    // 시간 초(second) 단위를 보기 좋은 시/분/초 형식으로 변환하는 함수
     function formatRemainingTime(seconds) {
       const h = Math.floor(seconds / 3600);
       const m = Math.floor((seconds % 3600) / 60);
@@ -392,7 +403,6 @@
       return timeStr;
     }
 
-    // 2. 백엔드 API (get-answer.js) 연동을 통한 정답 및 이미지 동적 출력
     async function checkMission1() {
       const answerElement = document.getElementById("answer-1");
       const statusElement = document.getElementById("status-1");
@@ -403,17 +413,20 @@
         
         const data = await response.json();
 
-        // 서버 시각 기준 unlock 판정
         if (data.unlocked) {
           let contentHtml = `<div>${data.answer}</div>`;
 
-          // API로 전달받은 이미지 목록 배열(data.images) 로드
           if (data.images && data.images.length > 0) {
             contentHtml += `<div class="answer-img-container">`;
             data.images.forEach(imgUrl => {
               contentHtml += `<img src="${imgUrl}" alt="미션 정답 이미지">`;
             });
             contentHtml += `</div>`;
+          }
+
+          // 🚨 다음 미션 (mission-k9p2.html) 이동 링크 동적 생성 로직 추가
+          if (data.nextMission) {
+            contentHtml += `<a href="${data.nextMission}" class="next-btn">🚨 MISSION #2 바로가기</a>`;
           }
 
           answerElement.innerHTML = contentHtml;
@@ -432,7 +445,6 @@
       }
     }
 
-    // 주기적 동기화
     function init() {
       updateEndTimer();
       checkMission1();
