@@ -40,7 +40,7 @@
       position: relative;
     }
 
-    /* 🎞️ 필름 그레인 노이즈 오버레이 - 더 리얼한 감시카메라/CCTV 질감 */
+    /* 🎞️ 필름 그레인 노이즈 오버레이 */
     .grain-overlay {
       position: fixed;
       top: -50%; left: -50%;
@@ -60,7 +60,7 @@
       100% { transform: translate(0,0); }
     }
 
-    /* 🕯️ 비네트 - 어두운 조명 아래 있는 듯한 연출 */
+    /* 🕯️ 비네트 연출 */
     .vignette-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -88,7 +88,7 @@
       56%  { background: rgba(0,0,0,0.18); }
     }
 
-    /* 🩸 핏자국(Blood Drips) 애니메이션 */
+    /* 🩸 핏자국 애니메이션 */
     .blood-drips-container {
       position: absolute;
       top: 0;
@@ -198,6 +198,8 @@
       margin: 0 0 20px 0;
       padding-bottom: 12px;
       border-bottom: 1px dashed var(--border-color);
+      font-family: 'Special Elite', cursive;
+      letter-spacing: 1px;
     }
 
     .mission-story {
@@ -265,7 +267,6 @@
       transition: width 0.5s ease;
     }
 
-    /* ⏱️ 카운트다운 타이머 전용 스타일 */
     .timer-container {
       background: rgba(209, 26, 42, 0.1);
       border: 1px solid var(--blood-bright);
@@ -316,6 +317,29 @@
       100% { text-shadow: 0 0 18px rgba(201, 160, 80, 0.9); }
     }
 
+    .winner-btn {
+      display: block;
+      width: 100%;
+      padding: 15px 0;
+      margin-top: 15px;
+      background: linear-gradient(135deg, #a30808 0%, #6e0000 100%);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.05rem;
+      text-align: center;
+      border-radius: 4px;
+      box-shadow: 0 0 15px rgba(163, 8, 8, 0.6);
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .winner-btn:hover {
+      background: linear-gradient(135deg, #c90a0a 0%, #a30808 100%);
+      box-shadow: 0 0 22px rgba(201, 10, 10, 0.9);
+      transform: translateY(-2px);
+    }
+
     .reset-notice {
       font-size: 0.72rem;
       color: #717680;
@@ -332,7 +356,6 @@
       margin-top: 15px;
     }
 
-    /* 📁 사건 파일 탭 - 극비 문서 느낌 강화 */
     .case-file-tab {
       position: absolute;
       top: -14px;
@@ -349,7 +372,6 @@
       z-index: 21;
     }
 
-    /* 🖨️ 거대 워터마크 - 오래된 기밀문서 느낌 */
     .dossier-card::before {
       content: "TOP SECRET";
       position: absolute;
@@ -370,7 +392,6 @@
       z-index: 2;
     }
 
-    /* ✍️ 진행자 서명 연출 */
     .agent-signature {
       margin-top: 14px;
       text-align: right;
@@ -380,17 +401,11 @@
       letter-spacing: 0.5px;
       opacity: 0.85;
     }
-
-    .card-title {
-      font-family: 'Special Elite', cursive;
-      letter-spacing: 1px;
-    }
   </style>
 </head>
 <body>
 
-
-  <!-- 🎬 리얼리티 연출용 배경 오버레이 (그레인 / 비네트 / 조명 플리커) -->
+  <!-- 오버레이 효과 -->
   <div class="grain-overlay"></div>
   <div class="vignette-overlay"></div>
   <div class="flicker-overlay"></div>
@@ -413,8 +428,9 @@
     <!-- 1. 로그인 화면 -->
     <div id="login-section">
       <h2 class="card-title">팀 세션 인증</h2>
+      <!-- 요청하신 코멘트 변경 적용 -->
       <div class="mission-story">
-        아직 살아남아 여기까지 오다니.. 축하한다. 부여받은 조직을 선택하고, <strong>전용 비밀번호</strong>를 입력하여 보안 서버에 접속하라.
+        🩸 암호해독으로 찾은 이곳에는 배신자들의 흔적은 온데간데없고, 계룡산의 정기만 흐르고 있다.. 그리고 김회장의 친필로 작성된 특수 임무 카드를 발견했다..
       </div>
       <div class="login-box">
         <select id="team-select" class="custom-select">
@@ -445,7 +461,7 @@
           <div id="progress-bar" class="progress-bar"></div>
         </div>
 
-        <!-- ⏱️ 최종 마감시각 카운트다운 -->
+        <!-- ⏱️ 카운트다운 -->
         <div class="timer-container">
           <div class="deadline-label">⏳ 최종 암호해독 마감시각: 2026년 9월 12일(토) 오후 6:00</div>
           🚨 마감까지 남은 시간: <span id="timer-display" class="timer-digits">--:--:--</span>
@@ -460,6 +476,9 @@
           ████████████████████
         </div>
 
+        <!-- 🏆 정답 해금 시 동적 생성될 winner.html 이동 버튼 구역 -->
+        <div id="winner-link-area"></div>
+
         <div class="reset-notice">※ 팀별 인증 진행도는 매일 자정(00:00)에 초기화되지만, 최종 마감시각(2026.09.12 18:00)은 고정되어 있습니다.</div>
         <button onclick="logoutTeam()" class="logout-btn">다른 팀으로 변경 (로그아웃)</button>
         <div class="agent-signature">— 진행자 김비서 —</div>
@@ -468,7 +487,6 @@
   </div>
 
   <script>
-    // SHA-256 해시 함수
     async function hashText(text) {
       const msgUint8 = new TextEncoder().encode(text);
       const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
@@ -476,20 +494,15 @@
       return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // SHA-256 해시화된 팀 비밀번호 (1004, 2008, 3012)
     const HASHED_TEAM_PASS = {
       'A': '75992a5ac67ff644d3063976c2effd10bdd93fcc109798e3d5c1acf2e530d01a', // 1004
       'B': 'e5e53c784d5d49de1cabb6e904bf3380026aadcb9769775a268dd304dd9aa2df', // 2008
       'C': 'b33ed571eded536f0f0bc2be4e4384055acd592fe6652a555320fdca4dbeb175'  // 3012
     };
 
-    // SHA-256 해시화된 진행자 암호 (0701)
     const HASHED_ADMIN_CODE = 'dff7d1ad24e683a77f6713e1bb10770ff223ed4f5b17edc0df3ddd7207c8475d'; // 0701
-
-    // 팀 코드 → 조직명 매핑
     const TEAM_NAMES = { 'A': '개똥파', 'B': '할배파', 'C': '송파' };
 
-    // 단계별 목적지 주소
     const ADDRESS_STAGES = [
       "████████████████████",                     
       "세종특별자치시 ████████",             
@@ -497,7 +510,6 @@
       "한누리대로 283 1층 115호 - 청양" 
     ];
 
-    // 🚨 최종 암호해독 마감시각 (고정): 2026년 9월 12일(토) 오후 6:00 (KST)
     const FINAL_DEADLINE = new Date('2026-09-12T18:00:00+09:00').getTime();
 
     let currentTeam = null;
@@ -559,7 +571,6 @@
       return parseInt(localStorage.getItem(getTodayStorageKey()) || "0");
     }
 
-    // ⏱️ 고정 마감시각(2026-09-12 18:00) 기준 실시간 카운트다운 및 자동 해금 로직
     function startTimer() {
       if (timerInterval) clearInterval(timerInterval);
 
@@ -570,7 +581,6 @@
           clearInterval(timerInterval);
           document.getElementById('timer-display').innerText = "00:00:00 (마감)";
 
-          // 마감시각 경과 시 현재 세션 팀을 자동으로 3단계(최종 해금) 처리
           if (getUnlockCount() < 3) {
             localStorage.setItem(getTodayStorageKey(), 3);
             updateUI();
@@ -592,18 +602,28 @@
       timerInterval = setInterval(tick, 1000);
     }
 
+    // 🏆 UI 업데이트 및 winner.html 링크 생성 동적 제어
     function updateUI() {
       const count = getUnlockCount();
       document.getElementById('count-text').innerText = count;
       document.getElementById('progress-bar').style.width = `${(count / 3) * 100}%`;
       
       const locationElem = document.getElementById('location-result');
+      const winnerLinkArea = document.getElementById('winner-link-area');
+
       locationElem.innerText = ADDRESS_STAGES[count];
 
+      // 3단계 인증 완료 시 효과 및 winner.html 이동 버튼 생성
       if (count === 3) {
         locationElem.classList.add('unlocked-effect');
+        winnerLinkArea.innerHTML = `
+          <a href="winner.html" class="winner-btn">
+            🏆 FINAL DESTINATION (식당 레이스) 바로가기
+          </a>
+        `;
       } else {
         locationElem.classList.remove('unlocked-effect');
+        winnerLinkArea.innerHTML = '';
       }
     }
 
