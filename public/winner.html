@@ -1,1 +1,408 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOP SECRET: FINAL DESTINATION</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+
+  <!-- 🎉 성공 시 폭죽 효과 라이브러리 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg-color: #08080a;
+      --card-bg: #121316;
+      --accent-gold: #c9a050;
+      --blood-dark: #3a0000;
+      --blood-mid: #6e0000;
+      --blood-red: #8b0000;
+      --blood-bright: #c81321;
+      --blood-shine: #ff3b3b;
+      --text-color: #d1d5db;
+      --border-color: #262930;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Noto Serif KR', serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+      background-image: radial-gradient(#1a1c23 1px, transparent 1px);
+      background-size: 24px 24px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .dossier-card {
+      background-color: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 4px;
+      padding: 36px 28px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9);
+      position: relative;
+      overflow: hidden;
+      z-index: 5;
+    }
+
+    .case-number {
+      font-family: 'Special Elite', cursive;
+      color: var(--accent-gold);
+      font-size: 0.9rem;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin: 0 0 20px 0;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed var(--border-color);
+      letter-spacing: -0.5px;
+    }
+
+    .mission-story {
+      line-height: 1.8;
+      font-size: 0.95rem;
+      word-break: keep-all;
+      padding: 18px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .final-image-wrapper {
+      width: 100%;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+    }
+
+    .final-image-wrapper img {
+      width: 100%;
+      display: block;
+    }
+
+    /* ===== 🎉 6시 이전 : 성공(SUCCESS) 스타일 ===== */
+    .theme-success {
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 25px rgba(201, 160, 80, 0.25), 0 15px 35px rgba(0, 0, 0, 0.9);
+    }
+
+    .theme-success .stamp {
+      position: absolute;
+      top: 15px;
+      right: -10px;
+      color: var(--accent-gold);
+      border: 3px double var(--accent-gold);
+      font-family: 'Special Elite', cursive;
+      font-size: 0.85rem;
+      font-weight: bold;
+      padding: 4px 12px;
+      text-transform: uppercase;
+      transform: rotate(12deg);
+      letter-spacing: 2px;
+      pointer-events: none;
+      text-shadow: 0 0 8px rgba(201, 160, 80, 0.6);
+    }
+
+    .theme-success .card-title {
+      color: var(--accent-gold);
+    }
+
+    .theme-success .mission-story {
+      background: rgba(201, 160, 80, 0.1);
+      border-left: 3px solid var(--accent-gold);
+      color: #f3f4f6;
+    }
+
+    .btn-arrive {
+      display: block;
+      width: 100%;
+      padding: 16px 0;
+      background: linear-gradient(135deg, #c9a050 0%, #8a6d2f 100%);
+      color: #000;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      text-align: center;
+      border-radius: 4px;
+      border: none;
+      box-shadow: 0 0 15px rgba(201, 160, 80, 0.4);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-arrive:hover {
+      box-shadow: 0 0 25px rgba(201, 160, 80, 0.8);
+      transform: translateY(-2px);
+    }
+
+    /* ===== 🩸 6시 이후 : 실패(FAILED) 스타일 & 핏자국 ===== */
+    .theme-failed {
+      border-color: var(--blood-red);
+      box-shadow: 0 0 30px rgba(139, 0, 0, 0.5), 0 15px 35px rgba(0, 0, 0, 0.9);
+      filter: grayscale(0.2);
+    }
+
+    .theme-failed .stamp {
+      position: absolute;
+      top: 15px;
+      right: -10px;
+      color: var(--blood-bright);
+      border: 3px double var(--blood-bright);
+      font-family: 'Special Elite', cursive;
+      font-size: 0.85rem;
+      font-weight: bold;
+      padding: 4px 12px;
+      text-transform: uppercase;
+      transform: rotate(12deg);
+      letter-spacing: 2px;
+      pointer-events: none;
+      text-shadow: 0 0 8px rgba(209, 26, 42, 0.7);
+    }
+
+    .theme-failed .card-title {
+      color: var(--blood-bright);
+    }
+
+    .theme-failed .mission-story {
+      background: rgba(139, 0, 0, 0.2);
+      border-left: 3px solid var(--blood-bright);
+      color: #9ca3af;
+    }
+
+    .btn-disabled {
+      display: block;
+      width: 100%;
+      padding: 16px 0;
+      background: #1f2228;
+      color: #4b5563;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1rem;
+      border-radius: 4px;
+      border: 1px solid #374151;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* 🩸 핏자국 애니메이션 레이어 */
+    .blood-drips-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .drip {
+      position: absolute;
+      width: 5px;
+      border-radius: 45% 45% 60% 60% / 30% 30% 70% 70%;
+      background: linear-gradient(to bottom, var(--blood-dark) 0%, var(--blood-mid) 35%, var(--blood-red) 65%, var(--blood-bright) 100%);
+      box-shadow: inset 1px 0 3px rgba(0,0,0,0.85), inset -1px 0 2px rgba(255,60,60,0.15), 0 0 6px rgba(139,0,0,0.5);
+      filter: url(#dripWobble);
+      animation: realisticDrip 5s infinite cubic-bezier(.3,0,.6,1);
+      transform-origin: top center;
+    }
+
+    .drip::after {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      background: radial-gradient(circle at 35% 30%, var(--blood-shine), var(--blood-red) 55%, var(--blood-dark) 100%);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      animation: dropBead 5s infinite cubic-bezier(.3,0,.6,1);
+    }
+
+    .drip-top-1 { top: -10px; left: 10%; width: 5px; animation-delay: 0s; }
+    .drip-top-2 { top: -10px; left: 35%; width: 4px; animation-delay: 1.5s; }
+    .drip-top-3 { top: -10px; left: 65%; width: 6px; animation-delay: 0.8s; }
+    .drip-top-4 { top: -10px; left: 88%; width: 4px; animation-delay: 2.8s; }
+
+    @keyframes realisticDrip {
+      0% { height: 0px; opacity: 0; }
+      10% { opacity: 0.95; }
+      60% { height: 130px; opacity: 0.9; }
+      80% { height: 150px; opacity: 0.5; }
+      100% { height: 160px; opacity: 0; }
+    }
+
+    @keyframes dropBead {
+      0%, 50% { opacity: 0; transform: translateX(-50%) scale(0.6); }
+      58% { opacity: 1; transform: translateX(-50%) scale(1); }
+      72% { opacity: 1; transform: translateX(-50%) translateY(6px) scale(1.05); }
+      85% { opacity: 0; transform: translateX(-50%) translateY(18px) scale(0.4); }
+      100% { opacity: 0; }
+    }
+
+    .will-splatter-on {
+      position: absolute;
+      background: radial-gradient(circle at 40% 35%, rgba(200,19,33,0.85) 0%, rgba(110,0,0,0.6) 40%, rgba(90,0,0,0.25) 65%, transparent 75%);
+      border-radius: 42% 58% 53% 47% / 48% 42% 58% 52%;
+      filter: blur(1.2px) url(#dripWobble);
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      animation: splatterSpread 7s infinite ease-out;
+    }
+
+    .splatter-1 { top: 18%; right: 5%; width: 65px; height: 55px; animation-delay: 0.5s; }
+    .splatter-2 { bottom: 15%; left: 5%; width: 75px; height: 60px; animation-delay: 3s; }
+
+    @keyframes splatterSpread {
+      0% { transform: scale(0.2); opacity: 0; }
+      20% { transform: scale(1.1); opacity: 0.7; }
+      50% { transform: scale(1.0); opacity: 0.5; }
+      100% { transform: scale(1.2); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 핏자국 변형용 SVG 필터 -->
+  <svg width="0" height="0" style="position:absolute">
+    <filter id="dripWobble">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8 0.3" numOctaves="2" seed="5" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3"/>
+    </filter>
+  </svg>
+
+  <div id="card-container" class="dossier-card">
+    <div id="stamp-mark" class="stamp">CLASSIFIED</div>
+    <div class="case-number">FILE NO. 2026-FINAL</div>
+    <h2 id="page-title" class="card-title">최종 목적지</h2>
+
+    <div id="story-content" class="mission-story">
+      <!-- 동적 코멘트 로드 -->
+    </div>
+
+    <div id="image-container" class="final-image-wrapper">
+      <img src="/final.png" alt="최종 목적지 장소">
+    </div>
+
+    <div id="action-container">
+      <!-- 동적 버튼 로드 -->
+    </div>
+  </div>
+
+  <script>
+    // 🎯 데드라인 기준 시각: 2026년 9월 12일 18:00 KST
+    const DEADLINE_TIME = new Date("2026-09-12T18:00:00+09:00").getTime();
+
+    function triggerConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+
+    function checkStatus() {
+      const now = new Date().getTime();
+      const cardContainer = document.getElementById("card-container");
+      const stampMark = document.getElementById("stamp-mark");
+      const pageTitle = document.getElementById("page-title");
+      const storyContent = document.getElementById("story-content");
+      const imageContainer = document.getElementById("image-container");
+      const actionContainer = document.getElementById("action-container");
+
+      if (now < DEADLINE_TIME) {
+        // 🎉 1. 6시 이전 (성공 모드)
+        cardContainer.className = "dossier-card theme-success";
+        stampMark.innerText = "MISSION CLEAR";
+        pageTitle.innerText = "🏆 최종 목적지 : 식당 레이스";
+        
+        storyContent.innerHTML = `
+          이 모든 미션을 클리어하다니.. 정말 대단하구나..<br><br>
+          하지만 이젠 속도전이다. 김회장 혹은 다른 조직보다 식당에 먼저 도착하여 아래 위치에서 최종 도착 인증을 하라!<br><br>
+          <strong style="color: var(--accent-gold);">가장 먼저 도착하는 조직이 모든 유산을 독식한다!!</strong>
+        `;
+
+        imageContainer.style.display = "block";
+
+        actionContainer.innerHTML = `
+          <button class="btn-arrive" onclick="alert('도착 인증 사진을 촬영하여 조직 총괄에게 전송하십시오!')">
+            🏁 최종 도착 인증하기
+          </button>
+        `;
+
+        // 성공 폭죽 연출
+        triggerConfetti();
+
+      } else {
+        // 🩸 2. 6시 이후 (실패 모드)
+        cardContainer.className = "dossier-card theme-failed";
+        stampMark.innerText = "MISSION FAILED";
+        pageTitle.innerText = "☠️ 작전 실패 (DEADLINE EXPIRED)";
+
+        // 핏자국 애니메이션 오버레이 동적 생성
+        if (!document.querySelector(".blood-drips-container")) {
+          const bloodContainer = document.createElement("div");
+          bloodContainer.className = "blood-drips-container";
+          bloodContainer.innerHTML = `
+            <div class="drip drip-top-1"></div>
+            <div class="drip drip-top-2"></div>
+            <div class="drip drip-top-3"></div>
+            <div class="drip drip-top-4"></div>
+          `;
+          cardContainer.appendChild(bloodContainer);
+
+          const spl1 = document.createElement("div");
+          spl1.className = "will-splatter-on splatter-1";
+          const spl2 = document.createElement("div");
+          spl2.className = "will-splatter-on splatter-2";
+          cardContainer.appendChild(spl1);
+          cardContainer.appendChild(spl2);
+        }
+
+        storyContent.innerHTML = `
+          미션에 실패했다. 우리 조직은 이것으로 끝이다…..<br><br>
+          유산과 나는 찾지 말거라…
+        `;
+
+        imageContainer.style.display = "none"; // 이미지 숨김
+
+        actionContainer.innerHTML = `
+          <div class="btn-disabled">
+            🚫 타임아웃 : 도착 인증 불가능 (유산 몰수)
+          </div>
+        `;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      checkStatus();
+      setInterval(checkStatus, 2000); // 주기적 체크
+    });
+  </script>
+
+</body>
+</html>
 
